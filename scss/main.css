@@ -11966,6 +11966,8 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-html {
-  background: red;
+.bi-search {
+  display: inline-block;
+  transform: rotate(90deg);
+  font-size: 2rem;
 }/*# sourceMappingURL=main.css.map */

@@ -1,6 +1,8 @@
 @import url("/node_modules/bootstrap-icons/font/bootstrap-icons.css");
 @import "custom";
 
-html {
-  background: red;
+.bi-search {
+  display: inline-block;
+  transform: rotate(90deg);
+  font-size: 2rem;
 }
