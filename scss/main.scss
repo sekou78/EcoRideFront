@@ -6,6 +6,10 @@ html {
   min-height: 100%;
 }
 
+body {
+  background-color: $bg-dark;
+}
+
 .titre {
   font-family: $font-family-sans-serif;
 }
@@ -20,13 +24,91 @@ footer {
 }
 
 main {
-  margin-bottom: 60px;
+  margin-bottom: 100px;
 }
 
 .bi-search {
   display: inline-block;
   transform: rotate(90deg);
   font-size: 2rem;
+}
+
+.hero-scene {
+  margin: 10px;
+  * {
+    //Positionner les éléments devant le &::before
+    position: relative;
+  }
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: url(../images/image_3.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 250px;
+    filter: brightness(0.9);
+  }
+
+  .hero-scene-content {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.scene-accueil {
+  height: auto;
+  margin: 10px;
+  position: relative;
+  background: black;
+  padding: 10px;
+
+  .images-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .image {
+    height: 150px;
+    background-position: center;
+    background-size: cover;
+  }
+
+  // Définir les images
+  .image-1 {
+    background-image: url(../images/image_6.jpg);
+  }
+  .image-2 {
+    background-image: url(../images/image_4.webp);
+  }
+  .image-3 {
+    background-image: url(../images/image_5.jpg);
+  }
+  .image-4 {
+    background-image: url(../images/image_1.jpeg);
+  }
+
+  // Contenu au-dessus des images
+  .scene-accueil-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: white;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.btn {
+  background-color: $bg-dark;
 }
 
 footer.footer {
