@@ -11971,6 +11971,10 @@ html {
   min-height: 100%;
 }
 
+body {
+  background-color: #118b50;
+}
+
 .titre {
   font-family: "Josefin Sans", sans-serif;
 }
@@ -11992,6 +11996,32 @@ main {
   display: inline-block;
   transform: rotate(90deg);
   font-size: 2rem;
+}
+
+.hero-scene {
+  margin: 10px;
+  position: relative;
+}
+.hero-scene * {
+  position: relative;
+}
+.hero-scene::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-image: url(../images/image_3.jpg);
+  background-position: center;
+  background-size: cover;
+  height: 250px;
+  filter: brightness(0.9);
+}
+.hero-scene .hero-scene-content {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 footer.footer {
