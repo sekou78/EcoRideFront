@@ -24,7 +24,7 @@ footer {
 }
 
 main {
-  margin-bottom: 60px;
+  margin-bottom: 100px;
 }
 
 .bi-search {
@@ -59,6 +59,56 @@ main {
     flex-direction: column;
     justify-content: center;
   }
+}
+
+.scene-accueil {
+  height: auto;
+  margin: 10px;
+  position: relative;
+  background: black;
+  padding: 10px;
+
+  .images-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .image {
+    height: 150px;
+    background-position: center;
+    background-size: cover;
+  }
+
+  // Définir les images
+  .image-1 {
+    background-image: url(../images/image_6.jpg);
+  }
+  .image-2 {
+    background-image: url(../images/image_4.webp);
+  }
+  .image-3 {
+    background-image: url(../images/image_5.jpg);
+  }
+  .image-4 {
+    background-image: url(../images/image_1.jpeg);
+  }
+
+  // Contenu au-dessus des images
+  .scene-accueil-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: white;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.btn {
+  background-color: $bg-dark;
 }
 
 footer.footer {
