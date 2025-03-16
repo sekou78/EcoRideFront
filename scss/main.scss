@@ -1,8 +1,37 @@
 @import url("/node_modules/bootstrap-icons/font/bootstrap-icons.css");
 @import "custom";
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.titre {
+  font-family: $font-family-sans-serif;
+}
+
+header.menu,
+body {
+  font-family: $font-family-serif;
+}
+
+footer {
+  font-family: $font-family-serif;
+}
+
+main {
+  margin-bottom: 60px;
+}
+
 .bi-search {
   display: inline-block;
   transform: rotate(90deg);
   font-size: 2rem;
+}
+
+footer.footer {
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
