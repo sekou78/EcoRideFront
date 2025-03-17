@@ -111,6 +111,14 @@ main {
   background-color: $bg-dark;
 }
 
+.card-conducteur {
+  max-width: 500px;
+}
+
+.renseignement {
+  font-size: 13px;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;
