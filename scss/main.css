@@ -12040,6 +12040,7 @@ main {
   height: 150px;
   background-position: center;
   background-size: cover;
+  filter: brightness(0.5);
 }
 .scene-accueil .image-1 {
   background-image: url(../images/image_6.jpg);
