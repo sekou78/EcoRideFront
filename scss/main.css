@@ -12068,6 +12068,14 @@ main {
   background-color: #118b50;
 }
 
+.card-conducteur {
+  max-width: 500px;
+}
+
+.renseignement {
+  font-size: 13px;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;
