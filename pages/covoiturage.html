@@ -39,6 +39,69 @@
   </div>
 </div>
 
+<div>
+  <div class="dropdown text-center">
+    <!-- Bouton principal -->
+    <button
+      class="btn bg-dark border-dark text-primary dropdown-toggle"
+      type="button"
+      id="dropdownCheckbox"
+      data-bs-toggle="dropdown"
+      aria-expanded="false">
+      Choisir un filtre
+    </button>
+
+    <!-- Menu déroulant avec options -->
+    <ul
+      class="dropdown-menu p-3"
+      aria-labelledby="dropdownCheckbox"
+      data-bs-auto-close="outside">
+      <!-- Checkbox : Véhicules électriques -->
+      <li>
+        <label class="dropdown-item">
+          <input type="checkbox" name="filter" value="vehicules_electriques" />
+          Véhicules électriques
+        </label>
+      </li>
+
+      <!-- Input : Prix du voyage -->
+      <li class="dropdown-item">
+        <label for="maxPrice" class="form-label">Prix du voyage (max) :</label>
+        <input
+          type="number"
+          id="maxPrice"
+          name="maxPrice"
+          class="form-control"
+          placeholder="Ex : 50"
+          min="0" />
+      </li>
+
+      <!-- Checkbox : Durée du voyage -->
+      <li>
+        <label class="dropdown-item">
+          <input type="checkbox" name="filter" value="duree_du_voyage" />
+          Durée du voyage
+        </label>
+      </li>
+
+      <!-- Checkbox : Notes -->
+      <li>
+        <label class="dropdown-item">
+          <input type="checkbox" name="filter" value="notes" />
+          Notes
+        </label>
+      </li>
+
+      <!-- Bouton : Appliquer les filtres -->
+      <li class="text-center mt-3">
+        <button class="btn bg-dark border-dark text-primary" id="applyFilters">
+          Appliquer
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <div class="row m-2 gap-lg-3">
   <div class="card mb-3 col-lg card-conducteur">
     <div class="row g-0">
@@ -70,9 +133,11 @@
               </div>
 
               <div class="mt-auto">
-                <button class="btn btn-success border-dark text-primary">
-                  Détails
-                </button>
+                <a href="#">
+                  <button class="btn btn-success border-dark text-primary">
+                    Détails
+                  </button>
+                </a>
               </div>
             </div>
           </div>
@@ -111,9 +176,11 @@
               </div>
 
               <div class="mt-auto">
-                <button class="btn btn-success border-dark text-primary">
-                  Détails
-                </button>
+                <a href="#">
+                  <button class="btn btn-success border-dark text-primary">
+                    Détails
+                  </button>
+                </a>
               </div>
             </div>
           </div>
