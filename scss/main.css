@@ -12077,6 +12077,10 @@ main {
   font-size: 13px;
 }
 
+.btn-red {
+  background-color: #d86d6d;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;

@@ -32,7 +32,7 @@
                 <strong>Covoiturage - Paris ➜ Lyon</strong>
               </p>
               <p class="card-text"><strong>Places restantes :</strong> 2</p>
-              <p class="card-text"><strong>Prix :</strong> 30€</p>
+              <p class="card-text"><strong>Prix :</strong> 30 Crédits</p>
               <p class="card-text"><strong>Départ :</strong> 14h30</p>
               <p class="card-text"><strong>Arrivée :</strong> 18h00</p>
               <p class="card-text"><strong>Voyage ecologique</strong></p>
@@ -76,10 +76,14 @@
         </div>
       </div>
 
-      <!-- Bouton de Réservation -->
+      <!-- Button participation modal -->
       <div class="text-center">
-        <button class="btn bg-dark border-dark text-primary btn-lg">
-          Réserver ce trajet
+        <button
+          type="button"
+          class="btn bg-dark border-dark text-primary btn-lg"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal">
+          Participer
         </button>
       </div>
     </div>
@@ -106,7 +110,7 @@
                 <strong>Covoiturage - Paris ➜ Lyon</strong>
               </p>
               <p class="card-text"><strong>Places restantes :</strong> 2</p>
-              <p class="card-text"><strong>Prix :</strong> 30€</p>
+              <p class="card-text"><strong>Prix :</strong> 30 Crédits</p>
               <p class="card-text"><strong>Départ :</strong> 14h30</p>
               <p class="card-text"><strong>Arrivée :</strong> 18h00</p>
               <p class="card-text"><strong>Voyage ecologique</strong></p>
@@ -150,10 +154,46 @@
         </div>
       </div>
 
-      <!-- Bouton de Réservation -->
+      <!-- Button participation modal -->
       <div class="text-center">
-        <button class="btn bg-dark border-dark text-primary btn-lg">
-          Réserver ce trajet
+        <button
+          type="button"
+          class="btn bg-dark border-dark text-primary btn-lg"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal">
+          Participer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal button participation -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Confirmation de la participation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir utiliser 30 crédits pour ce trajet ?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark">Confirmer</button>
+        <button type="button" class="btn btn-red" data-bs-dismiss="modal">
+          Annuler
         </button>
       </div>
     </div>
