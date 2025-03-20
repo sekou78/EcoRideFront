@@ -3,6 +3,9 @@ const inputInsciptionEmail = document.getElementById("emailInsciptionInput");
 const inputInsciptionPassword = document.getElementById(
   "PasswordInsciptionInput"
 );
+const checkboxInscriptionPassword = document.getElementById(
+  "checkInscriptionPassword"
+);
 const btnValidationInscription = document.getElementById(
   "btn-validation-inscription"
 );
@@ -10,6 +13,7 @@ const btnValidationInscription = document.getElementById(
 inputInsciptionPseudo.addEventListener("keyup", validateInsciptionForm);
 inputInsciptionEmail.addEventListener("keyup", validateInsciptionForm);
 inputInsciptionPassword.addEventListener("keyup", validateInsciptionForm);
+checkboxInscriptionPassword.addEventListener("click", showInscriptionPassword);
 btnValidationInscription.disabled = true;
 
 function validateInsciptionForm() {
@@ -71,5 +75,14 @@ function validatePasswordInscription(input) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     return false;
+  }
+}
+
+//Montrer le mot de passe ou masquer le mot de passe inscription
+function showInscriptionPassword() {
+  if (inputInsciptionPassword.type === "password") {
+    inputInsciptionPassword.type = "text";
+  } else {
+    inputInsciptionPassword.type = "password";
   }
 }

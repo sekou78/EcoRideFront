@@ -11,6 +11,12 @@ export const allRoutes = [
     "/pages/auth/inscription.html",
     "/js/auth/inscription.js"
   ),
+  new Route(
+    "/connexion",
+    "Connexion",
+    "/pages/auth/connexion.html",
+    "/js/auth/connexion.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename
