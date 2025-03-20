@@ -1,0 +1,106 @@
+<div>
+  <!-- Conteneur principal -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Carte du profil utilisateur -->
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Mon compte</h2>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <!-- Section image de profil -->
+              <div class="col-md-4 text-center">
+                <img
+                  src="/images/avatar.png"
+                  alt="Photo de profil"
+                  class="img-fluid rounded-circle mb-3" />
+                <h4>Dinga Fath</h4>
+
+                <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
+                <!--<div class="mb-4">
+                  <label for="role" class="form-label"
+                    >Sélectionner votre rôle :</label
+                  >
+                  <select
+                    class="form-select text-center"
+                    id="role"
+                    aria-label="Sélectionner un rôle">
+                    <option value="Passager">Passager</option>
+                    <option value="Chauffeur">Chauffeur</option>
+                    <option value="Chauffeur & Passager">
+                      Chauffeur et Passager
+                    </option>
+                  </select>
+                </div>-->
+
+                <!-- Affichage du total de crédits -->
+                <div>
+                  <p>
+                    Total des crédits :
+                    <span class="badge text-bg-secondary fs-3">200</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Informations personnelles -->
+              <div class="col-md-8">
+                <h5 class="mb-3">Informations personnelles</h5>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <strong>Email :</strong> dinga.fath@mail.com
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Téléphone :</strong> +33 x xx xx xx xx
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Rôle :</strong> <span id="role-display"></span>
+                  </li>
+                </ul>
+
+                <!-- Section chauffeur -->
+                <h5 class="mt-4">Informations Chauffeur</h5>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                    <strong>Immatriculation :</strong> xx-xxx-xx
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Modèle :</strong> Tesla Model 3
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Nombre de places :</strong> 3
+                  </li>
+                </ul>
+
+                <!-- Préférences du chauffeur -->
+                <h5 class="mt-4">Préférences</h5>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Fumeur :</strong> Non</li>
+                  <li class="list-group-item">
+                    <strong>Animaux acceptés :</strong> Oui
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Autres préférences :</strong> Musique légère,
+                    Discuter pendant le trajet
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pied de carte : actions -->
+          <div class="card-footer bg-dark text-center">
+            <a href="/modifProfil">
+              <button class="btn btn-bg-dark text-primary me-2">
+                Modifier le profil
+              </button>
+            </a>
+            <button class="btn btn-red text-primary">Déconnexion</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
