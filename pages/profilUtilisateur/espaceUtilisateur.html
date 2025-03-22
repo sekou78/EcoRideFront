@@ -16,31 +16,19 @@
                 <img
                   src="/images/avatar.png"
                   alt="Photo de profil"
-                  class="img-fluid rounded-circle mb-3" />
-                <h4>Dinga Fath</h4>
-
-                <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
-                <!--<div class="mb-4">
-                  <label for="role" class="form-label"
-                    >Sélectionner votre rôle :</label
-                  >
-                  <select
-                    class="form-select text-center"
-                    id="role"
-                    aria-label="Sélectionner un rôle">
-                    <option value="Passager">Passager</option>
-                    <option value="Chauffeur">Chauffeur</option>
-                    <option value="Chauffeur & Passager">
-                      Chauffeur et Passager
-                    </option>
-                  </select>
-                </div>-->
+                  class="img-fluid rounded-circle mb-3"
+                  id="avatar-display" />
+                <h4 id="pseudo-display">Dinga Fath</h4>
 
                 <!-- Affichage du total de crédits -->
                 <div>
                   <p>
                     Total des crédits :
-                    <span class="badge text-bg-secondary fs-3">200</span>
+                    <span
+                      id="total-credits"
+                      class="badge text-bg-secondary fs-3"
+                      >200</span
+                    >
                   </p>
                 </div>
               </div>
@@ -50,10 +38,12 @@
                 <h5 class="mb-3">Informations personnelles</h5>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
-                    <strong>Email :</strong> dinga.fath@mail.com
+                    <strong>Email :</strong>
+                    <span id="email-display">dinga.fath@mail.com</span>
                   </li>
                   <li class="list-group-item">
-                    <strong>Téléphone :</strong> +33 x xx xx xx xx
+                    <strong>Téléphone :</strong>
+                    <span id="telephone-display">+33 6 00 00 00 00</span>
                   </li>
                   <li class="list-group-item">
                     <strong>Rôle :</strong> <span id="role-display"></span>
@@ -64,26 +54,32 @@
                 <h5 class="mt-4">Informations Chauffeur</h5>
                 <ul class="list-group list-group-flush">
                   <li class="list-group-item">
-                    <strong>Immatriculation :</strong> xx-xxx-xx
+                    <strong>Immatriculation :</strong>
+                    <span id="immatriculation-display"></span>
                   </li>
                   <li class="list-group-item">
-                    <strong>Modèle :</strong> Tesla Model 3
+                    <strong>Modèle :</strong>
+                    <span id="vehicule-info-display"></span>
                   </li>
                   <li class="list-group-item">
-                    <strong>Nombre de places :</strong> 3
+                    <strong>Nombre de places :</strong>
+                    <span id="places-disponibles-display"></span>
                   </li>
                 </ul>
 
                 <!-- Préférences du chauffeur -->
                 <h5 class="mt-4">Préférences</h5>
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item"><strong>Fumeur :</strong> Non</li>
                   <li class="list-group-item">
-                    <strong>Animaux acceptés :</strong> Oui
+                    <strong>Fumeur :</strong> <span id="fumeur-display"></span>
                   </li>
                   <li class="list-group-item">
-                    <strong>Autres préférences :</strong> Musique légère,
-                    Discuter pendant le trajet
+                    <strong>Animaux acceptés :</strong>
+                    <span id="animal-display"></span>
+                  </li>
+                  <li class="list-group-item">
+                    <strong>Autres préférences :</strong>
+                    <span id="preferences-autres-display"></span>
                   </li>
                 </ul>
               </div>
@@ -97,7 +93,9 @@
                 Modifier le profil
               </button>
             </a>
-            <button class="btn btn-red text-primary">Déconnexion</button>
+            <a href="/">
+              <button class="btn btn-red text-primary">Déconnexion</button>
+            </a>
           </div>
         </div>
       </div>

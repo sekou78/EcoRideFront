@@ -1,33 +1,55 @@
-// // Sélection des éléments
-// const role = document.getElementById("role");
-// const changeRole = document.getElementById("role-display");
+const avatarDisplay = document.getElementById("avatar-display");
+const pseudoDisplay = document.getElementById("pseudo-display");
+const totalCredits = document.getElementById("total-credits");
+const emailDisplay = document.getElementById("email-display");
+const telephoneDisplay = document.getElementById("telephone-display");
+const roleDisplay = document.getElementById("role-display");
+const immatriculationDisplay = document.getElementById(
+  "immatriculation-display"
+);
+const vehiculeInfoDisplay = document.getElementById("vehicule-info-display");
+const placesDisponiblesDisplay = document.getElementById(
+  "places-disponibles-display"
+);
+const fumeurDisplay = document.getElementById("fumeur-display");
+const animalDisplay = document.getElementById("animal-display");
+const preferencesAutresDisplay = document.getElementById(
+  "preferences-autres-display"
+);
 
-// // Écouteur d'événements sur le changement de rôle
-// role.addEventListener("change", updateRole);
+// Récupérer les données du localStorage (avec des valeurs par défaut si absentes)
+const avatar = localStorage.getItem("avatar") || "/images/avatar.png";
+const pseudo = localStorage.getItem("pseudo") || "Nom d'utilisateur";
+const credits = localStorage.getItem("credits") || "0";
+const email = localStorage.getItem("email") || "email@example.com";
+const telephone = localStorage.getItem("telephone") || "+XX X XX XX XX XX";
+const role = localStorage.getItem("role") || "Utilisateur";
+const immatriculation =
+  localStorage.getItem("immatriculation") || "Non renseigné";
+const vehiculeInfo = localStorage.getItem("vehiculeInfo") || "Non renseigné";
+const placesDisponibles = localStorage.getItem("placesDisponibles") || "0";
+const fumeur = localStorage.getItem("fumeur") || "Non";
+const animal = localStorage.getItem("animal") || "Non";
+const preferencesAutres = localStorage.getItem("preferencesAutres") || "Aucune";
 
-// // Fonction pour mettre à jour le rôle dynamiquement
-// function updateRole() {
-//   const selectedRole = role.value;
-//   changeRole.innerText = selectedRole;
-// }
+// Vérifier si un avatar est déjà stocké dans le localStorage et l'afficher
+const avatarUrl = localStorage.getItem("avatar");
+if (avatarUrl) {
+  avatarDisplay.src = avatarUrl; // Mettre à jour l'image si elle est trouvée dans localStorage
+} else {
+  avatarDisplay.src = "/images/avatar.png"; // Image par défaut
+}
 
-// // Initialiser le rôle au chargement de la page
-// window.onload = updateRole;
-
-// Exécuter le script après le chargement complet de la page
-document.addEventListener("DOMContentLoaded", function () {
-  // Sélection des éléments
-  const role = document.getElementById("role");
-  const changeRole = document.getElementById("role-display");
-
-  // Fonction pour mettre à jour le rôle
-  function updateRole() {
-    changeRole.textContent = role.value;
-  }
-
-  // Écouteur sur le changement de rôle
-  role.addEventListener("change", updateRole);
-
-  // Mettre à jour le rôle au chargement initial
-  updateRole();
-});
+// Afficher les informations dans les éléments HTML
+avatarDisplay.src = avatar;
+pseudoDisplay.textContent = pseudo;
+totalCredits.textContent = credits;
+emailDisplay.textContent = email;
+telephoneDisplay.textContent = telephone;
+roleDisplay.textContent = role;
+immatriculationDisplay.textContent = immatriculation;
+vehiculeInfoDisplay.textContent = vehiculeInfo;
+placesDisponiblesDisplay.textContent = placesDisponibles;
+fumeurDisplay.textContent = fumeur;
+animalDisplay.textContent = animal;
+preferencesAutresDisplay.textContent = preferencesAutres;
