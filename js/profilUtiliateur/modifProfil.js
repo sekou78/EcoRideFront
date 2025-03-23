@@ -1,4 +1,5 @@
 const modifProfil = document.getElementById("profil-form");
+const creerVoyage = document.getElementById("voyage-form");
 const avatar = document.getElementById("avatar");
 const role = document.getElementById("role");
 const nom = document.getElementById("nom");
@@ -7,17 +8,27 @@ const email = document.getElementById("email");
 const telephone = document.getElementById("telephone");
 const dateNaissance = document.getElementById("date_naissance");
 const pseudo = document.getElementById("pseudo");
+const depart = document.getElementById("depart");
+const arrivee = document.getElementById("arrivee");
+const date = document.getElementById("date-voyage");
+const heure = document.getElementById("heure-voyage");
+const peage = document.getElementById("peage");
+const duree = document.getElementById("duree-voyage");
+const prix = document.getElementById("prix");
 const immatriculation = document.getElementById("immatriculation");
 const dateImmatriculation = document.getElementById("date_immatriculation");
 const vehiculeInfo = document.getElementById("vehicule_info");
 const placesDisponibles = document.getElementById("places_disponibles");
+const electrique = document.getElementById("electrique");
 const fumeur = document.getElementById("fumeur");
 const animal = document.getElementById("animal");
 const preferencesAutres = document.getElementById("preferences_autres");
 const btnValidationModifProfil = document.getElementById("btn-modif");
+const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
 avatar.addEventListener("change", avatarUrl);
 btnValidationModifProfil.addEventListener("click", validateModifProfilForm);
+btnValidationVoyage.addEventListener("click", validateVoyageForm);
 
 function validateModifProfilForm() {
   const avatarValue = localStorage.getItem("avatar");
@@ -32,6 +43,7 @@ function validateModifProfilForm() {
   const dateImmatriculationValue = dateImmatriculation.value;
   const vehiculeInfoValue = vehiculeInfo.value;
   const placesDisponiblesValue = placesDisponibles.value;
+  const electriqueValue = electrique.checked ? "Oui" : "Non";
   const fumeurValue = fumeur.checked ? "Oui" : "Non";
   const animalValue = animal.checked ? "Oui" : "Non";
   const preferencesAutresValue = preferencesAutres.value;
@@ -48,6 +60,7 @@ function validateModifProfilForm() {
   localStorage.setItem("dateImmatriculation", dateImmatriculationValue);
   localStorage.setItem("vehiculeInfo", vehiculeInfoValue);
   localStorage.setItem("placesDisponibles", placesDisponiblesValue);
+  localStorage.setItem("electrique", electriqueValue);
   localStorage.setItem("fumeur", fumeurValue);
   localStorage.setItem("animal", animalValue);
   localStorage.setItem("preferencesAutres", preferencesAutresValue);
@@ -75,4 +88,23 @@ function avatarUrl(event) {
     // Lire l'image comme une URL de données (base64)
     reader.readAsDataURL(file);
   }
+}
+
+function validateVoyageForm() {
+  const departValue = depart.value;
+  const arriveeValue = arrivee.value;
+  const dateValue = date.value;
+  const heureValue = heure.value;
+  const peageValue = peage.checked ? "Oui" : "Non";
+  const dureeValue = duree.value;
+  const prixValue = prix.value;
+
+  // Sauvegarder les données dans localStorage
+  localStorage.setItem("depart", departValue);
+  localStorage.setItem("arrivee", arriveeValue);
+  localStorage.setItem("date", dateValue);
+  localStorage.setItem("heure", heureValue);
+  localStorage.setItem("peage", peageValue);
+  localStorage.setItem("duree", dureeValue);
+  localStorage.setItem("prix", prixValue);
 }

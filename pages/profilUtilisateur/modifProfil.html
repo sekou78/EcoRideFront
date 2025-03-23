@@ -104,6 +104,101 @@
                   placeholder="Entrez votre pseudo" />
               </div>
 
+              <div class="text-center mb-3">
+                <!--Créer un voyage-->
+                <form id="voyage-form">
+                  <h5>Créer un voyage</h5>
+                  <div class="mb-3">
+                    <label for="depart">Adresse de départ :</label>
+                    <input type="text" class="bg-dark" id="depart" required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="arrivee">Adresse d'arrivée :</label>
+                    <input type="text" class="bg-dark" id="arrivee" required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="date-voyage">Date du voyage :</label>
+                    <input
+                      type="date"
+                      class="bg-dark"
+                      id="date-voyage"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="heure-voyage">Heure du voyage :</label>
+                    <input
+                      type="time"
+                      class="bg-dark"
+                      id="heure-voyage"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="peage" class="form-check-label"
+                      >Péage sur le trajet ?</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      class="form-check-input bg-dark"
+                      id="peage" />
+                    <label for="peage" class="form-check-label"
+                      >Oui, péage sur le trajet</label
+                    >
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="duree-voyage">Durée du voyage :</label>
+                    <input
+                      type="time"
+                      class="bg-dark"
+                      id="duree-voyage"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="prix">Prix (min. 2 crédits) :</label>
+                    <input
+                      type="number"
+                      class="bg-dark"
+                      id="prix"
+                      min="2"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="vehicule">Sélectionner un véhicule :</label>
+                    <select id="vehicule">
+                      <!-- Options ajoutées dynamiquement -->
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="electrique" class="form-check-label"
+                      >Es ce un véhicule électrique ?</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      class="form-check-input bg-dark"
+                      id="electrique" />
+                    <label for="electrique" class="form-check-label"
+                      >Oui, c'est un véhicule électrique</label
+                    >
+                  </div>
+
+                  <div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      id="btn-ajouter-voyage">
+                      Créer le voyage
+                    </button>
+                  </div>
+                </form>
+              </div>
+
               <div class="mb-3">
                 <label for="immatriculation" class="form-label"> </label>
                 <input
@@ -143,8 +238,20 @@
                   placeholder="Entrez le nombre de places disponibles" />
               </div>
 
-              <h5>Préférences du Chauffeur</h5>
+              <div class="mb-3">
+                <label for="electrique" class="form-check-label"
+                  >Es ce un véhicule électrique ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="electrique" />
+                <label for="fumeur" class="form-check-label"
+                  >Oui, c'est un véhicule électrique</label
+                >
+              </div>
 
+              <h5>Préférences du Chauffeur</h5>
               <div class="mb-3">
                 <label for="fumeur" class="form-check-label"
                   >Acceptez-vous les fumeurs ?</label
