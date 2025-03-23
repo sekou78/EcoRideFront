@@ -14,6 +14,7 @@ inputInsciptionPseudo.addEventListener("keyup", validateInsciptionForm);
 inputInsciptionEmail.addEventListener("keyup", validateInsciptionForm);
 inputInsciptionPassword.addEventListener("keyup", validateInsciptionForm);
 checkboxInscriptionPassword.addEventListener("click", showInscriptionPassword);
+btnValidationInscription.addEventListener("click", inscriptionCredentials);
 btnValidationInscription.disabled = true;
 
 function validateInsciptionForm() {
@@ -85,4 +86,39 @@ function showInscriptionPassword() {
   } else {
     inputInsciptionPassword.type = "password";
   }
+}
+
+// Fonction principale : Enregistrer l'inscription
+function inscriptionCredentials() {
+  const pseudoUser = inputInsciptionPseudo.value.trim();
+  const emailUser = inputInsciptionEmail.value.trim();
+  const passwordUser = inputInsciptionPassword.value;
+
+  // Vérifier si l'email est déjà utilisé
+  if (localStorage.getItem(emailUser)) {
+    alert("Cet email est déjà utilisé !");
+    return;
+  }
+
+  // Vider le localStorage avant d'enregistrer un nouvel utilisateur
+  localStorage.clear();
+
+  // Création de l'objet utilisateur avec 20 crédits
+  const nouvelUtilisateur = {
+    pseudo: pseudoUser,
+    email: emailUser,
+    password: passwordUser,
+    credits: 20,
+  };
+
+  // Stocker l'utilisateur dans localStorage
+  localStorage.setItem(emailUser, JSON.stringify(nouvelUtilisateur));
+  localStorage.setItem("currentUser", emailUser);
+
+  alert(
+    `Inscription réussie ! Bienvenue ${pseudoUser}, vous avez reçu 20 crédits.`
+  );
+
+  // Rediriger vers l'espace utilisateur
+  window.location.href = "/espaceUtilisateur";
 }

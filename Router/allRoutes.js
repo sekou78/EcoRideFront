@@ -2,9 +2,13 @@ import Route from "./Route.js";
 
 //Définir ici vos routes
 export const allRoutes = [
-  new Route("/", "Accueil", "/pages/accueil.html"),
-  new Route("/covoiturage", "Covoiturage", "/pages/covoiturage.html"),
-  new Route("/vueDetaillee", "Vue detaillee", "/pages/vueDetaillee.html"),
+  new Route("/", "Accueil", "/pages/accueil/accueil.html"),
+  new Route("/covoiturage", "Covoiturage", "/pages/accueil/covoiturage.html"),
+  new Route(
+    "/vueDetaillee",
+    "Vue detaillee",
+    "/pages/accueil/vueDetaillee.html"
+  ),
   new Route(
     "/inscription",
     "Inscription",
@@ -16,6 +20,18 @@ export const allRoutes = [
     "Connexion",
     "/pages/auth/connexion.html",
     "/js/auth/connexion.js"
+  ),
+  new Route(
+    "/espaceUtilisateur",
+    "Espace Utilisateur",
+    "/pages/profilUtilisateur/espaceUtilisateur.html",
+    "/js/profilUtiliateur/espaceUtilisateur.js"
+  ),
+  new Route(
+    "/modifProfil",
+    "Modif Profil",
+    "/pages/profilUtilisateur/modifProfil.html",
+    "/js/profilUtiliateur/modifProfil.js"
   ),
 ];
 

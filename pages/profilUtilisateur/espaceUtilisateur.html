@@ -1,0 +1,155 @@
+<div>
+  <!-- Conteneur principal -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Carte du profil utilisateur -->
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Mon compte</h2>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <!-- Section image de profil -->
+              <div class="col-md-4 text-center">
+                <img
+                  src="/images/avatar.png"
+                  alt="Photo de profil"
+                  class="img-fluid rounded-circle mb-3"
+                  id="avatar-display" />
+                <h4 id="pseudo-display">Dinga Fath</h4>
+
+                <!-- Affichage du total de crédits -->
+                <div>
+                  <p>
+                    Total des crédits :
+                    <span
+                      id="total-credits"
+                      class="badge text-bg-secondary fs-3"
+                      >200</span
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <!-- Informations personnelles -->
+                <div class="mb-3">
+                  <h5 class="mb-3">Informations personnelles</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong>Email :</strong>
+                      <span id="email-display">dinga.fath@mail.com</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Téléphone :</strong>
+                      <span id="telephone-display">+33 6 00 00 00 00</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Rôle :</strong> <span id="role-display"></span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Informations du voyage -->
+                <div>
+                  <h5>Informations voyage</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong>Départ :</strong>
+                      <span id="depart-display"
+                        >10 Rue de la rue XXXXX La Ville</span
+                      >
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Arrivée :</strong>
+                      <span id="arrivee-display"
+                        >Place de la place XXXXX La Ville</span
+                      >
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Date du voyage :</strong>
+                      <span id="date-voyage-display">10/10/2025</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Heure du voyage :</strong>
+                      <span id="heure-voyage-display">10h30</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Péage :</strong>
+                      <span id="peage-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Durée du voyage :</strong>
+                      <span id="duree-voyage-display">2h30min</span>
+                      <small>environs</small>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Prix :</strong> <span id="prix-display">30</span>
+                      <small>Crédits</small>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Section chauffeur -->
+                <div>
+                  <h5 class="mt-4">Informations du Véhicule</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong>Immatriculation :</strong>
+                      <span id="immatriculation-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Modèle :</strong>
+                      <span id="vehicule-info-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Nombre de places :</strong>
+                      <span id="places-disponibles-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Electrique :</strong>
+                      <span id="electrique-display"></span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Préférences du chauffeur -->
+                <div>
+                  <h5 class="mt-4">Préférences</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong>Fumeur :</strong>
+                      <span id="fumeur-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Animaux acceptés :</strong>
+                      <span id="animal-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Autres préférences :</strong>
+                      <span id="preferences-autres-display"></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pied de carte : actions -->
+          <div class="card-footer bg-dark text-center">
+            <a href="/modifProfil" class="me-3">
+              <button class="btn btn-bg-dark text-primary">
+                Modifier le profil
+              </button>
+            </a>
+            <a href="/">
+              <button class="btn btn-red text-primary">Déconnexion</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

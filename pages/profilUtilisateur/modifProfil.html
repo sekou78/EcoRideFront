@@ -1,0 +1,286 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Carte du profil utilisateur -->
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Modifier mon compte</h2>
+        </div>
+
+        <div class="container mt-5">
+          <form id="profil-form">
+            <div class="mb-3">
+              <label for="avatar" class="form-label"> Photo de profil </label>
+              <input
+                type="file"
+                class="form-control bg-dark"
+                id="avatar"
+                placeholder="Entrez votre photo de profil"
+                accept=".png, .jpg, .jpeg, .webp" />
+            </div>
+
+            <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
+            <div class="mb-4">
+              <label for="role" class="form-label">
+                Sélectionner votre rôle
+              </label>
+              <select
+                class="form-select bg-dark text-center"
+                id="role"
+                aria-label="Sélectionner un rôle">
+                <option value="passager">Passager</option>
+                <option value="chauffeur">Chauffeur</option>
+                <option value="chauffeur_passager">
+                  Chauffeur et Passager
+                </option>
+              </select>
+            </div>
+
+            <!-- Informations Chauffeur -->
+            <div>
+              <h4>Informations Chauffeur</h4>
+
+              <div class="mb-3">
+                <label for="nom" class="form-label"></label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="nom"
+                  placeholder="Entrez votre nom" />
+              </div>
+
+              <div class="mb-3">
+                <label for="prenom" class="form-label"></label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="prenom"
+                  placeholder="Entrez votre prenom" />
+              </div>
+
+              <div class="mb-3">
+                <label for="telephone" class="form-label"></label>
+                <input
+                  type="tel"
+                  class="form-control bg-dark"
+                  id="telephone"
+                  placeholder="Entrez votre numero de telephone"
+                  pattern="^\+?[0-9]{8,15}$" />
+              </div>
+
+              <div class="mb-3">
+                <label for="date_naissance" class="form-label">
+                  Date de naissance
+                </label>
+                <input
+                  type="date"
+                  class="form-control bg-dark"
+                  id="date_naissance" />
+              </div>
+
+              <div class="text-center mb-3">
+                <!--Créer un voyage-->
+                <form id="voyage-form">
+                  <h5>Créer un voyage</h5>
+                  <div class="mb-3">
+                    <label for="depart">Adresse de départ :</label>
+                    <input type="text" class="bg-dark" id="depart" required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="arrivee">Adresse d'arrivée :</label>
+                    <input type="text" class="bg-dark" id="arrivee" required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="date-voyage">Date du voyage :</label>
+                    <input
+                      type="date"
+                      class="bg-dark"
+                      id="date-voyage"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="heure-voyage">Heure du voyage :</label>
+                    <input
+                      type="time"
+                      class="bg-dark"
+                      id="heure-voyage"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="peage" class="form-check-label"
+                      >Péage sur le trajet ?</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      class="form-check-input bg-dark"
+                      id="peage" />
+                    <label for="peage" class="form-check-label"
+                      >Oui, péage sur le trajet</label
+                    >
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="duree-voyage">Durée du voyage :</label>
+                    <input
+                      type="time"
+                      class="bg-dark"
+                      id="duree-voyage"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="prix">Prix (min. 2 crédits) :</label>
+                    <input
+                      type="number"
+                      class="bg-dark"
+                      id="prix"
+                      min="2"
+                      required />
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="vehicule">Sélectionner un véhicule :</label>
+                    <select id="vehicule">
+                      <!-- Options ajoutées dynamiquement -->
+                    </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="electrique" class="form-check-label"
+                      >Es ce un véhicule électrique ?</label
+                    ><br />
+                    <input
+                      type="checkbox"
+                      class="form-check-input bg-dark"
+                      id="electrique" />
+                    <label for="electrique" class="form-check-label"
+                      >Oui, c'est un véhicule électrique</label
+                    >
+                  </div>
+
+                  <div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      id="btn-ajouter-voyage">
+                      Créer le voyage
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="mb-3">
+                <label for="immatriculation" class="form-label"> </label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="immatriculation"
+                  placeholder="Entrez la plaque d’immatriculation" />
+              </div>
+
+              <div class="mb-3">
+                <label for="date_immatriculation" class="form-label">
+                  Date de première immatriculation
+                </label>
+                <input
+                  type="date"
+                  class="form-control bg-dark"
+                  id="date_immatriculation" />
+              </div>
+
+              <div class="mb-3">
+                <label for="vehicule_info" class="form-label">
+                  Modèle, couleur et marque du véhicule
+                </label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="vehicule_info"
+                  placeholder="Entrez les informations du véhicule" />
+              </div>
+
+              <div class="mb-3">
+                <label for="places_disponibles" class="form-label"></label>
+                <input
+                  type="number"
+                  class="form-control bg-dark"
+                  id="places_disponibles"
+                  placeholder="Entrez le nombre de places disponibles" />
+              </div>
+
+              <div class="mb-3">
+                <label for="electrique" class="form-check-label"
+                  >Es ce un véhicule électrique ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="electrique" />
+                <label for="fumeur" class="form-check-label"
+                  >Oui, c'est un véhicule électrique</label
+                >
+              </div>
+
+              <h5>Préférences du Chauffeur</h5>
+              <div class="mb-3">
+                <label for="fumeur" class="form-check-label"
+                  >Acceptez-vous les fumeurs ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="fumeur" />
+                <label for="fumeur" class="form-check-label"
+                  >Oui, je accepte les fumeurs</label
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="animal" class="form-check-label"
+                  >Acceptez-vous les animaux ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="animal" />
+                <label for="animal" class="form-check-label"
+                  >Oui, j'accepte les animaux</label
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="preferences_autres" class="form-label"
+                  >Autres préférences</label
+                >
+                <textarea
+                  class="form-control bg-dark"
+                  id="preferences_autres"
+                  rows="3"
+                  placeholder="Entrez d'autres préférences"></textarea>
+              </div>
+            </div>
+
+            <!-- Bouton de soumission -->
+            <div class="text-center">
+              <button type="button" class="btn btn-primary" id="btn-modif">
+                Sauvegarder
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
