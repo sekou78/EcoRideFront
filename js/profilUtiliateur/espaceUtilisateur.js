@@ -1,7 +1,7 @@
 const avatarDisplay = document.getElementById("avatar-display");
 const pseudoDisplay = document.getElementById("pseudo-display");
 const totalCredits = document.getElementById("total-credits");
-const emailDisplay = document.getElementById("email-display");
+const emailCurrentUserDisplay = document.getElementById("email-display");
 const telephoneDisplay = document.getElementById("telephone-display");
 const roleDisplay = document.getElementById("role-display");
 const departDisplay = document.getElementById("depart-display");
@@ -29,7 +29,7 @@ const preferencesAutresDisplay = document.getElementById(
 const avatar = localStorage.getItem("avatar") || "/images/avatar.png";
 const pseudo = localStorage.getItem("pseudo") || "Nom d'utilisateur";
 const credits = localStorage.getItem("credits") || "0";
-const email = localStorage.getItem("email") || "email@example.com";
+const currentUserEmail = localStorage.getItem("currentUser");
 const telephone = localStorage.getItem("telephone") || "+XX X XX XX XX XX";
 const role = localStorage.getItem("role") || "Utilisateur";
 const depart = localStorage.getItem("depart") || "Depart";
@@ -48,6 +48,21 @@ const fumeur = localStorage.getItem("fumeur") || "Non";
 const animal = localStorage.getItem("animal") || "Non";
 const preferencesAutres = localStorage.getItem("preferencesAutres") || "Aucune";
 
+// Récupérer les informations de l'utilisateur
+if (currentUserEmail) {
+  const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+
+  if (userData) {
+    pseudoDisplay.textContent = userData.pseudo || "Nom d'utilisateur";
+    totalCredits.textContent = userData.credits || "0";
+    emailCurrentUserDisplay.textContent = userData.email || "Email@mail.fr";
+  } else {
+    alert("Aucun utilisateur trouvé.");
+  }
+} else {
+  alert("Aucun utilisateur connecté.");
+}
+
 // Vérifier si un avatar est déjà stocké dans le localStorage et l'afficher
 const avatarUrl = localStorage.getItem("avatar");
 if (avatarUrl) {
@@ -58,9 +73,6 @@ if (avatarUrl) {
 
 // Afficher les informations dans les éléments HTML
 avatarDisplay.src = avatar;
-pseudoDisplay.textContent = pseudo;
-totalCredits.textContent = credits;
-emailDisplay.textContent = email;
 telephoneDisplay.textContent = telephone;
 roleDisplay.textContent = role;
 departDisplay.textContent = depart;
