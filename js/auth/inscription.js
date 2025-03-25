@@ -120,5 +120,5 @@ function inscriptionCredentials() {
   );
 
   // Rediriger vers l'espace utilisateur
-  window.location.href = "/espaceUtilisateur";
+  window.location.href = "/connexion";
 }

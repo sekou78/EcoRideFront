@@ -33,6 +33,12 @@ export const allRoutes = [
     "/pages/profilUtilisateur/modifProfil.html",
     "/js/profilUtiliateur/modifProfil.js"
   ),
+  new Route(
+    "/historiqueUtilisateur",
+    "Historique Utilisateur",
+    "/pages/profilUtilisateur/historiqueUtilisateur.html",
+    "/js/profilUtiliateur/historiqueUtilisateur.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename
