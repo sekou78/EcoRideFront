@@ -56,6 +56,7 @@ if (currentUserEmail) {
     pseudoDisplay.textContent = userData.pseudo || "Nom d'utilisateur";
     totalCredits.textContent = userData.credits || "0";
     emailCurrentUserDisplay.textContent = userData.email || "Email@mail.fr";
+    placesDisponiblesDisplay.textContent = userData.placesDisponibles || "0";
   } else {
     alert("Aucun utilisateur trouvé.");
   }
@@ -84,7 +85,6 @@ dureeDisplay.textContent = duree;
 prixDisplay.textContent = prix;
 immatriculationDisplay.textContent = immatriculation;
 vehiculeInfoDisplay.textContent = vehiculeInfo;
-placesDisponiblesDisplay.textContent = placesDisponibles;
 electriqueDisplay.textContent = electrique;
 fumeurDisplay.textContent = fumeur;
 animalDisplay.textContent = animal;

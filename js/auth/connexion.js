@@ -13,7 +13,7 @@ inputConnexionEmail.addEventListener("keyup", validateConnexionForm);
 inputConnexionPassword.addEventListener("keyup", validateConnexionForm);
 checkboxConnexionPassword.addEventListener("click", showConnexionPassword);
 btnValidationConnexion.disabled = true;
-btnValidationConnexion.addEventListener("click", checkCredentials);
+btnValidationConnexion.addEventListener("click", validConnexion);
 
 function validateConnexionForm() {
   const emailOK = validateConnexionRequired(inputConnexionEmail);
@@ -82,5 +82,21 @@ function showConnexionPassword() {
     inputConnexionPassword.type = "text";
   } else {
     inputConnexionPassword.type = "password";
+  }
+}
+
+function validConnexion() {
+  const emailUser = inputConnexionEmail.value;
+  const passwordUser = inputConnexionPassword.value;
+
+  const userData = JSON.parse(localStorage.getItem(emailUser));
+
+  if (userData && userData.password === passwordUser) {
+    localStorage.setItem("currentUserEmail", emailUser);
+
+    alert("Connexion reussie ! Bienvenue " + userData.pseudo);
+    window.location.href = "/espaceUtilisateur";
+  } else {
+    alert("Email ou mot de passe incorrect.");
   }
 }

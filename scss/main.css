@@ -12081,6 +12081,24 @@ main {
   background-color: #d86d6d;
 }
 
+.history-item {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.cancel-btn {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;
