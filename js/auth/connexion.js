@@ -86,17 +86,36 @@ function showConnexionPassword() {
 }
 
 function validConnexion() {
-  const emailUser = inputConnexionEmail.value;
-  const passwordUser = inputConnexionPassword.value;
+  // const emailUser = inputConnexionEmail.value;
+  // const passwordUser = inputConnexionPassword.value;
+  // const userData = JSON.parse(localStorage.getItem(emailUser));
+  // if (userData && userData.password === passwordUser) {
+  //   localStorage.setItem("currentUserEmail", emailUser);
+  //   alert("Connexion reussie ! Bienvenue " + userData.pseudo);
+  //   window.location.href = "/espaceUtilisateur";
+  // } else {
+  //   alert("Email ou mot de passe incorrect.");
+  // }
 
-  const userData = JSON.parse(localStorage.getItem(emailUser));
+  //Ici, il faudra appeler l'Api pour verifier l'authentification en BDD
+  if (
+    inputConnexionEmail.value == "folo223@mail.com" &&
+    inputConnexionPassword.value == "Azerty$123"
+  ) {
+    alert("Vous êtes connecté");
 
-  if (userData && userData.password === passwordUser) {
-    localStorage.setItem("currentUserEmail", emailUser);
+    //il faudra remplacer ce token par le vrai token de connexion
+    const token = "jeDevraiEtreLeVraiTokenDeConnexion";
+    setToken(token);
 
-    alert("Connexion reussie ! Bienvenue " + userData.pseudo);
-    window.location.href = "/espaceUtilisateur";
-  } else {
-    alert("Email ou mot de passe incorrect.");
+    //Placer ce token en cookie
+    // setCookie(RoleCookieName, "chauffeur", 7);
+    // setCookie(RoleCookieName, "passager", 7);
+    // setCookie(RoleCookieName, "chauffeur & passager", 7);
+    // setCookie(RoleCookieName, "employee", 7);
+    setCookie(RoleCookieName, "admin", 7);
+    // setCookie(RoleCookieName, "visiteur", 7);
+
+    window.location.replace("/espaceUtilisateur");
   }
 }

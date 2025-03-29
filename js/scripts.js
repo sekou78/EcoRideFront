@@ -4,6 +4,10 @@ const RoleCookieName = "role";
 
 disconnect.addEventListener("click", dIsconnect);
 
+function getRole() {
+  return getCookie(RoleCookieName);
+}
+
 function setToken(token) {
   setCookie(tokenCookieName, token, 7);
 }
@@ -39,8 +43,17 @@ function eraseCookie(name) {
 
 //Fonction de connexion en mettant place le token
 function isConnected() {
-  const token = getToken();
-  return token !== null && token !== undefined;
+  if (getToken() == null || getToken == undefined) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+if (isConnected()) {
+  alert("Je suis connecte");
+} else {
+  alert("Je suis pas connecte");
 }
 
 //Deconnexion en supprimant les cookies
@@ -55,4 +68,35 @@ function dIsconnect() {
 
   // Rediriger ou recharger la page pour appliquer les changements
   window.location.href = "/connexion";
+}
+
+/*
+disconnect
+connected ( passager, chauffeur, chauffeur_passager, employee, admin)
+    -passager
+    -chauffeur
+    -chauffeur_passager
+    -employee
+    -admin
+*/
+function showAndHideElementsForRoles() {
+  const userConnected = isConnected();
+  const role = getRole();
+
+  let allElementsToEdit = document.querySelectorAll("[data-show]");
+
+  allElementsToEdit.forEach((element) => {
+    const rolesToShow = element.dataset.show.split(" "); // Séparer les rôles par espace
+    const isVisible =
+      (rolesToShow.includes("disconnected") && !userConnected) ||
+      (rolesToShow.includes("connected") && userConnected) ||
+      (rolesToShow.includes(role) && userConnected);
+
+    // Ajouter ou retirer la classe `d-none` en fonction de la visibilité
+    if (isVisible) {
+      element.classList.remove("d-none");
+    } else {
+      element.classList.add("d-none");
+    }
+  });
 }

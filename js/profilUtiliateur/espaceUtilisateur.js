@@ -24,39 +24,49 @@ const animalDisplay = document.getElementById("animal-display");
 const preferencesAutresDisplay = document.getElementById(
   "preferences-autres-display"
 );
+const btnDemarrer = document.getElementById("btn-demarrer");
+const btnArrivee = document.getElementById("btn-arrivee");
 
-// Récupérer les données du localStorage (avec des valeurs par défaut si absentes)
-const avatar = localStorage.getItem("avatar") || "/images/avatar.png";
-const pseudo = localStorage.getItem("pseudo") || "Nom d'utilisateur";
-const credits = localStorage.getItem("credits") || "0";
+btnDemarrer.addEventListener("click", gestionDemarrer);
+btnArrivee.addEventListener("click", gestionArrivee);
+
+// Récupérer les données du localStorage
+const avatar = localStorage.getItem("avatar");
+const pseudo = localStorage.getItem("pseudo");
+const credits = localStorage.getItem("credits");
 const currentUserEmail = localStorage.getItem("currentUser");
-const telephone = localStorage.getItem("telephone") || "+XX X XX XX XX XX";
-const role = localStorage.getItem("role") || "Utilisateur";
-const depart = localStorage.getItem("depart") || "Depart";
-const arrivee = localStorage.getItem("arrivee") || "Arrivee";
-const date = localStorage.getItem("date") || "Date";
-const heure = localStorage.getItem("heure") || "Heure";
-const peage = localStorage.getItem("peage") || "Non";
-const duree = localStorage.getItem("duree") || "Duree";
-const prix = localStorage.getItem("prix") || "Prix";
-const immatriculation =
-  localStorage.getItem("immatriculation") || "Non renseigné";
-const vehiculeInfo = localStorage.getItem("vehiculeInfo") || "Non renseigné";
-const placesDisponibles = localStorage.getItem("placesDisponibles") || "0";
-const electrique = localStorage.getItem("electrique") || "Non";
-const fumeur = localStorage.getItem("fumeur") || "Non";
-const animal = localStorage.getItem("animal") || "Non";
-const preferencesAutres = localStorage.getItem("preferencesAutres") || "Aucune";
+const telephone = localStorage.getItem("telephone");
+let role = localStorage.getItem("role");
+const depart = localStorage.getItem("depart");
+const arrivee = localStorage.getItem("arrivee");
+const date = localStorage.getItem("date");
+const heure = localStorage.getItem("heure");
+const peage = localStorage.getItem("peage");
+const duree = localStorage.getItem("duree");
+const prix = localStorage.getItem("prix");
+const immatriculation = localStorage.getItem("immatriculation");
+const vehiculeInfo = localStorage.getItem("vehiculeInfo");
+const placesDisponibles = localStorage.getItem("placesDisponibles");
+const electrique = localStorage.getItem("electrique");
+const fumeur = localStorage.getItem("fumeur");
+const animal = localStorage.getItem("animal");
+const preferencesAutres = localStorage.getItem("preferencesAutres");
 
 // Récupérer les informations de l'utilisateur
 if (currentUserEmail) {
   const userData = JSON.parse(localStorage.getItem(currentUserEmail));
 
   if (userData) {
-    pseudoDisplay.textContent = userData.pseudo || "Nom d'utilisateur";
+    pseudoDisplay.textContent = userData.pseudo;
     totalCredits.textContent = userData.credits || "0";
-    emailCurrentUserDisplay.textContent = userData.email || "Email@mail.fr";
-    placesDisponiblesDisplay.textContent = userData.placesDisponibles || "0";
+    emailCurrentUserDisplay.textContent = userData.email;
+    placesDisponiblesDisplay.textContent = userData.placesDisponibles;
+
+    // Met à jour le rôle et l'affiche
+    if (userData.role) {
+      role = userData.role; // Met à jour la variable role
+      localStorage.setItem("role", role); // Met à jour dans le localStorage
+    }
   } else {
     alert("Aucun utilisateur trouvé.");
   }
@@ -65,17 +75,11 @@ if (currentUserEmail) {
 }
 
 // Vérifier si un avatar est déjà stocké dans le localStorage et l'afficher
-const avatarUrl = localStorage.getItem("avatar");
-if (avatarUrl) {
-  avatarDisplay.src = avatarUrl; // Mettre à jour l'image si elle est trouvée dans localStorage
-} else {
-  avatarDisplay.src = "/images/avatar.png"; // Image par défaut
-}
+avatarDisplay.src = avatar;
 
 // Afficher les informations dans les éléments HTML
-avatarDisplay.src = avatar;
 telephoneDisplay.textContent = telephone;
-roleDisplay.textContent = role;
+roleDisplay.textContent = role; // Met à jour après récupération des données utilisateur
 departDisplay.textContent = depart;
 arriveeDisplay.textContent = arrivee;
 dateDisplay.textContent = date;
@@ -89,3 +93,35 @@ electriqueDisplay.textContent = electrique;
 fumeurDisplay.textContent = fumeur;
 animalDisplay.textContent = animal;
 preferencesAutresDisplay.textContent = preferencesAutres;
+
+// Fonction de gestion du bouton "Démarrer"
+function gestionDemarrer() {
+  alert("Voyage démarré !");
+  btnDemarrer.classList.add("d-none");
+  btnArrivee.classList.remove("d-none");
+}
+
+// Fonction de gestion du bouton "Arrivée"
+function gestionArrivee() {
+  alert("Arrivée à destination, trajet terminé !");
+
+  let credits = parseInt(localStorage.getItem("credits"));
+  const prix = parseInt(prixDisplay.textContent);
+
+  credits += prix;
+  localStorage.setItem("credits", credits);
+  totalCredits.textContent = credits;
+
+  btnArrivee.classList.add("d-none");
+}
+console.log("Rôle récupéré:", role);
+
+// Fonction de gestion de l'affichage
+function gestionAffichage() {
+  if (role.valueOf() === "chauffeur") {
+    btnDemarrer.classList.remove("d-none");
+  } else {
+    btnDemarrer.classList.add("d-none");
+  }
+}
+console.log(role);
