@@ -30,13 +30,14 @@ const btnArrivee = document.getElementById("btn-arrivee");
 btnDemarrer.addEventListener("click", gestionDemarrer);
 btnArrivee.addEventListener("click", gestionArrivee);
 
-// Récupérer les données du localStorage
+// Récupérer les données du localStorage et ou des cookies
 const avatar = localStorage.getItem("avatar");
 const pseudo = localStorage.getItem("pseudo");
 const credits = localStorage.getItem("credits");
 const currentUserEmail = localStorage.getItem("currentUser");
+
 const telephone = localStorage.getItem("telephone");
-let role = localStorage.getItem("role");
+let role = getCookie("role");
 const depart = localStorage.getItem("depart");
 const arrivee = localStorage.getItem("arrivee");
 const date = localStorage.getItem("date");
@@ -58,14 +59,13 @@ if (currentUserEmail) {
 
   if (userData) {
     pseudoDisplay.textContent = userData.pseudo;
-    totalCredits.textContent = userData.credits || "0";
+    totalCredits.textContent = userData.credits;
     emailCurrentUserDisplay.textContent = userData.email;
     placesDisponiblesDisplay.textContent = userData.placesDisponibles;
 
     // Met à jour le rôle et l'affiche
     if (userData.role) {
-      role = userData.role; // Met à jour la variable role
-      localStorage.setItem("role", role); // Met à jour dans le localStorage
+      localStorage.setItem("role", userData.role);
     }
   } else {
     alert("Aucun utilisateur trouvé.");
@@ -79,7 +79,7 @@ avatarDisplay.src = avatar;
 
 // Afficher les informations dans les éléments HTML
 telephoneDisplay.textContent = telephone;
-roleDisplay.textContent = role; // Met à jour après récupération des données utilisateur
+roleDisplay.textContent = role;
 departDisplay.textContent = depart;
 arriveeDisplay.textContent = arrivee;
 dateDisplay.textContent = date;
@@ -89,6 +89,7 @@ dureeDisplay.textContent = duree;
 prixDisplay.textContent = prix;
 immatriculationDisplay.textContent = immatriculation;
 vehiculeInfoDisplay.textContent = vehiculeInfo;
+placesDisponiblesDisplay.textContent = placesDisponibles;
 electriqueDisplay.textContent = electrique;
 fumeurDisplay.textContent = fumeur;
 animalDisplay.textContent = animal;
@@ -114,14 +115,21 @@ function gestionArrivee() {
 
   btnArrivee.classList.add("d-none");
 }
-console.log("Rôle récupéré:", role);
 
 // Fonction de gestion de l'affichage
 function gestionAffichage() {
-  if (role.valueOf() === "chauffeur") {
-    btnDemarrer.classList.remove("d-none");
-  } else {
+  // Au départ : Démarrer visible, Arrivée cachée
+  btnDemarrer.classList.remove("d-none");
+  btnArrivee.classList.add("d-none");
+
+  // Quand on clique sur Démarrer → Masquer Démarrer et Afficher Arrivée
+  btnDemarrer.addEventListener("click", function () {
     btnDemarrer.classList.add("d-none");
-  }
+    btnArrivee.classList.remove("d-none");
+  });
+
+  // Quand on clique sur Arrivée → Tout cacher
+  btnArrivee.addEventListener("click", function () {
+    btnArrivee.classList.add("d-none");
+  });
 }
-console.log(role);

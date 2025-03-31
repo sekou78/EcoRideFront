@@ -38,7 +38,7 @@ function getCookie(name) {
 }
 
 function eraseCookie(name) {
-  document.cookie = name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 
 //Fonction de connexion en mettant place le token
@@ -67,18 +67,9 @@ function dIsconnect() {
   sessionStorage.clear();
 
   // Rediriger ou recharger la page pour appliquer les changements
-  window.location.href = "/connexion";
+  window.location.href = "connexion";
 }
 
-/*
-disconnect
-connected ( passager, chauffeur, chauffeur_passager, employee, admin)
-    -passager
-    -chauffeur
-    -chauffeur_passager
-    -employee
-    -admin
-*/
 function showAndHideElementsForRoles() {
   const userConnected = isConnected();
   const role = getRole();

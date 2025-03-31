@@ -68,8 +68,8 @@ const LoadContentPage = async () => {
   //Afficher ou masquer les éléments en fonction des rôles
   showAndHideElementsForRoles();
 
-  //afficher ou masquer le bouton de demarrage avec le role chauffeur
-  // gestionAffichage();
+  //afficher ou masquer le bouton de demarrage ou arrivée
+  gestionAffichage();
 };
 
 // Fonction pour gérer les événements de routage (clic sur les liens)
