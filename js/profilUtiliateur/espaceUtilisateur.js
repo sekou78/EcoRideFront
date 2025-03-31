@@ -33,9 +33,8 @@ btnArrivee.addEventListener("click", gestionArrivee);
 // Récupérer les données du localStorage et ou des cookies
 const avatar = localStorage.getItem("avatar");
 const pseudo = localStorage.getItem("pseudo");
-const credits = localStorage.getItem("credits");
+const credits = getCookie("credits");
 const currentUserEmail = localStorage.getItem("currentUser");
-
 const telephone = localStorage.getItem("telephone");
 const role = getCookie("role");
 const depart = localStorage.getItem("depart");
@@ -54,6 +53,7 @@ const animal = localStorage.getItem("animal");
 const preferencesAutres = localStorage.getItem("preferencesAutres");
 
 // Récupérer les informations de l'utilisateur
+
 if (currentUserEmail) {
   const userData = JSON.parse(localStorage.getItem(currentUserEmail));
 
@@ -141,16 +141,21 @@ function gestionAffichage() {
         alert("Un problème a été signalé. Un employé va intervenir");
       }
     }, 1000);
+
+    envoyerEmailParticipants();
   });
 }
 
 // Fonction de mise à jour des crédits du chauffeur
 function mettreAJourCredits() {
-  let credits = parseInt(localStorage.getItem("credits"));
+  const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+
+  let credits = userData.credits;
   const prix = parseInt(prixDisplay.textContent);
 
   credits += prix;
-  localStorage.setItem("credits", credits);
+  userData.credits = credits;
+  localStorage.setItem(currentUserEmail, JSON.stringify(userData));
   totalCredits.textContent = credits;
   alert("Crédits mis à jour !");
 }
