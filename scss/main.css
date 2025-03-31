@@ -12099,6 +12099,14 @@ main {
   border-color: #bd2130;
 }
 
+#floatingInput {
+  width: auto;
+}
+
+#floatingTextarea {
+  height: 100px;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;

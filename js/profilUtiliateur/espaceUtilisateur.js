@@ -26,9 +26,30 @@ const preferencesAutresDisplay = document.getElementById(
 );
 const btnDemarrer = document.getElementById("btn-demarrer");
 const btnArrivee = document.getElementById("btn-arrivee");
+const inputPseudoAvis = document.getElementById("floatingInput");
+const textareaAvis = document.getElementById("floatingTextarea");
+const btnEnvoyerCommentaire = document.getElementById(
+  "btn-envoyer-commentaire"
+);
+
+inputPseudoAvis.addEventListener("keyup", validInputAvis);
+textareaAvis.addEventListener("keyup", validInputAvis);
 
 btnDemarrer.addEventListener("click", gestionDemarrer);
 btnArrivee.addEventListener("click", gestionArrivee);
+btnEnvoyerCommentaire.disabled = true;
+btnEnvoyerCommentaire.addEventListener("click", gestionEnvoyerCommentaire);
+
+function validInputAvis() {
+  const pseudoOk = validateAvisRequired(inputPseudoAvis);
+  const commentaireOk = validateAvisRequired(textareaAvis);
+
+  if (pseudoOk && commentaireOk) {
+    btnEnvoyerCommentaire.disabled = false;
+  } else {
+    btnEnvoyerCommentaire.disabled = true;
+  }
+}
 
 // Récupérer les données du localStorage et ou des cookies
 const avatar = localStorage.getItem("avatar");
@@ -111,10 +132,6 @@ function gestionArrivee() {
 
 // Fonction de gestion de l'affichage
 function gestionAffichage() {
-  if (role !== "chauffeur") {
-    alert("Seuls les chauffeurs peuvent démarrer un covoiturage.");
-    return;
-  }
   // Au départ : Démarrer visible, Arrivée cachée
   btnDemarrer.classList.remove("d-none");
   btnArrivee.classList.add("d-none");
@@ -168,3 +185,31 @@ function envoyerEmailParticipants(message) {
 
 // Appel de la fonction d'affichage
 gestionAffichage();
+
+//Demande de remplissage du champs requis
+function validateAvisRequired(input) {
+  if (input.value != "") {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+    return true;
+  } else {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    return false;
+  }
+}
+
+// Envoie de commentaire pour être valider par un employé
+function gestionEnvoyerCommentaire() {
+  console.log("Le bouton a été cliqué !");
+  const newComment = {
+    pseudo: inputPseudoAvis.value,
+    commentaire: textareaAvis.value,
+  };
+
+  localStorage.setItem("commentaires", JSON.stringify(newComment));
+
+  alert("Commentaire envoyé !");
+
+  window.location.reload();
+}

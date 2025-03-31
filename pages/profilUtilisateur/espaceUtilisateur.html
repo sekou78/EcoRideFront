@@ -149,6 +149,37 @@
             </button>
           </div>
 
+          <!--Avis seulement pour les passagers-->
+          <div class="text-center" data-show="passager">
+            <div class="form-floating mb-1">
+              <input
+                type="text"
+                class="form-control bg-dark"
+                id="floatingInput"
+                placeholder="Pseudo du chauffeur" />
+              <label for="floatingInput">Pseudo du chauffeur</label>
+            </div>
+
+            <div class="form-floating">
+              <textarea
+                class="form-control bg-dark"
+                placeholder="Leave a comment here"
+                id="floatingTextarea"></textarea>
+              <label for="floatingTextarea"
+                >Laissez un avis sur le chauffeur <strong>Ici</strong></label
+              >
+            </div>
+
+            <div class="mt-2 mb-3">
+              <button
+                type="button"
+                id="btn-envoyer-commentaire"
+                class="btn bg-dark border-dark text-primary">
+                Envoyer
+              </button>
+            </div>
+          </div>
+
           <!-- Pied de carte : actions -->
           <div class="card-footer bg-dark text-center">
             <a href="/modifProfil" class="me-3">
