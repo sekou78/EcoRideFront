@@ -130,11 +130,11 @@ function validConnexion() {
   setToken(token);
 
   //Placer ce token en cookie
-  //setCookie(RoleCookieName, "chauffeur", 7);
+  setCookie(RoleCookieName, "chauffeur", 7);
   // setCookie(RoleCookieName, "passager", 7);
   // setCookie(RoleCookieName, "chauffeur & passager", 7);
   // setCookie(RoleCookieName, "employee", 7);
-  setCookie(RoleCookieName, "admin", 7);
+  // setCookie(RoleCookieName, "admin", 7);
   // setCookie(RoleCookieName, "visiteur", 7);
 
   window.location.replace("/espaceUtilisateur");

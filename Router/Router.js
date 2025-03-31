@@ -58,6 +58,7 @@ const LoadContentPage = async () => {
     let scriptTag = document.createElement("script");
     scriptTag.setAttribute("type", "text/javascript");
     scriptTag.setAttribute("src", actualRoute.pathJS);
+
     // Ajout de la balise script au corps du document
     document.querySelector("body").appendChild(scriptTag);
   }
@@ -67,9 +68,6 @@ const LoadContentPage = async () => {
 
   //Afficher ou masquer les éléments en fonction des rôles
   showAndHideElementsForRoles();
-
-  //afficher ou masquer le bouton de demarrage ou arrivée
-  gestionAffichage();
 };
 
 // Fonction pour gérer les événements de routage (clic sur les liens)

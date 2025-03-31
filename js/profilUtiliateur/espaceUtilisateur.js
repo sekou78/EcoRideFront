@@ -37,7 +37,7 @@ const credits = localStorage.getItem("credits");
 const currentUserEmail = localStorage.getItem("currentUser");
 
 const telephone = localStorage.getItem("telephone");
-let role = getCookie("role");
+const role = getCookie("role");
 const depart = localStorage.getItem("depart");
 const arrivee = localStorage.getItem("arrivee");
 const date = localStorage.getItem("date");
@@ -106,18 +106,15 @@ function gestionDemarrer() {
 function gestionArrivee() {
   alert("Arrivée à destination, trajet terminé !");
 
-  let credits = parseInt(localStorage.getItem("credits"));
-  const prix = parseInt(prixDisplay.textContent);
-
-  credits += prix;
-  localStorage.setItem("credits", credits);
-  totalCredits.textContent = credits;
-
   btnArrivee.classList.add("d-none");
 }
 
 // Fonction de gestion de l'affichage
 function gestionAffichage() {
+  if (role !== "chauffeur") {
+    alert("Seuls les chauffeurs peuvent démarrer un covoiturage.");
+    return;
+  }
   // Au départ : Démarrer visible, Arrivée cachée
   btnDemarrer.classList.remove("d-none");
   btnArrivee.classList.add("d-none");
@@ -131,5 +128,38 @@ function gestionAffichage() {
   // Quand on clique sur Arrivée → Tout cacher
   btnArrivee.addEventListener("click", function () {
     btnArrivee.classList.add("d-none");
+
+    // Simuler une validation des participants
+    setTimeout(() => {
+      const validationParticipants = confirm(
+        "Tous les passagers ont confirmé que le trajet s'est bien passé ?"
+      );
+
+      if (validationParticipants) {
+        mettreAJourCredits();
+      } else {
+        alert("Un problème a été signalé. Un employé va intervenir");
+      }
+    }, 1000);
   });
 }
+
+// Fonction de mise à jour des crédits du chauffeur
+function mettreAJourCredits() {
+  let credits = parseInt(localStorage.getItem("credits"));
+  const prix = parseInt(prixDisplay.textContent);
+
+  credits += prix;
+  localStorage.setItem("credits", credits);
+  totalCredits.textContent = credits;
+  alert("Crédits mis à jour !");
+}
+
+// Fonction pour simuler l'envoi d'un email aux passagers
+function envoyerEmailParticipants(message) {
+  console.log("Envoi d'un email aux participants :", message);
+  alert("Envoi d'un email aux participants :", message);
+}
+
+// Appel de la fonction d'affichage
+gestionAffichage();
