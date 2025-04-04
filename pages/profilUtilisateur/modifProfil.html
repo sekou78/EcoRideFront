@@ -72,8 +72,7 @@
                   type="tel"
                   class="form-control bg-dark"
                   id="telephone"
-                  placeholder="Entrez votre numero de telephone"
-                  pattern="^\+?[0-9]{8,15}$" />
+                  placeholder="Entrez votre numero de telephone" />
               </div>
 
               <div class="mb-3">
@@ -81,7 +80,7 @@
                   Date de naissance
                 </label>
                 <input
-                  type="date"
+                  type="text"
                   class="form-control bg-dark"
                   id="date_naissance" />
               </div>
@@ -103,7 +102,7 @@
                   <div class="mb-3">
                     <label for="date-voyage">Date du voyage :</label>
                     <input
-                      type="date"
+                      type="yext"
                       class="bg-dark"
                       id="date-voyage"
                       required />
@@ -157,23 +156,10 @@
                     </select>
                   </div>
 
-                  <div class="mb-3">
-                    <label for="electrique" class="form-check-label"
-                      >Es ce un véhicule électrique ?</label
-                    ><br />
-                    <input
-                      type="checkbox"
-                      class="form-check-input bg-dark"
-                      id="electrique" />
-                    <label for="electrique" class="form-check-label"
-                      >Oui, c'est un véhicule électrique</label
-                    >
-                  </div>
-
                   <div>
                     <button
                       type="submit"
-                      class="btn btn-primary"
+                      class="btn bg-success border-dark text-primary"
                       id="btn-ajouter-voyage">
                       Créer le voyage
                     </button>
@@ -195,7 +181,7 @@
                   Date de première immatriculation
                 </label>
                 <input
-                  type="date"
+                  type="text"
                   class="form-control bg-dark"
                   id="date_immatriculation" />
               </div>
@@ -274,7 +260,10 @@
 
             <!-- Bouton de soumission -->
             <div class="text-center">
-              <button type="button" class="btn btn-primary" id="btn-modif">
+              <button
+                type="button"
+                class="btn bg-success border-dark text-primary"
+                id="btn-modif">
                 Sauvegarder
               </button>
             </div>

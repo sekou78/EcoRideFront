@@ -86,17 +86,36 @@ function showConnexionPassword() {
 }
 
 function validConnexion() {
-  const emailUser = inputConnexionEmail.value;
-  const passwordUser = inputConnexionPassword.value;
+  const userStokageLocal = localStorage.getItem(inputConnexionEmail.value);
 
-  const userData = JSON.parse(localStorage.getItem(emailUser));
-
-  if (userData && userData.password === passwordUser) {
-    localStorage.setItem("currentUserEmail", emailUser);
-
-    alert("Connexion reussie ! Bienvenue " + userData.pseudo);
-    window.location.href = "/espaceUtilisateur";
-  } else {
-    alert("Email ou mot de passe incorrect.");
+  if (!userStokageLocal) {
+    alert("Aucun compte trouvé avec cet email.");
+    return;
   }
+
+  const user = JSON.parse(userStokageLocal);
+
+  if (user.password !== inputConnexionPassword.value) {
+    alert("Mot de passe incorrect.");
+    return;
+  }
+
+  //Stocker l'email après connexion
+  localStorage.setItem("currentUser", inputConnexionEmail.value);
+
+  const token = "jeDevraiEtreLeVraiTokenDeConnexion";
+  setToken(token);
+
+  if (!user.role) {
+    alert("Aucun rôle trouvé pour cet utilisateur.");
+    return;
+  }
+
+  // Synchroniser le rôle entre localStorage et Cookie
+  setCookie(RoleCookieName, user.role, 7);
+  // Stocker aussi dans localStorage
+  localStorage.setItem("role", user.role);
+
+  // Redirection vers l'espace utilisateur
+  window.location.replace("/espaceUtilisateur");
 }

@@ -83,7 +83,7 @@
                     <li class="list-group-item">
                       <strong>Durée du voyage :</strong>
                       <span id="duree-voyage-display">2h30min</span
-                      ><small>min environs</small>
+                      ><small> min environs</small>
                     </li>
                     <li class="list-group-item">
                       <strong>Prix :</strong> <span id="prix-display">30</span>
@@ -134,6 +134,49 @@
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <!-- Boutons de gestion du covoiturage (chauffeur uniquement) -->
+          <div
+            class="mt-4 mb-4 text-center"
+            data-show="chauffeur chauffeur_passager">
+            <button id="btn-demarrer" class="btn btn-bg-dark text-primary">
+              Démarrer
+            </button>
+            <button id="btn-arrivee" class="btn btn-red d-none">
+              Arrivée à destination
+            </button>
+          </div>
+
+          <!--Avis seulement pour les passagers-->
+          <div class="text-center" data-show="passager">
+            <div class="form-floating mb-1">
+              <input
+                type="text"
+                class="form-control bg-dark"
+                id="floatingInput"
+                placeholder="Pseudo du chauffeur" />
+              <label for="floatingInput">Pseudo du chauffeur</label>
+            </div>
+
+            <div class="form-floating">
+              <textarea
+                class="form-control bg-dark"
+                placeholder="Leave a comment here"
+                id="floatingTextarea"></textarea>
+              <label for="floatingTextarea"
+                >Laissez un avis sur le chauffeur <strong>Ici</strong></label
+              >
+            </div>
+
+            <div class="mt-2 mb-3">
+              <button
+                type="button"
+                id="btn-envoyer-commentaire"
+                class="btn bg-dark border-dark text-primary">
+                Envoyer
+              </button>
             </div>
           </div>
 

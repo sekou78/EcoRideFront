@@ -24,39 +24,77 @@ const animalDisplay = document.getElementById("animal-display");
 const preferencesAutresDisplay = document.getElementById(
   "preferences-autres-display"
 );
+const btnDemarrer = document.getElementById("btn-demarrer");
+const btnArrivee = document.getElementById("btn-arrivee");
+const inputPseudoAvis = document.getElementById("floatingInput");
+const textareaAvis = document.getElementById("floatingTextarea");
+const btnEnvoyerCommentaire = document.getElementById(
+  "btn-envoyer-commentaire"
+);
 
-// Récupérer les données du localStorage (avec des valeurs par défaut si absentes)
-const avatar = localStorage.getItem("avatar") || "/images/avatar.png";
-const pseudo = localStorage.getItem("pseudo") || "Nom d'utilisateur";
-const credits = localStorage.getItem("credits") || "0";
+inputPseudoAvis.addEventListener("keyup", validInputAvis);
+textareaAvis.addEventListener("keyup", validInputAvis);
+
+btnDemarrer.addEventListener("click", gestionDemarrer);
+btnArrivee.addEventListener("click", gestionArrivee);
+btnEnvoyerCommentaire.disabled = true;
+btnEnvoyerCommentaire.addEventListener("click", gestionEnvoyerCommentaire);
+
+function validInputAvis() {
+  const pseudoOk = validateAvisRequired(inputPseudoAvis);
+  const commentaireOk = validateAvisRequired(textareaAvis);
+
+  if (pseudoOk && commentaireOk) {
+    btnEnvoyerCommentaire.disabled = false;
+  } else {
+    btnEnvoyerCommentaire.disabled = true;
+  }
+}
+
+// Récupérer les données du localStorage et ou des cookies
+const avatar = localStorage.getItem("avatar");
+const pseudo = localStorage.getItem("pseudo");
+const credits = getCookie("credits");
+const telephone = localStorage.getItem("telephone");
+const roleFromLocalStorage = localStorage.getItem("role");
+const depart = localStorage.getItem("depart");
+const arrivee = localStorage.getItem("arrivee");
+const date = localStorage.getItem("date");
+const heure = localStorage.getItem("heure");
+const peage = localStorage.getItem("peage");
+const duree = localStorage.getItem("duree");
+const prix = localStorage.getItem("prix");
+const immatriculation = localStorage.getItem("immatriculation");
+const vehiculeInfo = localStorage.getItem("vehiculeInfo");
+const placesDisponibles = localStorage.getItem("placesDisponibles");
+const electrique = localStorage.getItem("electrique");
+const fumeur = localStorage.getItem("fumeur");
+const animal = localStorage.getItem("animal");
+const preferencesAutres = localStorage.getItem("preferencesAutres");
+
 const currentUserEmail = localStorage.getItem("currentUser");
-const telephone = localStorage.getItem("telephone") || "+XX X XX XX XX XX";
-const role = localStorage.getItem("role") || "Utilisateur";
-const depart = localStorage.getItem("depart") || "Depart";
-const arrivee = localStorage.getItem("arrivee") || "Arrivee";
-const date = localStorage.getItem("date") || "Date";
-const heure = localStorage.getItem("heure") || "Heure";
-const peage = localStorage.getItem("peage") || "Non";
-const duree = localStorage.getItem("duree") || "Duree";
-const prix = localStorage.getItem("prix") || "Prix";
-const immatriculation =
-  localStorage.getItem("immatriculation") || "Non renseigné";
-const vehiculeInfo = localStorage.getItem("vehiculeInfo") || "Non renseigné";
-const placesDisponibles = localStorage.getItem("placesDisponibles") || "0";
-const electrique = localStorage.getItem("electrique") || "Non";
-const fumeur = localStorage.getItem("fumeur") || "Non";
-const animal = localStorage.getItem("animal") || "Non";
-const preferencesAutres = localStorage.getItem("preferencesAutres") || "Aucune";
-
 // Récupérer les informations de l'utilisateur
 if (currentUserEmail) {
   const userData = JSON.parse(localStorage.getItem(currentUserEmail));
 
   if (userData) {
-    pseudoDisplay.textContent = userData.pseudo || "Nom d'utilisateur";
-    totalCredits.textContent = userData.credits || "0";
-    emailCurrentUserDisplay.textContent = userData.email || "Email@mail.fr";
-    placesDisponiblesDisplay.textContent = userData.placesDisponibles || "0";
+    pseudoDisplay.textContent = userData.pseudo;
+    totalCredits.textContent = userData.credits;
+    emailCurrentUserDisplay.textContent = userData.email;
+    placesDisponiblesDisplay.textContent = userData.placesDisponibles;
+
+    // Vérifier si le rôle du localStorage est défini
+    if (roleFromLocalStorage) {
+      const roleFromCookie = getCookie("role");
+
+      // Si le rôle en cookie est différent de localStorage, on met à jour le cookie
+      if (roleFromCookie !== roleFromLocalStorage) {
+        setCookie("role", roleFromLocalStorage, 7);
+        location.reload();
+      }
+    } else {
+      console.warn("Aucun rôle trouvé dans localStorage.");
+    }
   } else {
     alert("Aucun utilisateur trouvé.");
   }
@@ -65,17 +103,11 @@ if (currentUserEmail) {
 }
 
 // Vérifier si un avatar est déjà stocké dans le localStorage et l'afficher
-const avatarUrl = localStorage.getItem("avatar");
-if (avatarUrl) {
-  avatarDisplay.src = avatarUrl; // Mettre à jour l'image si elle est trouvée dans localStorage
-} else {
-  avatarDisplay.src = "/images/avatar.png"; // Image par défaut
-}
+avatarDisplay.src = avatar;
 
 // Afficher les informations dans les éléments HTML
-avatarDisplay.src = avatar;
 telephoneDisplay.textContent = telephone;
-roleDisplay.textContent = role;
+roleDisplay.textContent = roleFromLocalStorage;
 departDisplay.textContent = depart;
 arriveeDisplay.textContent = arrivee;
 dateDisplay.textContent = date;
@@ -85,7 +117,104 @@ dureeDisplay.textContent = duree;
 prixDisplay.textContent = prix;
 immatriculationDisplay.textContent = immatriculation;
 vehiculeInfoDisplay.textContent = vehiculeInfo;
+placesDisponiblesDisplay.textContent = placesDisponibles;
 electriqueDisplay.textContent = electrique;
 fumeurDisplay.textContent = fumeur;
 animalDisplay.textContent = animal;
 preferencesAutresDisplay.textContent = preferencesAutres;
+
+// Fonction de gestion du bouton "Démarrer"
+function gestionDemarrer() {
+  alert("Voyage démarré !");
+  btnDemarrer.classList.add("d-none");
+  btnArrivee.classList.remove("d-none");
+}
+
+// Fonction de gestion du bouton "Arrivée"
+function gestionArrivee() {
+  alert("Arrivée à destination, trajet terminé !");
+
+  btnArrivee.classList.add("d-none");
+}
+
+// Fonction de gestion de l'affichage
+function gestionAffichage() {
+  // Au départ : Démarrer visible, Arrivée cachée
+  btnDemarrer.classList.remove("d-none");
+  btnArrivee.classList.add("d-none");
+
+  // Quand on clique sur Démarrer → Masquer Démarrer et Afficher Arrivée
+  btnDemarrer.addEventListener("click", function () {
+    btnDemarrer.classList.add("d-none");
+    btnArrivee.classList.remove("d-none");
+  });
+
+  // Quand on clique sur Arrivée → Tout cacher
+  btnArrivee.addEventListener("click", function () {
+    btnArrivee.classList.add("d-none");
+
+    // Simuler une validation des participants
+    setTimeout(() => {
+      const validationParticipants = confirm(
+        "Tous les passagers ont confirmé que le trajet s'est bien passé ?"
+      );
+
+      if (validationParticipants) {
+        mettreAJourCredits();
+      } else {
+        alert("Un problème a été signalé. Un employé va intervenir");
+      }
+    }, 1000);
+
+    envoyerEmailParticipants();
+  });
+}
+
+// Fonction de mise à jour des crédits du chauffeur
+function mettreAJourCredits() {
+  const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+
+  let credits = userData.credits;
+  const prix = parseInt(prixDisplay.textContent);
+
+  credits += prix;
+  userData.credits = credits;
+  localStorage.setItem(currentUserEmail, JSON.stringify(userData));
+  totalCredits.textContent = credits;
+  alert("Crédits mis à jour !");
+}
+
+// Fonction pour simuler l'envoi d'un email aux passagers
+function envoyerEmailParticipants(message) {
+  alert("Envoi d'un email aux participants :", message);
+}
+
+// Appel de la fonction d'affichage
+gestionAffichage();
+
+//Demande de remplissage du champs requis
+function validateAvisRequired(input) {
+  if (input.value != "") {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+    return true;
+  } else {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    return false;
+  }
+}
+
+// Envoie de commentaire pour être valider par un employé
+function gestionEnvoyerCommentaire() {
+  const newComment = {
+    pseudo: inputPseudoAvis.value,
+    commentaire: textareaAvis.value,
+  };
+
+  localStorage.setItem("commentaires", JSON.stringify(newComment));
+
+  alert("Commentaire envoyé !");
+
+  window.location.reload();
+}

@@ -1,6 +1,6 @@
-const inputInsciptionPseudo = document.getElementById("pseudoInsciptionInput");
-const inputInsciptionEmail = document.getElementById("emailInsciptionInput");
-const inputInsciptionPassword = document.getElementById(
+const inputInscriptionPseudo = document.getElementById("pseudoInsciptionInput");
+const inputInscriptionEmail = document.getElementById("emailInsciptionInput");
+const inputInscriptionPassword = document.getElementById(
   "PasswordInsciptionInput"
 );
 const checkboxInscriptionPassword = document.getElementById(
@@ -10,19 +10,19 @@ const btnValidationInscription = document.getElementById(
   "btn-validation-inscription"
 );
 
-inputInsciptionPseudo.addEventListener("keyup", validateInsciptionForm);
-inputInsciptionEmail.addEventListener("keyup", validateInsciptionForm);
-inputInsciptionPassword.addEventListener("keyup", validateInsciptionForm);
+inputInscriptionPseudo.addEventListener("keyup", validateInsciptionForm);
+inputInscriptionEmail.addEventListener("keyup", validateInsciptionForm);
+inputInscriptionPassword.addEventListener("keyup", validateInsciptionForm);
 checkboxInscriptionPassword.addEventListener("click", showInscriptionPassword);
-btnValidationInscription.addEventListener("click", inscriptionCredentials);
+btnValidationInscription.addEventListener("click", validInscription);
 btnValidationInscription.disabled = true;
 
 function validateInsciptionForm() {
-  const pseudoOK = validateInscriptionRequired(inputInsciptionPseudo);
-  const emailOK = validateInscriptionRequired(inputInsciptionEmail);
-  const EmailOK = validateMailInscription(inputInsciptionEmail);
-  const passwordOK = validateInscriptionRequired(inputInsciptionPassword);
-  const PasswordOK = validatePasswordInscription(inputInsciptionPassword);
+  const pseudoOK = validateInscriptionRequired(inputInscriptionPseudo);
+  const emailOK = validateInscriptionRequired(inputInscriptionEmail);
+  const EmailOK = validateMailInscription(inputInscriptionEmail);
+  const passwordOK = validateInscriptionRequired(inputInscriptionPassword);
+  const PasswordOK = validatePasswordInscription(inputInscriptionPassword);
 
   if (pseudoOK && emailOK && EmailOK && passwordOK && PasswordOK) {
     btnValidationInscription.disabled = false;
@@ -81,44 +81,29 @@ function validatePasswordInscription(input) {
 
 //Montrer le mot de passe ou masquer le mot de passe inscription
 function showInscriptionPassword() {
-  if (inputInsciptionPassword.type === "password") {
-    inputInsciptionPassword.type = "text";
+  if (inputInscriptionPassword.type === "password") {
+    inputInscriptionPassword.type = "text";
   } else {
-    inputInsciptionPassword.type = "password";
+    inputInscriptionPassword.type = "password";
   }
 }
 
 // Fonction principale : Enregistrer l'inscription
-function inscriptionCredentials() {
-  const pseudoUser = inputInsciptionPseudo.value.trim();
-  const emailUser = inputInsciptionEmail.value.trim();
-  const passwordUser = inputInsciptionPassword.value;
-
-  // Vérifier si l'email est déjà utilisé
-  if (localStorage.getItem(emailUser)) {
-    alert("Cet email est déjà utilisé !");
-    return;
-  }
-
-  // Vider le localStorage avant d'enregistrer un nouvel utilisateur
-  localStorage.clear();
-
-  // Création de l'objet utilisateur avec 20 crédits
-  const nouvelUtilisateur = {
-    pseudo: pseudoUser,
-    email: emailUser,
-    password: passwordUser,
+function validInscription() {
+  //Ici, il faudra appeler l'Api pour verifier l'authentification en BDD
+  const newUser = {
+    pseudo: inputInscriptionPseudo.value,
+    email: inputInscriptionEmail.value,
+    password: inputInscriptionPassword.value,
     credits: 20,
+    role: "passager",
   };
 
-  // Stocker l'utilisateur dans localStorage
-  localStorage.setItem(emailUser, JSON.stringify(nouvelUtilisateur));
-  localStorage.setItem("currentUser", emailUser);
+  // Enregistrement de l'utilisateur dans localStorage (simule une BDD)
+  localStorage.setItem(inputInscriptionEmail.value, JSON.stringify(newUser));
 
-  alert(
-    `Inscription réussie ! Bienvenue ${pseudoUser}, vous avez reçu 20 crédits.`
-  );
+  alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
 
-  // Rediriger vers l'espace utilisateur
-  window.location.href = "/connexion";
+  // Redirection vers la page de connexion
+  window.location.replace("/connexion");
 }
