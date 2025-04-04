@@ -96,6 +96,7 @@ function validInscription() {
     email: inputInscriptionEmail.value,
     password: inputInscriptionPassword.value,
     credits: 20,
+    role: "passager",
   };
 
   // Enregistrement de l'utilisateur dans localStorage (simule une BDD)

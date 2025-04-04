@@ -55,9 +55,8 @@ function validInputAvis() {
 const avatar = localStorage.getItem("avatar");
 const pseudo = localStorage.getItem("pseudo");
 const credits = getCookie("credits");
-const currentUserEmail = localStorage.getItem("currentUser");
 const telephone = localStorage.getItem("telephone");
-const role = getCookie("role");
+const roleFromLocalStorage = localStorage.getItem("role");
 const depart = localStorage.getItem("depart");
 const arrivee = localStorage.getItem("arrivee");
 const date = localStorage.getItem("date");
@@ -73,8 +72,8 @@ const fumeur = localStorage.getItem("fumeur");
 const animal = localStorage.getItem("animal");
 const preferencesAutres = localStorage.getItem("preferencesAutres");
 
+const currentUserEmail = localStorage.getItem("currentUser");
 // Récupérer les informations de l'utilisateur
-
 if (currentUserEmail) {
   const userData = JSON.parse(localStorage.getItem(currentUserEmail));
 
@@ -84,9 +83,17 @@ if (currentUserEmail) {
     emailCurrentUserDisplay.textContent = userData.email;
     placesDisponiblesDisplay.textContent = userData.placesDisponibles;
 
-    // Met à jour le rôle et l'affiche
-    if (userData.role) {
-      localStorage.setItem("role", userData.role);
+    // Vérifier si le rôle du localStorage est défini
+    if (roleFromLocalStorage) {
+      const roleFromCookie = getCookie("role");
+
+      // Si le rôle en cookie est différent de localStorage, on met à jour le cookie
+      if (roleFromCookie !== roleFromLocalStorage) {
+        setCookie("role", roleFromLocalStorage, 7);
+        location.reload();
+      }
+    } else {
+      console.warn("Aucun rôle trouvé dans localStorage.");
     }
   } else {
     alert("Aucun utilisateur trouvé.");
@@ -100,7 +107,7 @@ avatarDisplay.src = avatar;
 
 // Afficher les informations dans les éléments HTML
 telephoneDisplay.textContent = telephone;
-roleDisplay.textContent = role;
+roleDisplay.textContent = roleFromLocalStorage;
 departDisplay.textContent = depart;
 arriveeDisplay.textContent = arrivee;
 dateDisplay.textContent = date;
@@ -179,7 +186,6 @@ function mettreAJourCredits() {
 
 // Fonction pour simuler l'envoi d'un email aux passagers
 function envoyerEmailParticipants(message) {
-  console.log("Envoi d'un email aux participants :", message);
   alert("Envoi d'un email aux participants :", message);
 }
 
@@ -201,7 +207,6 @@ function validateAvisRequired(input) {
 
 // Envoie de commentaire pour être valider par un employé
 function gestionEnvoyerCommentaire() {
-  console.log("Le bouton a été cliqué !");
   const newComment = {
     pseudo: inputPseudoAvis.value,
     commentaire: textareaAvis.value,

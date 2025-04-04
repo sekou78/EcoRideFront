@@ -86,29 +86,6 @@ function showConnexionPassword() {
 }
 
 function validConnexion() {
-  //Ici, il faudra appeler l'Api pour verifier l'authentification en BDD
-  // if (
-  //   inputConnexionEmail.value == "folo223@mail.com" &&
-  //   inputConnexionPassword.value == "Azerty$123"
-  // ) {
-  //   alert("Vous êtes connecté");
-
-  //   //il faudra remplacer ce token par le vrai token de connexion
-  //   const token = "jeDevraiEtreLeVraiTokenDeConnexion";
-  //   setToken(token);
-
-  //   //Placer ce token en cookie
-  //   // setCookie(RoleCookieName, "chauffeur", 7);
-  //   // setCookie(RoleCookieName, "passager", 7);
-  //   // setCookie(RoleCookieName, "chauffeur & passager", 7);
-  //   // setCookie(RoleCookieName, "employee", 7);
-  //   setCookie(RoleCookieName, "admin", 7);
-  //   // setCookie(RoleCookieName, "visiteur", 7);
-
-  //   window.location.replace("/espaceUtilisateur");
-  // }
-
-  // Récupérer l'utilisateur dans localStorage
   const userStokageLocal = localStorage.getItem(inputConnexionEmail.value);
 
   if (!userStokageLocal) {
@@ -116,26 +93,29 @@ function validConnexion() {
     return;
   }
 
-  // Convertir les données JSON en objet JavaScript
   const user = JSON.parse(userStokageLocal);
 
-  // Vérifier si le mot de passe est correct
   if (user.password !== inputConnexionPassword.value) {
     alert("Mot de passe incorrect.");
     return;
   }
 
-  //il faudra remplacer ce token par le vrai token de connexion
+  //Stocker l'email après connexion
+  localStorage.setItem("currentUser", inputConnexionEmail.value);
+
   const token = "jeDevraiEtreLeVraiTokenDeConnexion";
   setToken(token);
 
-  //Placer ce token en cookie
-  setCookie(RoleCookieName, "chauffeur", 7);
-  // setCookie(RoleCookieName, "passager", 7);
-  // setCookie(RoleCookieName, "chauffeur & passager", 7);
-  // setCookie(RoleCookieName, "employee", 7);
-  // setCookie(RoleCookieName, "admin", 7);
-  // setCookie(RoleCookieName, "visiteur", 7);
+  if (!user.role) {
+    alert("Aucun rôle trouvé pour cet utilisateur.");
+    return;
+  }
 
+  // Synchroniser le rôle entre localStorage et Cookie
+  setCookie(RoleCookieName, user.role, 7);
+  // Stocker aussi dans localStorage
+  localStorage.setItem("role", user.role);
+
+  // Redirection vers l'espace utilisateur
   window.location.replace("/espaceUtilisateur");
 }
