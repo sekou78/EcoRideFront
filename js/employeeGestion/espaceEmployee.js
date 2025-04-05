@@ -1,23 +1,15 @@
 const employeePseudo = document.getElementById("employee-pseudo-display");
-const employeeValidAvisPassagerPseudo1 = document.getElementById(
-  "employee-valid-avis-passager-pseudo-display1"
+const employeeValidAvisPassagerPseudo = document.getElementById(
+  "employee-valid-avis-passager-pseudo-display"
 );
-const employeeValidAvisPassagerPseudo2 = document.getElementById(
-  "employee-valid-avis-passager-pseudo-display2"
+const employeeValidAvis = document.getElementById(
+  "employee-valid-avis-passager"
 );
-const employeeValidAvis1 = document.getElementById(
-  "employee-valid-avis-passager1"
-);
-const employeeValidAvis2 = document.getElementById(
-  "employee-valid-avis-passager2"
-);
-const btnEmployeeValidAvis1 = document.getElementById("btn-employee-valid1");
-const btnEmployeeRefuseAvis1 = document.getElementById("btn-employee-refuse1");
-const btnEmployeeValidAvis2 = document.getElementById("btn-employee-valid2");
-const btnEmployeeRefuseAvis2 = document.getElementById("btn-employee-refuse2");
+const btnEmployeeValidAvis = document.getElementById("btn-employee-valid");
+const btnEmployeeRefuseAvis = document.getElementById("btn-employee-refuse");
 
-btnEmployeeValidAvis1.addEventListener("click", validerAvis);
-btnEmployeeRefuseAvis1.addEventListener("click", refuserAvis);
+btnEmployeeValidAvis.addEventListener("click", validerAvis);
+btnEmployeeRefuseAvis.addEventListener("click", refuserAvis);
 
 // Récupérer les données du localStorage
 const avisPassager = localStorage.getItem("commentaires");
@@ -27,9 +19,9 @@ if (avisPassager) {
   const avisPassagerJson = JSON.parse(avisPassager);
 
   if (avisPassagerJson) {
-    employeeValidAvisPassagerPseudo1.textContent = avisPassagerJson.pseudo;
+    employeeValidAvisPassagerPseudo.textContent = avisPassagerJson.pseudo;
 
-    employeeValidAvis1.textContent = avisPassagerJson.commentaire;
+    employeeValidAvis.textContent = avisPassagerJson.commentaire;
   }
 }
 
