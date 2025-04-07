@@ -50,6 +50,20 @@ export const allRoutes = [
     ["admin", "employe", "passager", "chauffeur", "chauffeur_passager"],
     "/js/profilUtiliateur/historiqueUtilisateur.js"
   ),
+  new Route(
+    "/espaceEmployee",
+    "Espace Employee",
+    "/pages/employeeGestion/espaceEmployee.html",
+    ["employee"],
+    "/js/employeeGestion/espaceEmployee.js"
+  ),
+  new Route(
+    "/espaceProblemesRemonter",
+    "Espace Problemes Remonter",
+    "/pages/employeeGestion/espaceProblemesRemonter.html",
+    ["employee"],
+    "/js/employeeGestion/espaceProblemesRemonter.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename

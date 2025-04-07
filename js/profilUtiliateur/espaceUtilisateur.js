@@ -31,6 +31,7 @@ const textareaAvis = document.getElementById("floatingTextarea");
 const btnEnvoyerCommentaire = document.getElementById(
   "btn-envoyer-commentaire"
 );
+const btnRemonterProblemes = document.getElementById("btn-remonter-problemes");
 
 inputPseudoAvis.addEventListener("keyup", validInputAvis);
 textareaAvis.addEventListener("keyup", validInputAvis);
@@ -39,6 +40,8 @@ btnDemarrer.addEventListener("click", gestionDemarrer);
 btnArrivee.addEventListener("click", gestionArrivee);
 btnEnvoyerCommentaire.disabled = true;
 btnEnvoyerCommentaire.addEventListener("click", gestionEnvoyerCommentaire);
+btnRemonterProblemes.disabled = true;
+btnRemonterProblemes.addEventListener("click", gestionRemonterProblemes);
 
 function validInputAvis() {
   const pseudoOk = validateAvisRequired(inputPseudoAvis);
@@ -46,8 +49,10 @@ function validInputAvis() {
 
   if (pseudoOk && commentaireOk) {
     btnEnvoyerCommentaire.disabled = false;
+    btnRemonterProblemes.disabled = false;
   } else {
     btnEnvoyerCommentaire.disabled = true;
+    btnRemonterProblemes.disabled = true;
   }
 }
 
@@ -191,7 +196,6 @@ function envoyerEmailParticipants(message) {
 
 // Appel de la fonction d'affichage
 gestionAffichage();
-
 //Demande de remplissage du champs requis
 function validateAvisRequired(input) {
   if (input.value != "") {
@@ -205,16 +209,67 @@ function validateAvisRequired(input) {
   }
 }
 
-// Envoie de commentaire pour être valider par un employé
+// Envoie de commentaire pour être validé par un employé
 function gestionEnvoyerCommentaire() {
+  // Récupérer les anciens commentaires s’ils existent
+  let commentaires = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem("commentaires"));
+    if (Array.isArray(saved)) {
+      commentaires = saved;
+    } else if (saved) {
+      commentaires = [saved];
+    }
+  } catch (e) {
+    console.warn("Erreur lors du parsing de commentaires :", e);
+  }
+
   const newComment = {
-    pseudo: inputPseudoAvis.value,
-    commentaire: textareaAvis.value,
+    pseudo: inputPseudoAvis.value.trim(),
+    commentaire: textareaAvis.value.trim(),
   };
 
-  localStorage.setItem("commentaires", JSON.stringify(newComment));
+  // Ajouter le nouveau commentaire au tableau
+  commentaires.push(newComment);
+
+  // Sauvegarder le tableau mis à jour
+  localStorage.setItem("commentaires", JSON.stringify(commentaires));
 
   alert("Commentaire envoyé !");
+  window.location.reload();
+}
 
+function gestionRemonterProblemes() {
+  // Récupérer les anciens commentaires s’ils existent
+  let problemesRemonter = [];
+  try {
+    const saved = JSON.parse(localStorage.getItem("problemesRemonter"));
+    if (Array.isArray(saved)) {
+      problemesRemonter = saved;
+    } else if (saved) {
+      problemesRemonter = [saved];
+    }
+  } catch (e) {
+    console.warn("Erreur lors du parsing de problemesRemonter :", e);
+  }
+
+  // Générer un identifiant unique style #CV123456
+  const uniqueId = "#CV" + Math.floor(100000 + Math.random() * 900000);
+
+  // Créer le nouveau commentaire
+  const newProblemesRemonter = {
+    id: uniqueId,
+    pseudo: inputPseudoAvis.value.trim(),
+    commentaire: textareaAvis.value.trim(),
+    date: new Date().toISOString(), // facultatif mais pratique
+  };
+
+  // Ajouter à la liste existante
+  problemesRemonter.push(newProblemesRemonter);
+
+  // Sauvegarder à nouveau
+  localStorage.setItem("problemesRemonter", JSON.stringify(problemesRemonter));
+
+  alert("Probleme remonter");
   window.location.reload();
 }
