@@ -11,37 +11,8 @@
       <div class="card-header bg-secondary text-center">
         Validation des Avis
       </div>
-      <div class="card-body">
-        <!-- Exemple d'avis en attente -->
-        <div class="mb-3">
-          <p>
-            <strong>Pseudo :</strong>
-            <span id="employee-valid-avis-passager-pseudo-display">
-              JeanDu13</span
-            >
-          </p>
-          <p>
-            <strong>Avis :</strong>
-            <span id="employee-valid-avis-passager">
-              Le chauffeur était en retard, mais sympa.</span
-            >
-          </p>
-          <div class="d-flex justify-content-center gap-2">
-            <button
-              type="button"
-              class="btn btn-success text-primary"
-              id="btn-employee-valid">
-              Valider
-            </button>
-            <button
-              type="button"
-              class="btn btn-red text-primary"
-              id="btn-employee-refuse">
-              Refuser
-            </button>
-          </div>
-        </div>
-        <hr />
+      <div class="card-body" id="avis-container">
+        <!-- Les avis seront ajoutés ici dynamiquement -->
       </div>
     </div>
 
@@ -50,25 +21,9 @@
       <div class="card-header bg-secondary text-center">
         Covoiturages Problématiques
       </div>
-      <div class="card-body">
-        <!-- Exemple de covoiturage -->
-        <div class="border rounded p-3 mb-3 bg-white shadow-sm">
-          <p>
-            <strong>Numéro du covoiturage :</strong>
-            <a href="#" class="text-black text-decoration-none"> #CV123456</a>
-          </p>
-          <p><strong>Participant 1 :</strong> Alice (alice@example.com)</p>
-          <p><strong>Participant 2 :</strong> Bob (bob@example.com)</p>
-          <p><strong>Date de départ :</strong> 10 avril 2025 à 08:00</p>
-          <p><strong>Date d’arrivée :</strong> 10 avril 2025 à 12:00</p>
-          <p><strong>Lieu :</strong> Paris → Lyon</p>
-          <p>
-            <strong>Description :</strong> Le chauffeur a manqué un arrêt et a
-            refusé de s’excuser.
-          </p>
-        </div>
+      <div class="card-body" id="covoiturages-problemes-container">
+        <!-- Les covoiturages seront ajoutés ici dynamiquement -->
       </div>
-      <hr />
     </div>
   </div>
 </div>
