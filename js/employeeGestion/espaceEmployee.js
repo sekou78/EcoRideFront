@@ -79,7 +79,7 @@ problemesCovoiturages.forEach((covoit) => {
   const div = document.createElement("div");
   div.className = "border rounded p-3 mb-3 bg-white shadow-sm";
   div.innerHTML = `
-    <p><strong>Numéro du covoiturage :</strong> <a class="text-danger" href="#">${covoit.id}</a></p>
+    <p><strong>Numéro du covoiturage :</strong> <a class="text-danger" href="/espaceProblemesRemonter">${covoit.id}</a></p>
   `;
   covoituragesContainer.appendChild(div);
 });
