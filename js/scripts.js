@@ -63,8 +63,8 @@ function dIsconnect() {
   eraseCookie(RoleCookieName);
 
   // Vider complètement le localStorage et le sessionStorage
-  localStorage.clear();
-  sessionStorage.clear();
+  // localStorage.clear();
+  // sessionStorage.clear();
 
   // Rediriger ou recharger la page pour appliquer les changements
   window.location.href = "connexion";

@@ -74,16 +74,16 @@ export const allRoutes = [
   new Route(
     "/gestionEmployee",
     "Gestion Employee",
-    "/pages/admin/gestionEmployee.html",
+    "/pages/admin/gestionAdminEmployee.html",
     ["admin"],
-    "/js/admin/gestionEmployee.js"
+    "/js/admin/gestionAdminEmployee.js"
   ),
   new Route(
     "/gestionUtilisateur",
     "Gestion Utilisateur",
-    "/pages/admin/gestionUtilisateur.html",
+    "/pages/admin/gestionAdminUtilisateur.html",
     ["admin"],
-    "/js/admin/gestionUtilisateur.js"
+    "/js/admin/gestionAdminUtilisateur.js"
   ),
 ];
 
