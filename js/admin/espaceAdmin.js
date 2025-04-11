@@ -10,6 +10,9 @@ const inputInscriptionEmployeeDateNaissance = document.getElementById(
 const inputInscriptionEmployeePseudo = document.getElementById(
   "pseudoInscriptionEmployeeInput"
 );
+const inputInscriptionEmployeeRole = document.getElementById(
+  "roleInscriptionEmployeeInput"
+);
 const inputInscriptionEmployeeEmail = document.getElementById(
   "emailInscriptionEmployeeInput"
 );
@@ -30,6 +33,10 @@ inputInscriptionEmployeePrenom.addEventListener(
 );
 inputInscriptionEmployeeDateNaissance.addEventListener("change", validDate);
 inputInscriptionEmployeePseudo.addEventListener(
+  "keyup",
+  validateInscriptionEmployeeForm
+);
+inputInscriptionEmployeeRole.addEventListener(
   "keyup",
   validateInscriptionEmployeeForm
 );
@@ -60,6 +67,9 @@ function validateInscriptionEmployeeForm() {
   const pseudoEmployeeOk = validateInscriptionEmployeeRequired(
     inputInscriptionEmployeePseudo
   );
+  const roleEmployeeOk = validateInscriptionEmployeeRequired(
+    inputInscriptionEmployeeRole
+  );
   const emailEmployeeOk = validateMailInscriptionEmployee(
     inputInscriptionEmployeeEmail
   );
@@ -71,6 +81,7 @@ function validateInscriptionEmployeeForm() {
     prenomEmployeeOk &&
     dateNaissanceEmployeeOk &&
     pseudoEmployeeOk &&
+    roleEmployeeOk &&
     emailEmployeeOk &&
     passwordEmployeeOk
   ) {
@@ -153,6 +164,7 @@ function validateInscriptionEmployee() {
     prenomEmployee: inputInscriptionEmployeePrenom.value,
     dateNaissanceEmployee: inputInscriptionEmployeeDateNaissance.value,
     pseudoEmployee: inputInscriptionEmployeePseudo.value,
+    roleEmployee: inputInscriptionEmployeeRole.value,
     emailEmployee: inputInscriptionEmployeeEmail.value,
     passwordEmployee: inputInscriptionEmployeePassword.value,
   };
@@ -179,7 +191,7 @@ function validateInscriptionEmployee() {
   window.location.reload();
 }
 
-// ⚠️ Simulation des données (remplace-les avec ton vrai localStorage si nécessaire)
+//Simulation des données (remplace-les avec ton vrai localStorage si nécessaire)
 if (!localStorage.getItem("covoiturages")) {
   localStorage.setItem(
     "covoiturages",
