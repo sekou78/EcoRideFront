@@ -99,8 +99,21 @@ function validInscription() {
     role: "passager",
   };
 
-  // Enregistrement de l'utilisateur dans localStorage (simule une BDD)
-  localStorage.setItem(inputInscriptionEmail.value, JSON.stringify(newUser));
+  // Récupérer les utilisateurs existants dans userAppli (ou tableau vide si inexistant)
+  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
+
+  // Vérifie si l'email existe déjà
+  const emailExists = users.some((user) => user.email === newUser.email);
+  if (emailExists) {
+    alert("Cet email est déjà utilisé.");
+    return;
+  }
+
+  // Ajouter le nouvel utilisateur
+  users.push(newUser);
+
+  // Sauvegarde de la liste mise à jour dans le localStorage
+  localStorage.setItem("userAppli", JSON.stringify(users));
 
   alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
 

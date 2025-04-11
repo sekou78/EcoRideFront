@@ -1,0 +1,184 @@
+<div class="container pb-3">
+  <div class="text-center m-3">
+    <h1 class="text-primary">Espace Administrateur</h1>
+  </div>
+
+  <!-- Création de compte employé -->
+  <div class="card mb-3">
+    <div class="card-header bg-secondary text-center text-black">
+      Créer un compte employé
+    </div>
+    <div class="card-body text-center">
+      <form id="form-creation-employe" class="row g-3">
+        <div class="mb-3">
+          <label for="nomInscriptionEmployeeInput" class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="nomInscriptionEmployeeInput"
+            placeholder="Nom"
+            name="nomEmployee" />
+
+          <div class="invalid-feedback liens">Le nom est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="prenomInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="prenomInscriptionEmployeeInput"
+            placeholder="Prenom"
+            name="prenomEmployee" />
+
+          <div class="invalid-feedback liens">Le prenom est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="dateNaissanceInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="dateNaissanceInscriptionEmployeeInput"
+            placeholder="Date de naissance"
+            name="dateNaissanceEmployee" />
+
+          <div class="invalid-feedback liens">
+            La date de naissance est requis !
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="pseudoInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="pseudoInscriptionEmployeeInput"
+            placeholder="Pseudo"
+            name="pseudoEmployee" />
+
+          <div class="invalid-feedback liens">Le pseudo est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="roleInscriptionEmployeeInput" class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="roleInscriptionEmployeeInput"
+            placeholder="Rôle"
+            name="roleEmployee" />
+
+          <div class="invalid-feedback liens">Le pseudo est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="emailInscriptionEmployeeInput" class="form-label"></label>
+          <input
+            type="email"
+            class="form-control bg-body-secondary text-center"
+            id="emailInscriptionEmployeeInput"
+            placeholder="mail@mail.com"
+            name="email" />
+
+          <div class="invalid-feedback liens">
+            Votre email n'est pas conforme !
+          </div>
+          <div class="valid-feedback liens">Email correct !</div>
+        </div>
+
+        <div class="mb-2">
+          <label
+            for="PasswordInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="password"
+            class="form-control bg-body-secondary text-center"
+            id="PasswordInscriptionEmployeeInput"
+            placeholder="Mot de passe"
+            name="mdp" />
+
+          <div class="invalid-feedback liens">
+            Le mot de passe n'est pas conforme ! <br />
+            Au moins 8 caractères comprenant: <br />
+            1 lettre majuscule, <br />
+            1 lettre miniscule, <br />
+            1chiffre et <br />
+            1 caractères sepéciale
+          </div>
+          <div class="valid-feedback liens">Le mot de passe est conforme !</div>
+        </div>
+
+        <div class="col-12">
+          <button
+            type="button"
+            class="btn bg-dark border-dark text-primary"
+            id="btn-creation-employe">
+            Créer le compte
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Graphiques -->
+  <div class="row mb-3">
+    <!-- Graphiques Covoiturages par jour -->
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-black text-center">
+          Covoiturages par jour
+        </div>
+        <div class="card-body">
+          <canvas id="graphCovoiturages"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphiques Crédits gagnés par jour -->
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-secondary text-black text-center">
+          Crédits gagnés par jour
+        </div>
+        <div class="card-body">
+          <canvas id="graphCredits"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total crédits gagnés par la plateforme -->
+  <div class="card mb-4">
+    <div class="card-body text-center">
+      <h5>Total des crédits gagnés par la plateforme :</h5>
+      <h2 class="text-dark" id="totalCredits">0 crédits</h2>
+    </div>
+  </div>
+
+  <div class="card text-bg-secondary text-center mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Gestion des Employées</h5>
+      <p class="card-text">Liste de tous les employées de la plateforme</p>
+      <button type="button" class="btn bg-dark border-dark text-primary">
+        <a href="gestionEmployee">Gestion des employées</a>
+      </button>
+    </div>
+  </div>
+
+  <div class="card text-bg-secondary text-center mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Gestion des utilisateurs</h5>
+      <p class="card-text">Liste de tous les utilisateurs de la plateforme</p>
+      <button type="button" class="btn bg-dark border-dark text-primary">
+        <a href="gestionUtilisateur">Gestion des utilisateurs</a>
+      </button>
+    </div>
+  </div>
+</div>

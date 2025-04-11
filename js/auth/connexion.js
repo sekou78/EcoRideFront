@@ -86,22 +86,26 @@ function showConnexionPassword() {
 }
 
 function validConnexion() {
-  const userStokageLocal = localStorage.getItem(inputConnexionEmail.value);
+  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
 
-  if (!userStokageLocal) {
+  const email = inputConnexionEmail.value;
+  const password = inputConnexionPassword.value;
+
+  const user = users.find((u) => u.email === email);
+
+  if (!user) {
     alert("Aucun compte trouvé avec cet email.");
     return;
   }
 
-  const user = JSON.parse(userStokageLocal);
-
-  if (user.password !== inputConnexionPassword.value) {
+  if (user.password !== password) {
     alert("Mot de passe incorrect.");
     return;
   }
 
-  //Stocker l'email après connexion
-  localStorage.setItem("currentUser", inputConnexionEmail.value);
+  // Stocker l'email de l'utilisateur connecté
+  localStorage.setItem("currentUser", email);
+  console.log("Utilisateur connecté : " + email);
 
   const token = "jeDevraiEtreLeVraiTokenDeConnexion";
   setToken(token);
@@ -113,7 +117,6 @@ function validConnexion() {
 
   // Synchroniser le rôle entre localStorage et Cookie
   setCookie(RoleCookieName, user.role, 7);
-  // Stocker aussi dans localStorage
   localStorage.setItem("role", user.role);
 
   // Redirection vers l'espace utilisateur

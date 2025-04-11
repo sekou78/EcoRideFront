@@ -12107,6 +12107,11 @@ main {
   height: 100px;
 }
 
+.table-employee {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;
