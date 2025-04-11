@@ -80,7 +80,9 @@ const preferencesAutres = localStorage.getItem("preferencesAutres");
 const currentUserEmail = localStorage.getItem("currentUser");
 // Récupérer les informations de l'utilisateur
 if (currentUserEmail) {
-  const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+  // const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
+  const userData = users.find((user) => user.email === currentUserEmail);
 
   if (userData) {
     pseudoDisplay.textContent = userData.pseudo;
@@ -177,14 +179,27 @@ function gestionAffichage() {
 
 // Fonction de mise à jour des crédits du chauffeur
 function mettreAJourCredits() {
-  const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+  const currentUserEmail = localStorage.getItem("currentUser");
+  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
 
-  let credits = userData.credits;
+  const userIndex = users.findIndex((u) => u.email === currentUserEmail);
+
+  if (userIndex === -1) {
+    alert("Utilisateur introuvable pour la mise à jour des crédits.");
+    return;
+  }
+
+  const userData = users[userIndex];
+
+  let credits = userData.credits || 0;
   const prix = parseInt(prixDisplay.textContent);
 
   credits += prix;
   userData.credits = credits;
-  localStorage.setItem(currentUserEmail, JSON.stringify(userData));
+
+  users[userIndex] = userData;
+  localStorage.setItem("userAppli", JSON.stringify(users));
+
   totalCredits.textContent = credits;
   alert("Crédits mis à jour !");
 }

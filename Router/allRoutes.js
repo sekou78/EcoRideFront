@@ -83,7 +83,7 @@ export const allRoutes = [
     "Gestion Utilisateur",
     "/pages/admin/gestionAdminUtilisateur.html",
     ["admin"],
-    "/js/admin/gestionAdminUtilisateur.js"
+    "/js/admin/gestionAdminUtlisateur.js"
   ),
 ];
 
