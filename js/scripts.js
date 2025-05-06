@@ -50,12 +50,6 @@ function isConnected() {
   }
 }
 
-if (isConnected()) {
-  alert("Je suis connecte");
-} else {
-  alert("Je suis pas connecte");
-}
-
 //Deconnexion en supprimant les cookies
 function dIsconnect() {
   // Effacer les cookies liés au token et au rôle
