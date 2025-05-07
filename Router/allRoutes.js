@@ -33,7 +33,14 @@ export const allRoutes = [
     "/espaceUtilisateur",
     "Espace Utilisateur",
     "/pages/profilUtilisateur/espaceUtilisateur.html",
-    ["admin", "employe", "passager", "chauffeur", "chauffeur_passager"],
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
     "/js/profilUtiliateur/espaceUtilisateur.js"
   ),
   new Route(

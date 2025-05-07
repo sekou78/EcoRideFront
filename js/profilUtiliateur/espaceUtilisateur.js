@@ -56,79 +56,50 @@ function validInputAvis() {
   }
 }
 
-// Récupérer les données du localStorage et ou des cookies
-const avatar = localStorage.getItem("avatar");
-const pseudo = localStorage.getItem("pseudo");
-const credits = getCookie("credits");
-const telephone = localStorage.getItem("telephone");
-const roleFromLocalStorage = localStorage.getItem("role");
-const depart = localStorage.getItem("depart");
-const arrivee = localStorage.getItem("arrivee");
-const date = localStorage.getItem("date");
-const heure = localStorage.getItem("heure");
-const peage = localStorage.getItem("peage");
-const duree = localStorage.getItem("duree");
-const prix = localStorage.getItem("prix");
-const immatriculation = localStorage.getItem("immatriculation");
-const vehiculeInfo = localStorage.getItem("vehiculeInfo");
-const placesDisponibles = localStorage.getItem("placesDisponibles");
-const electrique = localStorage.getItem("electrique");
-const fumeur = localStorage.getItem("fumeur");
-const animal = localStorage.getItem("animal");
-const preferencesAutres = localStorage.getItem("preferencesAutres");
+const token = getCookie(tokenCookieName);
 
-const currentUserEmail = localStorage.getItem("currentUser");
-// Récupérer les informations de l'utilisateur
-if (currentUserEmail) {
-  // const userData = JSON.parse(localStorage.getItem(currentUserEmail));
-  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
-  const userData = users.find((user) => user.email === currentUserEmail);
+const myHeaders = new Headers();
+myHeaders.append("X-AUTH-TOKEN", token);
 
-  if (userData) {
-    pseudoDisplay.textContent = userData.pseudo;
-    totalCredits.textContent = userData.credits;
-    emailCurrentUserDisplay.textContent = userData.email;
-    placesDisponiblesDisplay.textContent = userData.placesDisponibles;
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow",
+};
 
-    // Vérifier si le rôle du localStorage est défini
-    if (roleFromLocalStorage) {
-      const roleFromCookie = getCookie("role");
-
-      // Si le rôle en cookie est différent de localStorage, on met à jour le cookie
-      if (roleFromCookie !== roleFromLocalStorage) {
-        setCookie("role", roleFromLocalStorage, 7);
-        location.reload();
-      }
+fetch("http://localhost:8000/api/account/me", requestOptions)
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
     } else {
-      console.warn("Aucun rôle trouvé dans localStorage.");
+      alert("Une erreur est survenue");
     }
-  } else {
-    alert("Aucun utilisateur trouvé.");
-  }
-} else {
-  alert("Aucun utilisateur connecté.");
-}
-
-// Vérifier si un avatar est déjà stocké dans le localStorage et l'afficher
-avatarDisplay.src = avatar;
-
-// Afficher les informations dans les éléments HTML
-telephoneDisplay.textContent = telephone;
-roleDisplay.textContent = roleFromLocalStorage;
-departDisplay.textContent = depart;
-arriveeDisplay.textContent = arrivee;
-dateDisplay.textContent = date;
-heureDisplay.textContent = heure;
-peageDisplay.textContent = peage;
-dureeDisplay.textContent = duree;
-prixDisplay.textContent = prix;
-immatriculationDisplay.textContent = immatriculation;
-vehiculeInfoDisplay.textContent = vehiculeInfo;
-placesDisponiblesDisplay.textContent = placesDisponibles;
-electriqueDisplay.textContent = electrique;
-fumeurDisplay.textContent = fumeur;
-animalDisplay.textContent = animal;
-preferencesAutresDisplay.textContent = preferencesAutres;
+  })
+  .then((result) => {
+    pseudoDisplay.textContent = result.pseudo;
+    totalCredits.textContent = result.credits;
+    emailCurrentUserDisplay.textContent = result.email;
+    telephoneDisplay.textContent = result.telephone;
+    roleDisplay.textContent = result.roles;
+    departDisplay.textContent = result.depart;
+    arriveeDisplay.textContent = result.arrivee;
+    dateDisplay.textContent = result.date;
+    heureDisplay.textContent = result.heure;
+    peageDisplay.textContent = result.peage;
+    dureeDisplay.textContent = result.duree;
+    prixDisplay.textContent = result.prix;
+    immatriculationDisplay.textContent = result.immatriculation;
+    vehiculeInfoDisplay.textContent = result.vehiculeInfo;
+    placesDisponiblesDisplay.textContent = result.placesDisponibles;
+    electriqueDisplay.textContent = result.electrique;
+    fumeurDisplay.textContent = result.fumeur;
+    animalDisplay.textContent = result.animal;
+    preferencesAutresDisplay.textContent = result.preferencesAutres;
+  })
+  .catch((error) => {
+    console.error(error);
+    alert("Impossible de charger les données utilisateur.");
+  });
 
 // Fonction de gestion du bouton "Démarrer"
 function gestionDemarrer() {
