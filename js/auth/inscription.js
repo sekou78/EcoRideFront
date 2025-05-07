@@ -110,7 +110,7 @@ function validInscription() {
     redirect: "follow",
   };
 
-  fetch("http://localhost:8000/api/registration", requestOptions)
+  fetch(apiUrl + "registration", requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -120,7 +120,7 @@ function validInscription() {
     })
     .then((result) => {
       alert(
-        "Bravo !" +
+        "Bravo ! " +
           dataForm.get("pseudo") +
           " Vous pouvez maintenant vous connecter."
       );

@@ -8,6 +8,7 @@ const checkboxConnexionPassword = document.getElementById(
 const btnValidationConnexion = document.getElementById(
   "btn-validation-connexion"
 );
+const formConnexion = document.getElementById("formulaireConnexion");
 
 inputConnexionEmail.addEventListener("keyup", validateConnexionForm);
 inputConnexionPassword.addEventListener("keyup", validateConnexionForm);
@@ -86,39 +87,38 @@ function showConnexionPassword() {
 }
 
 function validConnexion() {
-  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
+  let dataForm = new FormData(formConnexion);
 
-  const email = inputConnexionEmail.value;
-  const password = inputConnexionPassword.value;
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
-  const user = users.find((u) => u.email === email);
+  const raw = JSON.stringify({
+    username: dataForm.get("email"),
+    password: dataForm.get("mdp"),
+  });
 
-  if (!user) {
-    alert("Aucun compte trouvé avec cet email.");
-    return;
-  }
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
 
-  if (user.password !== password) {
-    alert("Mot de passe incorrect.");
-    return;
-  }
+  fetch(apiUrl + "login", requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        inputConnexionEmail.classList.add("is-invalid");
+        inputConnexionPassword.classList.add("is-invalid");
+      }
+    })
+    .then((result) => {
+      const token = result.apiToken;
+      setToken(token);
 
-  // Stocker l'email de l'utilisateur connecté
-  localStorage.setItem("currentUser", email);
-  console.log("Utilisateur connecté : " + email);
-
-  const token = "jeDevraiEtreLeVraiTokenDeConnexion";
-  setToken(token);
-
-  if (!user.role) {
-    alert("Aucun rôle trouvé pour cet utilisateur.");
-    return;
-  }
-
-  // Synchroniser le rôle entre localStorage et Cookie
-  setCookie(RoleCookieName, user.role, 7);
-  localStorage.setItem("role", user.role);
-
-  // Redirection vers l'espace utilisateur
-  window.location.replace("/espaceUtilisateur");
+      setCookie(RoleCookieName, result.roles[0], 7);
+      window.location.replace("/");
+    })
+    .catch((error) => console.error(error));
 }
