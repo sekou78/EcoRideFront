@@ -47,49 +47,63 @@ export const allRoutes = [
     "/modifProfil",
     "Modif Profil",
     "/pages/profilUtilisateur/modifProfil.html",
-    ["admin", "employe", "passager", "chauffeur", "chauffeur_passager"],
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
     "/js/profilUtiliateur/modifProfil.js"
   ),
   new Route(
     "/historiqueUtilisateur",
     "Historique Utilisateur",
     "/pages/profilUtilisateur/historiqueUtilisateur.html",
-    ["admin", "employe", "passager", "chauffeur", "chauffeur_passager"],
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
     "/js/profilUtiliateur/historiqueUtilisateur.js"
   ),
   new Route(
     "/espaceEmployee",
     "Espace Employee",
     "/pages/employeeGestion/espaceEmployee.html",
-    ["employee"],
+    ["ROLE_EMPLOYE"],
     "/js/employeeGestion/espaceEmployee.js"
   ),
   new Route(
     "/espaceProblemesRemonter",
     "Espace Problemes Remonter",
     "/pages/employeeGestion/espaceProblemesRemonter.html",
-    ["employee"],
+    ["ROLE_EMPLOYE"],
     "/js/employeeGestion/espaceProblemesRemonter.js"
   ),
   new Route(
     "/espaceAdmin",
     "Espace Admin",
     "/pages/admin/espaceAdmin.html",
-    ["admin"],
+    ["ROLE_ADMIN"],
     "/js/admin/espaceAdmin.js"
   ),
   new Route(
     "/gestionEmployee",
     "Gestion Employee",
     "/pages/admin/gestionAdminEmployee.html",
-    ["admin"],
+    ["ROLE_ADMIN"],
     "/js/admin/gestionAdminEmployee.js"
   ),
   new Route(
     "/gestionUtilisateur",
     "Gestion Utilisateur",
     "/pages/admin/gestionAdminUtilisateur.html",
-    ["admin"],
+    ["ROLE_ADMIN"],
     "/js/admin/gestionAdminUtlisateur.js"
   ),
 ];
