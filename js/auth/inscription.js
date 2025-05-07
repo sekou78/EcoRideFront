@@ -9,6 +9,7 @@ const checkboxInscriptionPassword = document.getElementById(
 const btnValidationInscription = document.getElementById(
   "btn-validation-inscription"
 );
+const formInscription = document.getElementById("formulaireInscription");
 
 inputInscriptionPseudo.addEventListener("keyup", validateInsciptionForm);
 inputInscriptionEmail.addEventListener("keyup", validateInsciptionForm);
@@ -90,33 +91,40 @@ function showInscriptionPassword() {
 
 // Fonction principale : Enregistrer l'inscription
 function validInscription() {
-  //Ici, il faudra appeler l'Api pour verifier l'authentification en BDD
-  const newUser = {
-    pseudo: inputInscriptionPseudo.value,
-    email: inputInscriptionEmail.value,
-    password: inputInscriptionPassword.value,
-    credits: 20,
-    role: "passager",
+  let dataForm = new FormData(formInscription);
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const raw = JSON.stringify({
+    email: dataForm.get("email"),
+    password: dataForm.get("mdp"),
+    pseudo: dataForm.get("pseudo"),
+    roles: ["ROLE_USER"],
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
   };
 
-  // Récupérer les utilisateurs existants dans userAppli (ou tableau vide si inexistant)
-  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
-
-  // Vérifie si l'email existe déjà
-  const emailExists = users.some((user) => user.email === newUser.email);
-  if (emailExists) {
-    alert("Cet email est déjà utilisé.");
-    return;
-  }
-
-  // Ajouter le nouvel utilisateur
-  users.push(newUser);
-
-  // Sauvegarde de la liste mise à jour dans le localStorage
-  localStorage.setItem("userAppli", JSON.stringify(users));
-
-  alert("Inscription réussie ! Vous pouvez maintenant vous connecter.");
-
-  // Redirection vers la page de connexion
-  window.location.replace("/connexion");
+  fetch("http://localhost:8000/api/registration", requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        alert("Erreur lors de l'inscription");
+      }
+    })
+    .then((result) => {
+      alert(
+        "Bravo !" +
+          dataForm.get("pseudo") +
+          " Vous pouvez maintenant vous connecter."
+      );
+      document.location.href = "/connexion";
+    })
+    .catch((error) => console.error(error));
 }
