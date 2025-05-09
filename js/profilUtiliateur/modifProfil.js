@@ -1,71 +1,52 @@
 const modifProfil = document.getElementById("profil-form");
-const creerVoyage = document.getElementById("voyage-form");
 const avatar = document.getElementById("avatar");
 const role = document.getElementById("role");
 const nom = document.getElementById("nom");
 const prenom = document.getElementById("prenom");
 const telephone = document.getElementById("telephone");
+const adressePerso = document.getElementById("adresse-perso");
 const dateNaissance = document.getElementById("date_naissance");
-const depart = document.getElementById("depart");
-const arrivee = document.getElementById("arrivee");
-const date = document.getElementById("date-voyage");
-const heure = document.getElementById("heure-voyage");
-const peage = document.getElementById("peage");
-const duree = document.getElementById("duree-voyage");
-const prix = document.getElementById("prix");
 const immatriculation = document.getElementById("immatriculation");
 const dateImmatriculation = document.getElementById("date_immatriculation");
 const vehiculeInfo = document.getElementById("vehicule_info");
-const placesDisponibles = document.getElementById("places_disponibles");
-const electrique = document.getElementById("electrique");
 const fumeur = document.getElementById("fumeur");
 const animal = document.getElementById("animal");
 const preferencesAutres = document.getElementById("preferences_autres");
 const btnValidationModifProfil = document.getElementById("btn-modif");
-const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
 btnValidationModifProfil.disabled = true;
 
-telephone.addEventListener("keyup", validModifProfilInput);
-nom.addEventListener("keyup", validModifProfilInput);
-prenom.addEventListener("keyup", validModifProfilInput);
-dateNaissance.addEventListener("keyup", validModifProfilInput);
-immatriculation.addEventListener("keyup", validModifProfilInput);
-dateImmatriculation.addEventListener("keyup", validModifProfilInput);
-vehiculeInfo.addEventListener("keyup", validModifProfilInput);
-placesDisponibles.addEventListener("keyup", validModifProfilInput);
-
-depart.addEventListener("keyup", validInputVoyage);
-arrivee.addEventListener("keyup", validInputVoyage);
-date.addEventListener("keyup", validInputVoyage);
-heure.addEventListener("keyup", validInputVoyage);
-prix.addEventListener("keyup", validInputVoyage);
-
-btnValidationVoyage.disabled = true;
+telephone.addEventListener("input", validModifProfilInput);
+adressePerso.addEventListener("input", validModifProfilInput);
+nom.addEventListener("input", validModifProfilInput);
+prenom.addEventListener("input", validModifProfilInput);
+dateNaissance.addEventListener("input", validModifProfilInput);
+immatriculation.addEventListener("input", validModifProfilInput);
+dateImmatriculation.addEventListener("input", validModifProfilInput);
+vehiculeInfo.addEventListener("input", validModifProfilInput);
 
 avatar.addEventListener("change", avatarUrl);
 btnValidationModifProfil.addEventListener("click", validateModifProfilForm);
-btnValidationVoyage.addEventListener("click", validateVoyageForm);
 
 function validModifProfilInput() {
   const telephoneOk = validTelephone(telephone);
-  const nomOk = validateVoyageRequired(nom);
-  const prenomOk = validateVoyageRequired(prenom);
+  const adressePersoOk = validateModifProfilInfosRequired(adressePerso);
+  const nomOk = validateModifProfilInfosRequired(nom);
+  const prenomOk = validateModifProfilInfosRequired(prenom);
   const dateNaissanceOk = validDate(dateNaissance);
   const immatriculationOk = validImmatriculation(immatriculation);
   const dateImmatriculationOk = validDate(dateImmatriculation);
-  const vehiculeInfoOk = validateVoyageRequired(vehiculeInfo);
-  const placesDisponiblesOk = validateVoyageRequired(placesDisponibles);
+  const vehiculeInfoOk = validateModifProfilInfosRequired(vehiculeInfo);
 
   if (
     telephoneOk &&
+    adressePersoOk &&
     nomOk &&
     prenomOk &&
     dateNaissanceOk &&
     immatriculationOk &&
     dateImmatriculationOk &&
-    vehiculeInfoOk &&
-    placesDisponiblesOk
+    vehiculeInfoOk
   ) {
     btnValidationModifProfil.disabled = false;
   } else {
@@ -73,96 +54,120 @@ function validModifProfilInput() {
   }
 }
 
-function validInputVoyage() {
-  const departOk = validateVoyageRequired(depart);
-  const arriveeOk = validateVoyageRequired(arrivee);
-  const dateOk = validDate(date);
-  const heureOk = validateVoyageRequired(heure);
-  const prixOk = validateVoyageRequired(prix);
-
-  if (departOk && arriveeOk && dateOk && heureOk && prixOk) {
-    btnValidationVoyage.disabled = false;
-  } else {
-    btnValidationVoyage.disabled = true;
-  }
-}
-
 function validateModifProfilForm() {
-  const avatarValue = localStorage.getItem("avatar");
-  const roleValue = role.value;
-  const nomValue = nom.value;
-  const prenomValue = prenom.value;
-  const telephoneValue = telephone.value;
-  const dateNaissanceValue = dateNaissance.value;
-  const immatriculationValue = immatriculation.value;
-  const dateImmatriculationValue = dateImmatriculation.value;
-  const vehiculeInfoValue = vehiculeInfo.value;
-  const placesDisponiblesValue = placesDisponibles.value;
-  const electriqueValue = electrique.checked ? "Oui" : "Non";
-  const fumeurValue = fumeur.checked ? "Oui" : "Non";
-  const animalValue = animal.checked ? "Oui" : "Non";
-  const preferencesAutresValue = preferencesAutres.value;
+  let dataForm = new FormData(modifProfil);
+  const token = getCookie(tokenCookieName);
 
-  // Sauvegarder les données dans localStorage
-  localStorage.setItem("role", roleValue);
-  localStorage.setItem("nom", nomValue);
-  localStorage.setItem("prenom", prenomValue);
-  localStorage.setItem("telephone", telephoneValue);
-  localStorage.setItem("dateNaissance", dateNaissanceValue);
-  localStorage.setItem("immatriculation", immatriculationValue);
-  localStorage.setItem("dateImmatriculation", dateImmatriculationValue);
-  localStorage.setItem("vehiculeInfo", vehiculeInfoValue);
-  localStorage.setItem("placesDisponibles", placesDisponiblesValue);
-  localStorage.setItem("electrique", electriqueValue);
-  localStorage.setItem("fumeur", fumeurValue);
-  localStorage.setItem("animal", animalValue);
-  localStorage.setItem("preferencesAutres", preferencesAutresValue);
+  // Récupérer le rôle sélectionné
+  const selectedRole = role.value;
+  let selectedRoles = [];
 
-  // Rediriger vers la page du profil utilisateur (ou mettre à jour la page)
-  window.location.href = "/espaceUtilisateur";
+  if (selectedRole === "passager") {
+    selectedRoles = ["ROLE_PASSAGER"];
+  } else if (selectedRole === "chauffeur") {
+    selectedRoles = ["ROLE_CHAUFFEUR"];
+  } else if (selectedRole === "chauffeur_passager") {
+    selectedRoles = ["ROLE_CHAUFFEUR", "ROLE_PASSAGER"];
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  const raw = JSON.stringify({
+    nom: dataForm.get("nom"),
+    prenom: dataForm.get("prenom"),
+    telephone: dataForm.get("telephone"),
+    adresse: dataForm.get("adresse-perso"),
+    dateNaissance: dataForm.get("date_naissance"),
+    image: 0,
+    roles: selectedRoles,
+  });
+
+  const requestOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  fetch(apiUrl + "account/edit", requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        alert("Une erreur est survenue");
+      }
+    })
+    .then((result) => {
+      alert("Compte modifié.");
+
+      document.location.href = "/espaceUtilisateur";
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Compte non modifié.");
+    });
 }
 
 function avatarUrl(event) {
-  // Récupérer le fichier sélectionné
-  const file = event.target.files[0];
+  const avatar = event.target.files[0];
+  if (!avatar) return;
 
-  if (file) {
-    // Créer un FileReader pour lire l'image
-    const reader = new FileReader();
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", "••••••");
 
-    reader.onloadend = function () {
-      // Une fois la lecture terminée, récupérer l'URL de l'image
-      const avatarDataUrl = reader.result;
+  const formdata = new FormData();
+  formdata.append("image", avatar);
 
-      // Sauvegarder l'URL dans localStorage (en base64)
-      localStorage.setItem("avatar", avatarDataUrl);
-    };
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: formdata,
+    redirect: "follow",
+  };
 
-    // Lire l'image comme une URL de données (base64)
-    reader.readAsDataURL(file);
-  }
+  fetch("http://localhost:8000/api/image", requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        alert("Une erreur est survenue");
+      }
+    })
+    .then((result) => console.log(result))
+    .catch((error) => console.error(error));
+  // // Récupérer le fichier sélectionné
+  // const file = event.target.files[0];
+
+  // if (file) {
+  //   // Créer un FileReader pour lire l'image
+  //   const reader = new FileReader();
+
+  //   reader.onloadend = function () {
+  //     // Une fois la lecture terminée, récupérer l'URL de l'image
+  //     const avatarDataUrl = reader.result;
+
+  //     // Sauvegarder l'URL dans localStorage (en base64)
+  //     localStorage.setItem("avatar", avatarDataUrl);
+  //   };
+
+  //   // Lire l'image comme une URL de données (base64)
+  //   reader.readAsDataURL(file);
+  // }
 }
 
-function validateVoyageForm() {
-  const departValue = depart.value;
-  const arriveeValue = arrivee.value;
-  const dateValue = date.value;
-  const heureValue = heure.value;
-  const peageValue = peage.checked ? "Oui" : "Non";
-  const dureeValue = duree.value;
-  const prixValue = prix.value;
-
-  // Sauvegarder les données dans localStorage
-  localStorage.setItem("depart", departValue);
-  localStorage.setItem("arrivee", arriveeValue);
-  localStorage.setItem("date", dateValue);
-  localStorage.setItem("heure", heureValue);
-  localStorage.setItem("peage", peageValue);
-  localStorage.setItem("duree", dureeValue);
-  localStorage.setItem("prix", prixValue);
-
-  // Rediriger vers la page du profil utilisateur (ou mettre à jour la page)
-  window.location.href = "/espaceUtilisateur";
+//Demande de remplissage du champs requis
+function validateModifProfilInfosRequired(input) {
+  if (input.value.trim() != "") {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+    return true;
+  } else {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    return false;
+  }
 }
 
 //Demande de remplissage du champs au bon format requis
@@ -186,19 +191,6 @@ function validTelephone(input) {
       )
       .trim();
 
-    return true;
-  } else {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    return false;
-  }
-}
-
-//Demande de remplissage du champs requis
-function validateVoyageRequired(input) {
-  if (input.value.trim() != "") {
-    input.classList.add("is-valid");
-    input.classList.remove("is-invalid");
     return true;
   } else {
     input.classList.remove("is-valid");

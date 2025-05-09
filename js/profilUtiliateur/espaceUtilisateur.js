@@ -1,3 +1,4 @@
+const modifProfil = document.getElementById("profil-form");
 const avatarDisplay = document.getElementById("avatar-display");
 const pseudoDisplay = document.getElementById("pseudo-display");
 const totalCredits = document.getElementById("total-credits");
@@ -67,7 +68,7 @@ const requestOptions = {
   redirect: "follow",
 };
 
-fetch("http://localhost:8000/api/account/me", requestOptions)
+fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (response.ok) {
       return response.json();
@@ -79,22 +80,8 @@ fetch("http://localhost:8000/api/account/me", requestOptions)
     pseudoDisplay.textContent = result.pseudo;
     totalCredits.textContent = result.credits;
     emailCurrentUserDisplay.textContent = result.email;
-    telephoneDisplay.textContent = result.telephone;
     roleDisplay.textContent = result.roles;
-    departDisplay.textContent = result.depart;
-    arriveeDisplay.textContent = result.arrivee;
-    dateDisplay.textContent = result.date;
-    heureDisplay.textContent = result.heure;
-    peageDisplay.textContent = result.peage;
-    dureeDisplay.textContent = result.duree;
-    prixDisplay.textContent = result.prix;
-    immatriculationDisplay.textContent = result.immatriculation;
-    vehiculeInfoDisplay.textContent = result.vehiculeInfo;
-    placesDisponiblesDisplay.textContent = result.placesDisponibles;
-    electriqueDisplay.textContent = result.electrique;
-    fumeurDisplay.textContent = result.fumeur;
-    animalDisplay.textContent = result.animal;
-    preferencesAutresDisplay.textContent = result.preferencesAutres;
+    telephoneDisplay.textContent = result.telephone;
   })
   .catch((error) => {
     console.error(error);

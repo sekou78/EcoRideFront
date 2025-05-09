@@ -1,0 +1,94 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center mt-2">
+    <div class="col-lg-8">
+      <!-- Carte du profil utilisateur -->
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Changement de mot de passe</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <!--Créer un voyage-->
+          <form id="ChangementMdp-form">
+            <div class="mb-5">
+              <label for="PasswordActualInput" class="form-label">
+                Actuel Mot de passe:</label
+              >
+              <input
+                type="password"
+                class="form-control bg-body-secondary text-center"
+                id="PasswordActualInput"
+                placeholder="****************"
+                name="mdpActual" />
+
+              <div class="invalid-feedback liens">
+                Le mot de passe n'est pas conforme ! <br />
+                Au moins 8 caractères comprenant: <br />
+                1 lettre majuscule, <br />
+                1 lettre miniscule, <br />
+                1chiffre et <br />
+                1 caractères sepéciale
+              </div>
+              <div class="valid-feedback liens">
+                Le mot de passe est conforme !
+              </div>
+            </div>
+
+            <div class="mb-5 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input bg-body-secondary"
+                id="checkActualPassword" />
+              <label class="form-check-label" for="checkActualPassword">
+                Afficher le mot de passe
+              </label>
+            </div>
+
+            <div class="mb-5">
+              <label for="ValidateNewPasswordInput" class="form-label"
+                >Nouveau mot de passe:</label
+              >
+              <input
+                type="password"
+                class="form-control bg-body-secondary text-center"
+                id="ValidateNewPasswordInput"
+                placeholder="****************"
+                name="mdpNew" />
+
+              <div class="invalid-feedback liens">
+                Ce mot de passe n'est pas identique à votre mot de passe !
+              </div>
+            </div>
+
+            <div class="mb-5 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input bg-body-secondary"
+                id="checkNewConfirmPassword" />
+              <label class="form-check-label" for="checkNewConfirmPassword">
+                Afficher le mot de passe
+              </label>
+            </div>
+
+            <div class="text-center mb-3">
+              <button
+                type="button"
+                class="btn btn-primary text-primary btn-lg"
+                id="btn-validation-changeMdp">
+                Inscription
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

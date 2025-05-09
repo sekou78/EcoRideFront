@@ -30,6 +30,13 @@ export const allRoutes = [
     "/js/auth/connexion.js"
   ),
   new Route(
+    "/changeMdp",
+    "Changer de Mot de passe",
+    "/pages/auth/changeMdp.html",
+    [],
+    "/js/auth/changeMdp.js"
+  ),
+  new Route(
     "/espaceUtilisateur",
     "Espace Utilisateur",
     "/pages/profilUtilisateur/espaceUtilisateur.html",
@@ -56,6 +63,13 @@ export const allRoutes = [
       "ROLE_USER",
     ],
     "/js/profilUtiliateur/modifProfil.js"
+  ),
+  new Route(
+    "/creerUntrajet",
+    "Creation d'un trajet",
+    "/pages/profilUtilisateur/creerUntrajet.html",
+    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_CHAUFFEUR_PASSAGER"],
+    "/js/profilUtiliateur/creerUntrajet.js"
   ),
   new Route(
     "/historiqueUtilisateur",

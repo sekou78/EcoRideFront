@@ -46,24 +46,28 @@
 
             <!-- Informations Chauffeur -->
             <div>
-              <h4>Informations Chauffeur</h4>
+              <h4 class="text-center">Informations Chauffeur</h4>
 
               <div class="mb-3">
                 <label for="nom" class="form-label"></label>
                 <input
                   type="text"
-                  class="form-control bg-dark"
+                  class="form-control bg-dark text-center"
                   id="nom"
-                  placeholder="Entrez votre nom" />
+                  placeholder="Entrez votre nom"
+                  name="nom"
+                  required />
               </div>
 
               <div class="mb-3">
                 <label for="prenom" class="form-label"></label>
                 <input
                   type="text"
-                  class="form-control bg-dark"
+                  class="form-control bg-dark text-center"
                   id="prenom"
-                  placeholder="Entrez votre prenom" />
+                  placeholder="Entrez votre prenom"
+                  name="prenom"
+                  required />
               </div>
 
               <div class="mb-3">
@@ -72,7 +76,20 @@
                   type="tel"
                   class="form-control bg-dark"
                   id="telephone"
-                  placeholder="Entrez votre numero de telephone" />
+                  placeholder="Entrez votre numero de telephone"
+                  name="telephone"
+                  required />
+              </div>
+
+              <div class="mb-3">
+                <label for="adresse-perso" class="form-label"></label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="adresse-perso"
+                  placeholder="Entrez votre adresse personnelle"
+                  name="adresse-perso"
+                  required />
               </div>
 
               <div class="mb-3">
@@ -82,89 +99,8 @@
                 <input
                   type="text"
                   class="form-control bg-dark"
-                  id="date_naissance" />
-              </div>
-
-              <div class="text-center mb-3">
-                <!--Créer un voyage-->
-                <form id="voyage-form">
-                  <h5>Créer un voyage</h5>
-                  <div class="mb-3">
-                    <label for="depart">Adresse de départ :</label>
-                    <input type="text" class="bg-dark" id="depart" required />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="arrivee">Adresse d'arrivée :</label>
-                    <input type="text" class="bg-dark" id="arrivee" required />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="date-voyage">Date du voyage :</label>
-                    <input
-                      type="yext"
-                      class="bg-dark"
-                      id="date-voyage"
-                      required />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="heure-voyage">Heure du voyage :</label>
-                    <input
-                      type="time"
-                      class="bg-dark"
-                      id="heure-voyage"
-                      required />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="peage" class="form-check-label"
-                      >Péage sur le trajet ?</label
-                    ><br />
-                    <input
-                      type="checkbox"
-                      class="form-check-input bg-dark"
-                      id="peage" />
-                    <label for="peage" class="form-check-label"
-                      >Oui, péage sur le trajet</label
-                    >
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="duree-voyage">Durée du voyage :</label>
-                    <input
-                      type="time"
-                      class="bg-dark"
-                      id="duree-voyage"
-                      required />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="prix">Prix (min. 2 crédits) :</label>
-                    <input
-                      type="number"
-                      class="bg-dark"
-                      id="prix"
-                      min="2"
-                      required />
-                  </div>
-
-                  <div class="mb-3">
-                    <label for="vehicule">Sélectionner un véhicule :</label>
-                    <select id="vehicule">
-                      <!-- Options ajoutées dynamiquement -->
-                    </select>
-                  </div>
-
-                  <div>
-                    <button
-                      type="submit"
-                      class="btn bg-success border-dark text-primary"
-                      id="btn-ajouter-voyage">
-                      Créer le voyage
-                    </button>
-                  </div>
-                </form>
+                  id="date_naissance"
+                  name="date_naissance" />
               </div>
 
               <div class="mb-3">
@@ -173,7 +109,8 @@
                   type="text"
                   class="form-control bg-dark"
                   id="immatriculation"
-                  placeholder="Entrez la plaque d’immatriculation" />
+                  placeholder="Entrez la plaque d’immatriculation"
+                  name="immatriculation" />
               </div>
 
               <div class="mb-3">
@@ -183,7 +120,8 @@
                 <input
                   type="text"
                   class="form-control bg-dark"
-                  id="date_immatriculation" />
+                  id="date_immatriculation"
+                  name="date_immatriculation" />
               </div>
 
               <div class="mb-3">
@@ -194,29 +132,8 @@
                   type="text"
                   class="form-control bg-dark"
                   id="vehicule_info"
-                  placeholder="Entrez les informations du véhicule" />
-              </div>
-
-              <div class="mb-3">
-                <label for="places_disponibles" class="form-label"></label>
-                <input
-                  type="number"
-                  class="form-control bg-dark"
-                  id="places_disponibles"
-                  placeholder="Entrez le nombre de places disponibles" />
-              </div>
-
-              <div class="mb-3">
-                <label for="electrique" class="form-check-label"
-                  >Es ce un véhicule électrique ?</label
-                ><br />
-                <input
-                  type="checkbox"
-                  class="form-check-input bg-dark"
-                  id="electrique" />
-                <label for="fumeur" class="form-check-label"
-                  >Oui, c'est un véhicule électrique</label
-                >
+                  placeholder="Entrez les informations du véhicule"
+                  name="vehicule_info" />
               </div>
 
               <h5>Préférences du Chauffeur</h5>
@@ -227,7 +144,8 @@
                 <input
                   type="checkbox"
                   class="form-check-input bg-dark"
-                  id="fumeur" />
+                  id="fumeur"
+                  name="fumeur" />
                 <label for="fumeur" class="form-check-label"
                   >Oui, je accepte les fumeurs</label
                 >
@@ -240,7 +158,8 @@
                 <input
                   type="checkbox"
                   class="form-check-input bg-dark"
-                  id="animal" />
+                  id="animal"
+                  name="animal" />
                 <label for="animal" class="form-check-label"
                   >Oui, j'accepte les animaux</label
                 >
@@ -254,7 +173,8 @@
                   class="form-control bg-dark"
                   id="preferences_autres"
                   rows="3"
-                  placeholder="Entrez d'autres préférences"></textarea>
+                  placeholder="Entrez d'autres préférences"
+                  name="preferences_autres"></textarea>
               </div>
             </div>
 
