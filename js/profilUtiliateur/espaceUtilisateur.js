@@ -68,24 +68,49 @@ const requestOptions = {
   redirect: "follow",
 };
 
+// 1er appel API : récupérer les infos de l'utilisateur connecté
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
-    if (response.ok) {
-      return response.json();
-    } else {
-      alert("Une erreur est survenue");
+    if (!response.ok) {
+      throw new Error(
+        "Impossible de charger les informations de l'utilisateur."
+      );
     }
+    return response.json();
   })
-  .then((result) => {
-    pseudoDisplay.textContent = result.pseudo;
-    totalCredits.textContent = result.credits;
-    emailCurrentUserDisplay.textContent = result.email;
-    roleDisplay.textContent = result.roles;
-    telephoneDisplay.textContent = result.telephone;
+  .then((user) => {
+    pseudoDisplay.textContent = user.pseudo;
+    totalCredits.textContent = user.credits;
+    emailCurrentUserDisplay.textContent = user.email;
+    roleDisplay.textContent = user.roles;
+    telephoneDisplay.textContent = user.telephone;
+
+    const imageUrl = apiUrl + `image/users/${user.id}/image`;
+
+    // 2eme appel API :charger l'image de l'utilisateur
+    return fetch(imageUrl, {
+      method: "GET",
+      headers: {
+        "X-AUTH-TOKEN": token,
+      },
+    });
+  })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Impossible de charger l'image de l'utilisateur.");
+    }
+    return response.blob();
+  })
+  .then((blob) => {
+    avatarDisplay.src = URL.createObjectURL(blob);
   })
   .catch((error) => {
-    console.error(error);
-    alert("Impossible de charger les données utilisateur.");
+    console.error("Erreur : ", error);
+    alert(
+      error.message ||
+        "Impossible de charger les données utilisateur ou l'avatar."
+    );
+    avatarDisplay.src = "path/to/default-avatar.jpg";
   });
 
 // Fonction de gestion du bouton "Démarrer"

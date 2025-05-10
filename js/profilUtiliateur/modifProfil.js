@@ -80,7 +80,7 @@ function validateModifProfilForm() {
     telephone: dataForm.get("telephone"),
     adresse: dataForm.get("adresse-perso"),
     dateNaissance: dataForm.get("date_naissance"),
-    image: 0,
+    image: uploadedAvatarUrl !== "" ? uploadedAvatarUrl : "0",
     roles: selectedRoles,
   });
 
@@ -110,12 +110,16 @@ function validateModifProfilForm() {
     });
 }
 
+// Variable globale pour stocker l'URL de l'image
+let uploadedAvatarUrl = "";
+
 function avatarUrl(event) {
   const avatar = event.target.files[0];
   if (!avatar) return;
 
+  const token = getCookie(tokenCookieName);
   const myHeaders = new Headers();
-  myHeaders.append("X-AUTH-TOKEN", "••••••");
+  myHeaders.append("X-AUTH-TOKEN", token);
 
   const formdata = new FormData();
   formdata.append("image", avatar);
@@ -132,29 +136,17 @@ function avatarUrl(event) {
       if (response.ok) {
         return response.json();
       } else {
-        alert("Une erreur est survenue");
+        alert("Erreur lors de l'upload de l'image");
       }
     })
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
-  // // Récupérer le fichier sélectionné
-  // const file = event.target.files[0];
-
-  // if (file) {
-  //   // Créer un FileReader pour lire l'image
-  //   const reader = new FileReader();
-
-  //   reader.onloadend = function () {
-  //     // Une fois la lecture terminée, récupérer l'URL de l'image
-  //     const avatarDataUrl = reader.result;
-
-  //     // Sauvegarder l'URL dans localStorage (en base64)
-  //     localStorage.setItem("avatar", avatarDataUrl);
-  //   };
-
-  //   // Lire l'image comme une URL de données (base64)
-  //   reader.readAsDataURL(file);
-  // }
+    .then((result) => {
+      // Supposons que le backend renvoie { avatarUrl: "http://..." }
+      uploadedAvatarUrl = result.avatarUrl;
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Erreur lors du chargement de l'image");
+    });
 }
 
 //Demande de remplissage du champs requis
