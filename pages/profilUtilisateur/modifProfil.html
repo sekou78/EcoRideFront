@@ -15,39 +15,46 @@
           <h2>Modifier mon compte</h2>
         </div>
 
-        <div class="container mt-5">
-          <form id="profil-form">
-            <div class="mb-3">
-              <label for="avatar" class="form-label"> Photo de profil </label>
-              <input
-                type="file"
-                class="form-control bg-dark"
-                id="avatar"
-                placeholder="Entrez votre photo de profil"
-                accept=".png, .jpg, .jpeg, .webp" />
-            </div>
+        <div class="text-center mt-3">
+          <!-- lien pour modifier l'avatar de profil -->
+          <a href="/modifAvatar">
+            <button class="btn btn-bg-dark text-primary">
+              Modifier mon avatar
+            </button>
+          </a>
+        </div>
+        <div class="container text-center mt-3">
+          <div>
+            <form id="profil-form">
+              <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
+              <div class="mb-4">
+                <label for="role" class="form-label">
+                  Sélectionner votre rôle
+                </label>
+                <select
+                  class="form-select bg-dark text-center"
+                  id="role"
+                  aria-label="Sélectionner un rôle">
+                  <option value="passager">Passager</option>
+                  <option value="chauffeur">Chauffeur</option>
+                  <option value="chauffeur_passager">
+                    Chauffeur et Passager
+                  </option>
+                </select>
+              </div>
 
-            <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
-            <div class="mb-4">
-              <label for="role" class="form-label">
-                Sélectionner votre rôle
-              </label>
-              <select
-                class="form-select bg-dark text-center"
-                id="role"
-                aria-label="Sélectionner un rôle">
-                <option value="passager">Passager</option>
-                <option value="chauffeur">Chauffeur</option>
-                <option value="chauffeur_passager">
-                  Chauffeur et Passager
-                </option>
-              </select>
-            </div>
+              <div class="mb-3">
+                <label for="telephone" class="form-label"></label>
+                <input
+                  type="tel"
+                  class="form-control bg-dark"
+                  id="telephone"
+                  placeholder="Entrez votre numero de telephone"
+                  name="telephone"
+                  required />
+              </div>
 
-            <!-- Informations Chauffeur -->
-            <div>
-              <h4 class="text-center">Informations Chauffeur</h4>
-
+              <!--Informations personnelles Utilisateurs-->
               <div class="mb-3">
                 <label for="nom" class="form-label"></label>
                 <input
@@ -71,17 +78,6 @@
               </div>
 
               <div class="mb-3">
-                <label for="telephone" class="form-label"></label>
-                <input
-                  type="tel"
-                  class="form-control bg-dark"
-                  id="telephone"
-                  placeholder="Entrez votre numero de telephone"
-                  name="telephone"
-                  required />
-              </div>
-
-              <div class="mb-3">
                 <label for="adresse-perso" class="form-label"></label>
                 <input
                   type="text"
@@ -100,9 +96,16 @@
                   type="text"
                   class="form-control bg-dark"
                   id="date_naissance"
+                  placeholder="10/10/1910"
                   name="date_naissance" />
               </div>
+            </form>
+          </div>
 
+          <!-- Informations Chauffeur -->
+          <div>
+            <form id="chauffeur-form">
+              <h4 class="text-center">Informations Chauffeur</h4>
               <div class="mb-3">
                 <label for="immatriculation" class="form-label"> </label>
                 <input
@@ -121,19 +124,62 @@
                   type="text"
                   class="form-control bg-dark"
                   id="date_immatriculation"
+                  placeholder="10/10/2010"
                   name="date_immatriculation" />
               </div>
 
               <div class="mb-3">
-                <label for="vehicule_info" class="form-label">
-                  Modèle, couleur et marque du véhicule
-                </label>
+                <label for="marque_vehicule" class="form-label"> </label>
                 <input
                   type="text"
                   class="form-control bg-dark"
-                  id="vehicule_info"
-                  placeholder="Entrez les informations du véhicule"
-                  name="vehicule_info" />
+                  id="marque_vehicule"
+                  placeholder="La marque du véhicule"
+                  name="marque-vehicule" />
+              </div>
+
+              <div class="mb-3">
+                <label for="modele_vehicule" class="form-label"> </label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="modele_vehicule"
+                  placeholder="Le modele du véhicule"
+                  name="modele-vehicule" />
+              </div>
+
+              <div class="mb-3">
+                <label for="couleur_vehicule" class="form-label"> </label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="couleur_vehicule"
+                  placeholder="La couleur du véhicule"
+                  name="couleur-vehicule" />
+              </div>
+
+              <div class="mb-3">
+                <label for="places_disponibles" class="form-label"></label>
+                <input
+                  type="number"
+                  class="form-control bg-dark"
+                  id="places_disponibles"
+                  placeholder="Entrez le nombre de places disponibles"
+                  name="places-disponibles" />
+              </div>
+
+              <div class="mb-3">
+                <label for="electrique" class="form-check-label"
+                  >Es ce un véhicule électrique ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="electrique"
+                  name="electrique" />
+                <label for="electrique" class="form-check-label"
+                  >Oui, c'est un véhicule électrique</label
+                >
               </div>
 
               <h5>Préférences du Chauffeur</h5>
@@ -176,18 +222,18 @@
                   placeholder="Entrez d'autres préférences"
                   name="preferences_autres"></textarea>
               </div>
-            </div>
+            </form>
+          </div>
 
-            <!-- Bouton de soumission -->
-            <div class="text-center">
-              <button
-                type="button"
-                class="btn bg-success border-dark text-primary"
-                id="btn-modif">
-                Sauvegarder
-              </button>
-            </div>
-          </form>
+          <!-- Bouton de soumission -->
+          <div class="text-center">
+            <button
+              type="button"
+              class="btn bg-success border-dark text-primary"
+              id="btn-modif">
+              Sauvegarder
+            </button>
+          </div>
         </div>
       </div>
     </div>

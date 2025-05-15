@@ -15,7 +15,15 @@ const prixDisplay = document.getElementById("prix-display");
 const immatriculationDisplay = document.getElementById(
   "immatriculation-display"
 );
-const vehiculeInfoDisplay = document.getElementById("vehicule-info-display");
+const marqueVehiculeDisplay = document.getElementById(
+  "marque-vehicule-display"
+);
+const modeleVehiculeDisplay = document.getElementById(
+  "modele-vehicule-display"
+);
+const couleurVehiculeDisplay = document.getElementById(
+  "couleur-vehicule-display"
+);
 const placesDisponiblesDisplay = document.getElementById(
   "places-disponibles-display"
 );
@@ -79,38 +87,34 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((user) => {
-    pseudoDisplay.textContent = user.pseudo;
-    totalCredits.textContent = user.credits;
-    emailCurrentUserDisplay.textContent = user.email;
-    roleDisplay.textContent = user.roles;
-    telephoneDisplay.textContent = user.telephone;
+    console.log(user.profilConducteur);
 
-    const imageUrl = apiUrl + `image/users/${user.id}/image`;
+    // Affichage des infos utilisateur
+    pseudoDisplay.textContent = user.user.pseudo;
+    totalCredits.textContent = user.user.credits;
+    emailCurrentUserDisplay.textContent = user.user.email;
+    roleDisplay.textContent = user.user.roles;
+    telephoneDisplay.textContent = user.user.telephone;
+    avatarDisplay.src = urlImg + user.user.image.filePath;
 
-    // 2eme appel API :charger l'image de l'utilisateur
-    return fetch(imageUrl, {
-      method: "GET",
-      headers: {
-        "X-AUTH-TOKEN": token,
-      },
-    });
-  })
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Impossible de charger l'image de l'utilisateur.");
-    }
-    return response.blob();
-  })
-  .then((blob) => {
-    avatarDisplay.src = URL.createObjectURL(blob);
-  })
-  .catch((error) => {
-    console.error("Erreur : ", error);
-    alert(
-      error.message ||
-        "Impossible de charger les données utilisateur ou l'avatar."
-    );
-    avatarDisplay.src = "path/to/default-avatar.jpg";
+    // Afficher les onfos du profil conducteur
+    immatriculationDisplay.textContent =
+      user.profilConducteur.plaqueImmatriculation;
+    marqueVehiculeDisplay.textContent = user.profilConducteur.marque;
+    modeleVehiculeDisplay.textContent = user.profilConducteur.modele;
+    couleurVehiculeDisplay.textContent = user.profilConducteur.couleur;
+    placesDisponiblesDisplay.textContent = user.profilConducteur.nombrePlaces;
+    electriqueDisplay.textContent = user.profilConducteur.electrique
+      ? "Oui"
+      : "Non";
+    fumeurDisplay.textContent = user.profilConducteur.accepteFumeur
+      ? "Oui"
+      : "Non";
+    animalDisplay.textContent = user.profilConducteur.accepteAnimaux
+      ? "Oui"
+      : "Non";
+    preferencesAutresDisplay.textContent =
+      user.profilConducteur.autresPreferences;
   });
 
 // Fonction de gestion du bouton "Démarrer"

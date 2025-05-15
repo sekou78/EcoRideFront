@@ -6,8 +6,6 @@ const heure = document.getElementById("heure-voyage");
 const peage = document.getElementById("peage");
 const duree = document.getElementById("duree-voyage");
 const prix = document.getElementById("prix");
-const placesDisponibles = document.getElementById("places_disponibles");
-const electrique = document.getElementById("electrique");
 const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
 depart.addEventListener("keyup", validInputVoyage);
@@ -27,16 +25,8 @@ function validInputVoyage() {
   const dateOk = validDate(date);
   const heureOk = validateVoyageRequired(heure);
   const prixOk = validateVoyageRequired(prix);
-  const placesDisponiblesOk = validateVoyageRequired(placesDisponibles);
 
-  if (
-    departOk &&
-    arriveeOk &&
-    dateOk &&
-    heureOk &&
-    prixOk &&
-    placesDisponiblesOk
-  ) {
+  if (departOk && arriveeOk && dateOk && heureOk && prixOk) {
     btnValidationVoyage.disabled = false;
   } else {
     btnValidationVoyage.disabled = true;

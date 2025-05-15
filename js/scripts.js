@@ -2,6 +2,7 @@ const tokenCookieName = "accesstoken";
 const disconnect = document.getElementById("btn-deconnexion");
 const RoleCookieName = "role";
 const apiUrl = "http://localhost:8000/api/";
+const urlImg = "http://localhost:8000";
 
 disconnect.addEventListener("click", dIsconnect);
 

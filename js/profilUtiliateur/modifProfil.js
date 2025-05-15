@@ -1,5 +1,5 @@
 const modifProfil = document.getElementById("profil-form");
-const avatar = document.getElementById("avatar");
+const chauffeurInfo = document.getElementById("chauffeur-form");
 const role = document.getElementById("role");
 const nom = document.getElementById("nom");
 const prenom = document.getElementById("prenom");
@@ -8,7 +8,11 @@ const adressePerso = document.getElementById("adresse-perso");
 const dateNaissance = document.getElementById("date_naissance");
 const immatriculation = document.getElementById("immatriculation");
 const dateImmatriculation = document.getElementById("date_immatriculation");
-const vehiculeInfo = document.getElementById("vehicule_info");
+const marqueVehiculeInfo = document.getElementById("marque_vehicule");
+const modeleVehiculeInfo = document.getElementById("modele_vehicule");
+const couleurVehiculeInfo = document.getElementById("couleur_vehicule");
+const placesDisponibles = document.getElementById("places_disponibles");
+const electrique = document.getElementById("electrique");
 const fumeur = document.getElementById("fumeur");
 const animal = document.getElementById("animal");
 const preferencesAutres = document.getElementById("preferences_autres");
@@ -23,9 +27,12 @@ prenom.addEventListener("input", validModifProfilInput);
 dateNaissance.addEventListener("input", validModifProfilInput);
 immatriculation.addEventListener("input", validModifProfilInput);
 dateImmatriculation.addEventListener("input", validModifProfilInput);
-vehiculeInfo.addEventListener("input", validModifProfilInput);
+marqueVehiculeInfo.addEventListener("input", validModifProfilInput);
+modeleVehiculeInfo.addEventListener("input", validModifProfilInput);
+couleurVehiculeInfo.addEventListener("input", validModifProfilInput);
+placesDisponibles.addEventListener("input", validModifProfilInput);
+electrique.addEventListener("input", validModifProfilInput);
 
-avatar.addEventListener("change", avatarUrl);
 btnValidationModifProfil.addEventListener("click", validateModifProfilForm);
 
 function validModifProfilInput() {
@@ -36,7 +43,12 @@ function validModifProfilInput() {
   const dateNaissanceOk = validDate(dateNaissance);
   const immatriculationOk = validImmatriculation(immatriculation);
   const dateImmatriculationOk = validDate(dateImmatriculation);
-  const vehiculeInfoOk = validateModifProfilInfosRequired(vehiculeInfo);
+  const marqueVehiculeInfoOk =
+    validateModifProfilInfosRequired(marqueVehiculeInfo);
+  const modeleVehiculeInfoOk =
+    validateModifProfilInfosRequired(modeleVehiculeInfo);
+  const couleurVehiculeInfoOk =
+    validateModifProfilInfosRequired(couleurVehiculeInfo);
 
   if (
     telephoneOk &&
@@ -46,7 +58,9 @@ function validModifProfilInput() {
     dateNaissanceOk &&
     immatriculationOk &&
     dateImmatriculationOk &&
-    vehiculeInfoOk
+    marqueVehiculeInfoOk &&
+    modeleVehiculeInfoOk &&
+    couleurVehiculeInfoOk
   ) {
     btnValidationModifProfil.disabled = false;
   } else {
@@ -55,13 +69,19 @@ function validModifProfilInput() {
 }
 
 function validateModifProfilForm() {
+  //appel de la fonction pour la modification du compte
+  // editCompte();
+  //appel de la fonction pour le profil du conducteur
+  profilConducteur();
+}
+
+function editCompte() {
   let dataForm = new FormData(modifProfil);
   const token = getCookie(tokenCookieName);
 
   // Récupérer le rôle sélectionné
   const selectedRole = role.value;
   let selectedRoles = [];
-
   if (selectedRole === "passager") {
     selectedRoles = ["ROLE_PASSAGER"];
   } else if (selectedRole === "chauffeur") {
@@ -73,24 +93,21 @@ function validateModifProfilForm() {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("X-AUTH-TOKEN", token);
-
   const raw = JSON.stringify({
     nom: dataForm.get("nom"),
     prenom: dataForm.get("prenom"),
     telephone: dataForm.get("telephone"),
     adresse: dataForm.get("adresse-perso"),
     dateNaissance: dataForm.get("date_naissance"),
-    image: uploadedAvatarUrl !== "" ? uploadedAvatarUrl : "0",
     roles: selectedRoles,
   });
-
   const requestOptions = {
     method: "PUT",
     headers: myHeaders,
     body: raw,
     redirect: "follow",
   };
-
+  // Modifier le profil de l'utilisateur
   fetch(apiUrl + "account/edit", requestOptions)
     .then((response) => {
       if (response.ok) {
@@ -101,7 +118,6 @@ function validateModifProfilForm() {
     })
     .then((result) => {
       alert("Compte modifié.");
-
       document.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
@@ -110,43 +126,50 @@ function validateModifProfilForm() {
     });
 }
 
-// Variable globale pour stocker l'URL de l'image
-let uploadedAvatarUrl = "";
+//Récuperer le profil du conducteur
+async function profilConducteur() {
+  console.log("profilConducteur");
 
-function avatarUrl(event) {
-  const avatar = event.target.files[0];
-  if (!avatar) return;
-
+  const form = document.getElementById("chauffeur-form");
+  const dataForm = new FormData(form);
   const token = getCookie(tokenCookieName);
+
   const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
   myHeaders.append("X-AUTH-TOKEN", token);
 
-  const formdata = new FormData();
-  formdata.append("image", avatar);
+  const raw = JSON.stringify({
+    plaqueImmatriculation: dataForm.get("immatriculation"),
+    dateImmatriculation: dataForm.get("date_immatriculation"),
+    marque: dataForm.get("marque-vehicule"),
+    modele: dataForm.get("modele-vehicule"),
+    couleur: dataForm.get("couleur-vehicule"),
+    nombrePlaces: parseInt(dataForm.get("places-disponibles")),
+    accepteFumeur: dataForm.get("fumeur") !== null,
+    accepteAnimaux: dataForm.get("animal") !== null,
+    autresPreferences: dataForm.get("preferences_autres"),
+  });
 
   const requestOptions = {
     method: "POST",
     headers: myHeaders,
-    body: formdata,
+    body: raw,
     redirect: "follow",
   };
 
-  fetch("http://localhost:8000/api/image", requestOptions)
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        alert("Erreur lors de l'upload de l'image");
-      }
-    })
-    .then((result) => {
-      // Supposons que le backend renvoie { avatarUrl: "http://..." }
-      uploadedAvatarUrl = result.avatarUrl;
-    })
-    .catch((error) => {
-      console.error(error);
-      alert("Erreur lors du chargement de l'image");
-    });
+  try {
+    const response = await fetch(apiUrl + "profilConducteur", requestOptions);
+    if (!response.ok) {
+      throw new Error("Erreur lors de l'envoi du profil conducteur");
+    }
+
+    const result = await response.json();
+    alert("Profil conducteur modifié.");
+    // document.location.href = "/espaceUtilisateur";
+  } catch (error) {
+    console.error(error);
+    alert("Profil conducteur non modifié.");
+  }
 }
 
 //Demande de remplissage du champs requis

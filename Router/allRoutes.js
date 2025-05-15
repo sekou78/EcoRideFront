@@ -51,8 +51,22 @@ export const allRoutes = [
     "/js/profilUtiliateur/espaceUtilisateur.js"
   ),
   new Route(
+    "/modifAvatar",
+    "Modification Avatar",
+    "/pages/profilUtilisateur/modifAvatar.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/modifAvatar.js"
+  ),
+  new Route(
     "/modifProfil",
-    "Modif Profil",
+    "Modification Profil",
     "/pages/profilUtilisateur/modifProfil.html",
     [
       "ROLE_ADMIN",
