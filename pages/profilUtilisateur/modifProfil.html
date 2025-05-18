@@ -23,11 +23,14 @@
             </button>
           </a>
         </div>
-        <div class="container text-center mt-3">
+
+        <hr />
+
+        <div class="container text-center">
           <div>
             <form id="profil-form">
               <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
-              <div class="mb-4">
+              <div class="mb-3">
                 <label for="role" class="form-label">
                   Sélectionner votre rôle
                 </label>
@@ -102,86 +105,21 @@
             </form>
           </div>
 
-          <!-- Informations Chauffeur -->
+          <!-- Bouton de sauvegarde profil -->
+          <div class="text-center mb-3">
+            <button
+              type="button"
+              class="btn bg-success border-dark text-primary"
+              id="btn-modif">
+              Enregistrer le profil
+            </button>
+          </div>
+
+          <hr />
+
+          <!-- Preferences du Chauffeur -->
           <div>
-            <form id="chauffeur-form">
-              <h4 class="text-center">Informations Chauffeur</h4>
-              <div class="mb-3">
-                <label for="immatriculation" class="form-label"> </label>
-                <input
-                  type="text"
-                  class="form-control bg-dark"
-                  id="immatriculation"
-                  placeholder="Entrez la plaque d’immatriculation"
-                  name="immatriculation" />
-              </div>
-
-              <div class="mb-3">
-                <label for="date_immatriculation" class="form-label">
-                  Date de première immatriculation
-                </label>
-                <input
-                  type="text"
-                  class="form-control bg-dark"
-                  id="date_immatriculation"
-                  placeholder="10/10/2010"
-                  name="date_immatriculation" />
-              </div>
-
-              <div class="mb-3">
-                <label for="marque_vehicule" class="form-label"> </label>
-                <input
-                  type="text"
-                  class="form-control bg-dark"
-                  id="marque_vehicule"
-                  placeholder="La marque du véhicule"
-                  name="marque-vehicule" />
-              </div>
-
-              <div class="mb-3">
-                <label for="modele_vehicule" class="form-label"> </label>
-                <input
-                  type="text"
-                  class="form-control bg-dark"
-                  id="modele_vehicule"
-                  placeholder="Le modele du véhicule"
-                  name="modele-vehicule" />
-              </div>
-
-              <div class="mb-3">
-                <label for="couleur_vehicule" class="form-label"> </label>
-                <input
-                  type="text"
-                  class="form-control bg-dark"
-                  id="couleur_vehicule"
-                  placeholder="La couleur du véhicule"
-                  name="couleur-vehicule" />
-              </div>
-
-              <div class="mb-3">
-                <label for="places_disponibles" class="form-label"></label>
-                <input
-                  type="number"
-                  class="form-control bg-dark"
-                  id="places_disponibles"
-                  placeholder="Entrez le nombre de places disponibles"
-                  name="places-disponibles" />
-              </div>
-
-              <div class="mb-3">
-                <label for="electrique" class="form-check-label"
-                  >Es ce un véhicule électrique ?</label
-                ><br />
-                <input
-                  type="checkbox"
-                  class="form-check-input bg-dark"
-                  id="electrique"
-                  name="electrique" />
-                <label for="electrique" class="form-check-label"
-                  >Oui, c'est un véhicule électrique</label
-                >
-              </div>
-
+            <form id="preferences-form">
               <h5>Préférences du Chauffeur</h5>
               <div class="mb-3">
                 <label for="fumeur" class="form-check-label"
@@ -225,14 +163,25 @@
             </form>
           </div>
 
-          <!-- Bouton de soumission -->
+          <!-- Bouton de sauvegarde de preferences -->
           <div class="text-center">
             <button
               type="button"
               class="btn bg-success border-dark text-primary"
-              id="btn-modif">
-              Sauvegarder
+              id="btn-preferences-chauffeur">
+              Enregistrer les préférences
             </button>
+          </div>
+
+          <hr />
+
+          <div class="text-center m-3">
+            <!-- lien pour ajouter un vehicule -->
+            <a href="/modifProfilConducteur">
+              <button class="btn btn-bg-dark text-primary">
+                Ajouter un vehicule
+              </button>
+            </a>
           </div>
         </div>
       </div>

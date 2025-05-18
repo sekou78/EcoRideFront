@@ -1,22 +1,18 @@
 const modifProfil = document.getElementById("profil-form");
-const chauffeurInfo = document.getElementById("chauffeur-form");
+const chauffeurPreferences = document.getElementById("preferences-form");
 const role = document.getElementById("role");
 const nom = document.getElementById("nom");
 const prenom = document.getElementById("prenom");
 const telephone = document.getElementById("telephone");
 const adressePerso = document.getElementById("adresse-perso");
 const dateNaissance = document.getElementById("date_naissance");
-const immatriculation = document.getElementById("immatriculation");
-const dateImmatriculation = document.getElementById("date_immatriculation");
-const marqueVehiculeInfo = document.getElementById("marque_vehicule");
-const modeleVehiculeInfo = document.getElementById("modele_vehicule");
-const couleurVehiculeInfo = document.getElementById("couleur_vehicule");
-const placesDisponibles = document.getElementById("places_disponibles");
-const electrique = document.getElementById("electrique");
+const btnValidationModifProfil = document.getElementById("btn-modif");
 const fumeur = document.getElementById("fumeur");
 const animal = document.getElementById("animal");
 const preferencesAutres = document.getElementById("preferences_autres");
-const btnValidationModifProfil = document.getElementById("btn-modif");
+const btnValidationPreferencesChauffeur = document.getElementById(
+  "btn-preferences-chauffeur"
+);
 
 btnValidationModifProfil.disabled = true;
 
@@ -25,15 +21,12 @@ adressePerso.addEventListener("input", validModifProfilInput);
 nom.addEventListener("input", validModifProfilInput);
 prenom.addEventListener("input", validModifProfilInput);
 dateNaissance.addEventListener("input", validModifProfilInput);
-immatriculation.addEventListener("input", validModifProfilInput);
-dateImmatriculation.addEventListener("input", validModifProfilInput);
-marqueVehiculeInfo.addEventListener("input", validModifProfilInput);
-modeleVehiculeInfo.addEventListener("input", validModifProfilInput);
-couleurVehiculeInfo.addEventListener("input", validModifProfilInput);
-placesDisponibles.addEventListener("input", validModifProfilInput);
-electrique.addEventListener("input", validModifProfilInput);
 
 btnValidationModifProfil.addEventListener("click", validateModifProfilForm);
+btnValidationPreferencesChauffeur.addEventListener(
+  "click",
+  preferencesChauffeur
+);
 
 function validModifProfilInput() {
   const telephoneOk = validTelephone(telephone);
@@ -41,27 +34,8 @@ function validModifProfilInput() {
   const nomOk = validateModifProfilInfosRequired(nom);
   const prenomOk = validateModifProfilInfosRequired(prenom);
   const dateNaissanceOk = validDate(dateNaissance);
-  const immatriculationOk = validImmatriculation(immatriculation);
-  const dateImmatriculationOk = validDate(dateImmatriculation);
-  const marqueVehiculeInfoOk =
-    validateModifProfilInfosRequired(marqueVehiculeInfo);
-  const modeleVehiculeInfoOk =
-    validateModifProfilInfosRequired(modeleVehiculeInfo);
-  const couleurVehiculeInfoOk =
-    validateModifProfilInfosRequired(couleurVehiculeInfo);
 
-  if (
-    telephoneOk &&
-    adressePersoOk &&
-    nomOk &&
-    prenomOk &&
-    dateNaissanceOk &&
-    immatriculationOk &&
-    dateImmatriculationOk &&
-    marqueVehiculeInfoOk &&
-    modeleVehiculeInfoOk &&
-    couleurVehiculeInfoOk
-  ) {
+  if (telephoneOk && adressePersoOk && nomOk && prenomOk && dateNaissanceOk) {
     btnValidationModifProfil.disabled = false;
   } else {
     btnValidationModifProfil.disabled = true;
@@ -70,9 +44,7 @@ function validModifProfilInput() {
 
 function validateModifProfilForm() {
   //appel de la fonction pour la modification du compte
-  // editCompte();
-  //appel de la fonction pour le profil du conducteur
-  profilConducteur();
+  editCompte();
 }
 
 function editCompte() {
@@ -93,6 +65,7 @@ function editCompte() {
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("X-AUTH-TOKEN", token);
+
   const raw = JSON.stringify({
     nom: dataForm.get("nom"),
     prenom: dataForm.get("prenom"),
@@ -101,6 +74,7 @@ function editCompte() {
     dateNaissance: dataForm.get("date_naissance"),
     roles: selectedRoles,
   });
+
   const requestOptions = {
     method: "PUT",
     headers: myHeaders,
@@ -126,12 +100,8 @@ function editCompte() {
     });
 }
 
-//Récuperer le profil du conducteur
-async function profilConducteur() {
-  console.log("profilConducteur");
-
-  const form = document.getElementById("chauffeur-form");
-  const dataForm = new FormData(form);
+async function preferencesChauffeur() {
+  let dataForm = new FormData(chauffeurPreferences);
   const token = getCookie(tokenCookieName);
 
   const myHeaders = new Headers();
@@ -139,37 +109,33 @@ async function profilConducteur() {
   myHeaders.append("X-AUTH-TOKEN", token);
 
   const raw = JSON.stringify({
-    plaqueImmatriculation: dataForm.get("immatriculation"),
-    dateImmatriculation: dataForm.get("date_immatriculation"),
-    marque: dataForm.get("marque-vehicule"),
-    modele: dataForm.get("modele-vehicule"),
-    couleur: dataForm.get("couleur-vehicule"),
-    nombrePlaces: parseInt(dataForm.get("places-disponibles")),
     accepteFumeur: dataForm.get("fumeur") !== null,
     accepteAnimaux: dataForm.get("animal") !== null,
     autresPreferences: dataForm.get("preferences_autres"),
   });
 
   const requestOptions = {
-    method: "POST",
+    method: "PUT",
     headers: myHeaders,
     body: raw,
     redirect: "follow",
   };
-
-  try {
-    const response = await fetch(apiUrl + "profilConducteur", requestOptions);
-    if (!response.ok) {
-      throw new Error("Erreur lors de l'envoi du profil conducteur");
-    }
-
-    const result = await response.json();
-    alert("Profil conducteur modifié.");
-    // document.location.href = "/espaceUtilisateur";
-  } catch (error) {
-    console.error(error);
-    alert("Profil conducteur non modifié.");
-  }
+  // Modifier le profil de l'utilisateur
+  fetch(apiUrl + "account/edit", requestOptions)
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        alert("Une erreur est survenue");
+      }
+    })
+    .then((result) => {
+      document.location.href = "/espaceUtilisateur";
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Preferences chauffeur non modifié.");
+    });
 }
 
 //Demande de remplissage du champs requis
@@ -206,26 +172,6 @@ function validTelephone(input) {
       )
       .trim();
 
-    return true;
-  } else {
-    input.classList.remove("is-valid");
-    input.classList.add("is-invalid");
-    return false;
-  }
-}
-
-//Demande de remplissage du champs immatriculation au bon format requis
-function validImmatriculation(input) {
-  // Regex pour une plaque française (AA-123-AA ou 123-AB-45)
-  const immatriculationRegex =
-    /^[A-Z]{2}-\d{3}-[A-Z]{2}$|^\d{3}-[A-Z]{2}-\d{2}$/;
-
-  // Nettoie et met en majuscules
-  const valeur = input.value.trim().toUpperCase();
-
-  if (immatriculationRegex.test(valeur)) {
-    input.classList.add("is-valid");
-    input.classList.remove("is-invalid");
     return true;
   } else {
     input.classList.remove("is-valid");

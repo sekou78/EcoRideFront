@@ -79,6 +79,45 @@ export const allRoutes = [
     "/js/profilUtiliateur/modifProfil.js"
   ),
   new Route(
+    "/modifProfilConducteur",
+    "Modification Profil conducteur",
+    "/pages/profilUtilisateur/gestionVehicules/modifProfilConducteur.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/gestionVehicules/modifProfilConducteur.js"
+  ),
+  new Route(
+    "/listeVehicule",
+    "La liste des vehicules",
+    "/pages/profilUtilisateur/gestionVehicules/listeVehicule.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/gestionVehicules/listeVehicule.js"
+  ),
+  new Route(
+    "/editerVehicule",
+    "Modification d'un vehicule",
+    "/pages/profilUtilisateur/gestionVehicules/editerVehicules.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_CHAUFFEUR",
+      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/gestionVehicules/editerVehicules.js"
+  ),
+  new Route(
     "/creerUntrajet",
     "Creation d'un trajet",
     "/pages/profilUtilisateur/creerUntrajet.html",

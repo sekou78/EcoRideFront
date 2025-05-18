@@ -15,6 +15,9 @@ const prixDisplay = document.getElementById("prix-display");
 const immatriculationDisplay = document.getElementById(
   "immatriculation-display"
 );
+const dateImmatriculationDisplay = document.getElementById(
+  "date-immatriculation-display"
+);
 const marqueVehiculeDisplay = document.getElementById(
   "marque-vehicule-display"
 );
@@ -87,7 +90,7 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((user) => {
-    console.log(user.profilConducteur);
+    console.log(user);
 
     // Affichage des infos utilisateur
     pseudoDisplay.textContent = user.user.pseudo;
@@ -96,10 +99,25 @@ fetch(apiUrl + "account/me", requestOptions)
     roleDisplay.textContent = user.user.roles;
     telephoneDisplay.textContent = user.user.telephone;
     avatarDisplay.src = urlImg + user.user.image.filePath;
+    fumeurDisplay.textContent = user.user.accepteFumeur ? "Oui" : "Non";
+    animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
+    preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
-    // Afficher les onfos du profil conducteur
+    // Afficher les infos du vehicule conducteur
+    function formatDateFR(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
     immatriculationDisplay.textContent =
       user.profilConducteur.plaqueImmatriculation;
+    dateImmatriculationDisplay.textContent = formatDateFR(
+      user.profilConducteur.dateImmatriculation
+    );
     marqueVehiculeDisplay.textContent = user.profilConducteur.marque;
     modeleVehiculeDisplay.textContent = user.profilConducteur.modele;
     couleurVehiculeDisplay.textContent = user.profilConducteur.couleur;
@@ -107,15 +125,79 @@ fetch(apiUrl + "account/me", requestOptions)
     electriqueDisplay.textContent = user.profilConducteur.electrique
       ? "Oui"
       : "Non";
-    fumeurDisplay.textContent = user.profilConducteur.accepteFumeur
-      ? "Oui"
-      : "Non";
-    animalDisplay.textContent = user.profilConducteur.accepteAnimaux
-      ? "Oui"
-      : "Non";
-    preferencesAutresDisplay.textContent =
-      user.profilConducteur.autresPreferences;
   });
+
+// Fonction de chargement des véhicules de l'utilisateur
+async function chargerVehiculesUtilisateur() {
+  const dropdownMenu = document.getElementById("vehiculeDropdownMenu");
+  const token = getCookie(tokenCookieName);
+
+  if (!token) {
+    console.error("Token d'authentification introuvable.");
+    return;
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  try {
+    const response = await fetch(apiUrl + "profilConducteur/", {
+      method: "GET",
+      headers: myHeaders,
+    });
+
+    if (!response.ok) throw new Error("Erreur API");
+
+    const vehicules = await response.json();
+
+    // Vide la liste
+    dropdownMenu.innerHTML = "";
+
+    // Génère les liens de chaque véhicule
+    vehicules.forEach((vehicule) => {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.className = "dropdown-item text-primary";
+      link.textContent = vehicule.plaqueImmatriculation;
+      link.addEventListener("click", () => afficherInfosVehicule(vehicule));
+      item.appendChild(link);
+      dropdownMenu.appendChild(item);
+    });
+
+    // Ajoute le lien "Ajouter un véhicule" à la fin
+    const itemAjout = document.createElement("li");
+    itemAjout.innerHTML = `
+      <a class="dropdown-item text-primary" href="/modifProfilConducteur">
+        Ajouter un véhicule
+      </a>`;
+    dropdownMenu.appendChild(itemAjout);
+  } catch (error) {
+    console.error("Erreur lors du chargement des véhicules :", error);
+  }
+}
+
+function afficherInfosVehicule(vehicule) {
+  function formatDateFR(dateString) {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  immatriculationDisplay.textContent = vehicule.plaqueImmatriculation;
+  dateImmatriculationDisplay.textContent = formatDateFR(
+    vehicule.dateImmatriculation
+  );
+  marqueVehiculeDisplay.textContent = vehicule.marque;
+  modeleVehiculeDisplay.textContent = vehicule.modele;
+  couleurVehiculeDisplay.textContent = vehicule.couleur;
+  placesDisponiblesDisplay.textContent = vehicule.nombrePlaces;
+  electriqueDisplay.textContent = vehicule.electrique ? "Oui" : "Non";
+}
+
+window.addEventListener("DOMContentLoaded", chargerVehiculesUtilisateur());
 
 // Fonction de gestion du bouton "Démarrer"
 function gestionDemarrer() {

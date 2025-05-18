@@ -92,6 +92,41 @@
                   </ul>
                 </div>
 
+                <!-- Liste de mes vehicules -->
+                <div class="d-flex align-items-center m-2 mt-3 gap-2">
+                  <div class="dropdown">
+                    <button
+                      class="btn bg-secondary dropdown-toggle btn-sm py-2 px-3"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false">
+                      Choix du véhicule
+                    </button>
+                    <ul
+                      class="dropdown-menu bg-success"
+                      id="vehiculeDropdownMenu">
+                      <li>
+                        <!-- Éléments injectés dynamiquement -->
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item text-primary"
+                          href="/modifProfilConducteur">
+                          Ajouter un véhicule
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div>
+                    <button class="btn bg-secondary btn-sm" type="button">
+                      <a href="/listeVehicule"
+                        ><i class="bi bi-card-list text-black fs-5"></i
+                      ></a>
+                    </button>
+                  </div>
+                </div>
+
                 <!-- Section chauffeur -->
                 <div>
                   <h5 class="mt-4">Informations du Véhicule</h5>
@@ -99,6 +134,10 @@
                     <li class="list-group-item">
                       <strong>Immatriculation :</strong>
                       <span id="immatriculation-display"></span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>Date d'Immatriculation :</strong>
+                      <span id="date-immatriculation-display"></span>
                     </li>
                     <li class="list-group-item">
                       <strong>Marque :</strong>

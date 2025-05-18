@@ -1,0 +1,115 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Les informations de votre vehicule</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <div>
+            <!-- Informations Chauffeur -->
+            <div>
+              <form id="chauffeur-form">
+                <div class="mb-3">
+                  <label for="immatriculation" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="immatriculation"
+                    placeholder="Entrez la plaque d’immatriculation"
+                    name="immatriculation" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="date_immatriculation" class="form-label">
+                    Date de première immatriculation
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="date_immatriculation"
+                    placeholder="10/10/2010"
+                    name="date_immatriculation" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="marque_vehicule" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="marque_vehicule"
+                    placeholder="La marque du véhicule"
+                    name="marque-vehicule" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="modele_vehicule" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="modele_vehicule"
+                    placeholder="Le modele du véhicule"
+                    name="modele-vehicule" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="couleur_vehicule" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="couleur_vehicule"
+                    placeholder="La couleur du véhicule"
+                    name="couleur-vehicule" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="places_disponibles" class="form-label"></label>
+                  <input
+                    type="number"
+                    class="form-control bg-dark"
+                    id="places_disponibles"
+                    placeholder="Entrez le nombre de places disponibles"
+                    name="places-disponibles" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="electrique" class="form-check-label"
+                    >Es ce un véhicule électrique ?</label
+                  ><br />
+                  <input
+                    type="checkbox"
+                    class="form-check-input bg-dark"
+                    id="electrique"
+                    name="electrique" />
+                  <label for="electrique" class="form-check-label"
+                    >Oui, c'est un véhicule électrique</label
+                  >
+                </div>
+              </form>
+            </div>
+
+            <div class="text-center">
+              <div class="row align-items-center">
+                <button
+                  type="button"
+                  id="btn-enregistrer-vehicule"
+                  class="btn bg-success border-dark text-primary m-2 col">
+                  Enregistrer un vehicule
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

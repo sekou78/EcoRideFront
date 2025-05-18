@@ -1,0 +1,112 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Modifier mon vehicule</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <div>
+            <!-- Informations vehicule -->
+            <div>
+              <form id="edit-vehicule-form">
+                <div class="mb-3">
+                  <label for="immatriculation-edit" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="immatriculation-edit"
+                    name="immatriculation_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="date_immatriculation-edit" class="form-label">
+                    Date de première immatriculation
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="date_immatriculation-edit"
+                    name="date_immatriculation_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="marque_vehicule_edit" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="marque_vehicule-edit"
+                    name="marque_vehicule_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="modele_vehicule_edit" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="modele_vehicule-edit"
+                    name="modele_vehicule_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="couleur_vehicule_edit" class="form-label">
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="couleur_vehicule-edit"
+                    name="couleur_vehicule_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="places_disponibles_edit"
+                    class="form-label"></label>
+                  <input
+                    type="number"
+                    class="form-control bg-dark"
+                    id="places_disponibles-edit"
+                    name="places_disponibles_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="electrique_edit" class="form-check-label"
+                    >Es ce un véhicule électrique ?</label
+                  ><br />
+                  <input
+                    type="checkbox"
+                    class="form-check-input bg-dark"
+                    id="electrique-edit"
+                    name="electrique_edit" />
+                  <label for="electrique" class="form-check-label"
+                    >Oui, c'est un véhicule électrique</label
+                  >
+                </div>
+              </form>
+            </div>
+
+            <div class="text-center">
+              <div class="row align-items-center">
+                <button
+                  type="button"
+                  id="btn-modifier-vehicule"
+                  class="btn bg-success border-dark text-primary m-2 col">
+                  Modifier le vehicule
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
