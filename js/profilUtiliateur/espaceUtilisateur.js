@@ -5,13 +5,7 @@ const totalCredits = document.getElementById("total-credits");
 const emailCurrentUserDisplay = document.getElementById("email-display");
 const telephoneDisplay = document.getElementById("telephone-display");
 const roleDisplay = document.getElementById("role-display");
-const departDisplay = document.getElementById("depart-display");
-const arriveeDisplay = document.getElementById("arrivee-display");
-const dateDisplay = document.getElementById("date-voyage-display");
-const heureDisplay = document.getElementById("heure-voyage-display");
-const peageDisplay = document.getElementById("peage-display");
-const dureeDisplay = document.getElementById("duree-voyage-display");
-const prixDisplay = document.getElementById("prix-display");
+const listeTrajetsContainer = document.getElementById("listeTrajets");
 const immatriculationDisplay = document.getElementById(
   "immatriculation-display"
 );
@@ -103,7 +97,7 @@ fetch(apiUrl + "account/me", requestOptions)
     animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
     preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
-    // Afficher les infos du vehicule conducteur
+    // Fonction pour convertir la date en format ISO (dd-mm-yyyy)
     function formatDateFR(dateString) {
       if (!dateString) return "";
       const date = new Date(dateString);
@@ -113,6 +107,16 @@ fetch(apiUrl + "account/me", requestOptions)
       return `${day}/${month}/${year}`;
     }
 
+    // Fonction pour convertir l'heure en format ISO (hh:mm)
+    function formatHeure(dateString) {
+      if (!dateString) return "";
+      const date = new Date(dateString);
+      const hours = String(date.getHours()).padStart(2, "0");
+      const minutes = String(date.getMinutes()).padStart(2, "0");
+      return `${hours}:${minutes}`;
+    }
+
+    // Afficher les infos du vehicule conducteur
     immatriculationDisplay.textContent =
       user.profilConducteur.plaqueImmatriculation;
     dateImmatriculationDisplay.textContent = formatDateFR(
@@ -125,7 +129,126 @@ fetch(apiUrl + "account/me", requestOptions)
     electriqueDisplay.textContent = user.profilConducteur.electrique
       ? "Oui"
       : "Non";
+
+    const trajets = user.trajet;
+
+    // Filtrer tous les trajets EN_COURS
+    const trajetsEnCours = trajets.filter((t) => t.statut === "EN_COURS");
+
+    if (trajetsEnCours.length > 0) {
+      trajetsEnCours.forEach((trajetEnCours, index) => {
+        const trajetCard = document.createElement("div");
+        trajetCard.classList.add("trajet-card");
+
+        trajetCard.innerHTML = `
+      <h3>Trajet en cours #${index + 1}</h3>
+      <p><strong>Départ :</strong> ${trajetEnCours.adresseDepart}</p>
+      <p><strong>Arrivée :</strong> ${trajetEnCours.adresseArrivee}</p>
+      <p><strong>Date départ :</strong> ${formatDateFR(
+        trajetEnCours.dateDepart
+      )}</p>
+      <p><strong>Date arrivée :</strong> ${formatDateFR(
+        trajetEnCours.dateArrivee
+      )}</p>
+      <p><strong>Heure départ :</strong> ${formatHeure(
+        trajetEnCours.heureDepart
+      )}</p>
+      <p><strong>Durée :</strong> ${formatHeure(trajetEnCours.dureeVoyage)}</p>
+      <p><strong>Péage :</strong> ${trajetEnCours.peage ? "Oui" : "Non"}</p>
+      <p><strong>Prix :</strong> ${trajetEnCours.prix} Crédit</p>
+      <p><strong>Écologique :</strong> ${
+        trajetEnCours.estEcologique ? "Oui" : "Non"
+      }</p>
+      <p><strong>Places disponibles :</strong> ${
+        trajetEnCours.nombrePlacesDisponible
+      }</p>
+      <p><strong>Statut :</strong> ${trajetEnCours.statut}</p>
+    `;
+
+        // Création du container pour les boutons
+        const btnContainer = document.createElement("div");
+        btnContainer.classList.add("btn-container", "text-center");
+
+        // Bouton Modifier trajet
+        const btnModifier = document.createElement("button");
+        btnModifier.className = "btn bg-warning text-primary btn-modifier m-3";
+        btnModifier.textContent = "Modifier";
+        btnModifier.dataset.id = trajetEnCours.id;
+        btnModifier.addEventListener("click", () => {
+          editionTrajet(trajetEnCours);
+          window.location.href = "/modifTrajet";
+        });
+
+        // Bouton Supprimer trajet
+        const btnSupprimer = document.createElement("button");
+        btnSupprimer.className = "btn btn-red text-primary btn-supprimer";
+        btnSupprimer.textContent = "Supprimer";
+        btnSupprimer.addEventListener("click", () => {
+          supprimerTrajet(trajetEnCours);
+        });
+
+        // Ajout des boutons dans le container
+        btnContainer.appendChild(btnModifier);
+        btnContainer.appendChild(btnSupprimer);
+
+        // Ajout du container de boutons à la carte
+        trajetCard.appendChild(btnContainer);
+
+        // Ajout de la carte au container principal
+        listeTrajetsContainer.appendChild(trajetCard);
+      });
+    } else {
+      listeTrajetsContainer.innerHTML = `<p>Aucun trajet en cours.</p>`;
+    }
   });
+
+//Fonction modifier trajet
+function editionTrajet(trajet) {
+  localStorage.setItem("trajet", JSON.stringify(trajet));
+}
+
+async function supprimerTrajet(trajetEnCours) {
+  // 1. Enregistrer le véhicule dans localStorage
+  localStorage.setItem("trajet_en_cours", JSON.stringify(trajetEnCours));
+
+  const token = getCookie(tokenCookieName);
+  const trajetEnCoursId = trajetEnCours?.id;
+
+  // 2. Vérification de l'ID
+  if (!trajetEnCoursId) {
+    alert("Impossible de trouver l'ID du trajet.");
+    return;
+  }
+
+  // 3. Préparation de la requête
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  // 4. Appel API
+  try {
+    const response = await fetch(
+      `${apiUrl}trajet/${trajetEnCoursId}`,
+      requestOptions
+    );
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la suppression du trajet.");
+    }
+
+    // 5. Nettoyage et redirection
+    localStorage.removeItem("trajet_en_cours");
+    document.location.href = "/espaceUtilisateur";
+  } catch (error) {
+    console.error("Erreur :", error);
+    alert("trajet non supprimé.");
+  }
+}
 
 // Fonction de chargement des véhicules de l'utilisateur
 async function chargerVehiculesUtilisateur() {

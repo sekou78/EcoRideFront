@@ -108,13 +108,12 @@ function genererModalsVehicules(vehicules) {
       window.location.href = "/editerVehicule";
     });
 
-    // Bouton Supprimer (à compléter plus tard)
+    // Bouton Supprimer
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "btn btn-red";
     deleteBtn.textContent = "Supprimer";
     deleteBtn.addEventListener("click", () => {
       supprimerderVehicule(vehicule);
-      // window.location.href = "/editerVehicule";
     });
 
     // Ajout des boutons dans le footer

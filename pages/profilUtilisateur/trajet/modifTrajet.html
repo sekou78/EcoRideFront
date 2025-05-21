@@ -1,0 +1,164 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center mt-2">
+    <div class="col-lg-8">
+      <!-- Carte du profil utilisateur -->
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Modifier le trajet</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <!--Créer un voyage-->
+          <form id="edit-trajet-form">
+            <div class="mb-3">
+              <label for="edit-depart-trajet-adresse"
+                >Adresse de départ :</label
+              >
+              <input
+                type="text"
+                class="bg-dark"
+                id="edit-depart-trajet-adresse"
+                required
+                name="edit_depart_trajet_adresse" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-arrivee-trajet-adresse"
+                >Adresse d'arrivée :</label
+              >
+              <input
+                type="text"
+                class="bg-dark"
+                id="edit-arrivee-trajet-adresse"
+                required
+                name="edit_arrivee_trajet_adresse" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-date-depart">Date du départ :</label>
+              <input
+                type="date"
+                class="bg-dark"
+                id="edit-date-depart"
+                required
+                name="edit_date_depart" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-date-arrivee">Date d'arrivée :</label>
+              <input
+                type="date"
+                class="bg-dark"
+                id="edit-date-arrivee"
+                required
+                name="edit_date_arrivee" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-heure-depart">Heure du départ :</label>
+              <input
+                type="time"
+                class="bg-dark"
+                id="edit-heure-depart"
+                required
+                name="edit_heure_depart" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-duree-voyage">Durée du voyage :</label>
+              <input
+                type="time"
+                class="bg-dark"
+                id="edit-duree-voyage"
+                required
+                name="edit_duree_voyage" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-peage-trajet" class="form-check-label"
+                >Péage sur le trajet ?</label
+              ><br />
+              <input
+                type="checkbox"
+                class="form-check-input bg-dark"
+                id="edit-peage-trajet"
+                name="edit_peage_trajet" />
+              <label for="edit-peage-trajet" class="form-check-label"
+                >Oui, péage sur le trajet</label
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-prix-trajet">Prix (min. 2 crédits) :</label>
+              <input
+                type="number"
+                class="bg-dark"
+                id="edit-prix-trajet"
+                min="2"
+                required
+                name="edit_prix_trajet" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-trajet-ecologique" class="form-check-label"
+                >Est-écologique ?</label
+              ><br />
+              <input
+                type="checkbox"
+                class="form-check-input bg-dark"
+                id="edit-trajet-ecologique"
+                name="edit_trajet_ecologique" />
+              <label for="edit-trajet-ecologique" class="form-check-label"
+                >Oui, c'est un trajet écologique</label
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-places-disponibles"
+                >Nombre de places disponibles :</label
+              >
+              <input
+                type="number"
+                class="bg-dark"
+                id="edit-places-disponibles"
+                required
+                name="edit_places_disponibles" />
+            </div>
+
+            <div class="mb-3">
+              <label for="edit-etat-voyage">Etat du voyage</label>
+              <select
+                class="form-select"
+                id="edit-etat-voyage"
+                name="edit_etat_voyage"
+                required
+                aria-label="Default select example">
+                <option selected></option>
+                <option value="1">EN_ATTENTE</option>
+                <option value="2">EN_COURS</option>
+                <option value="3">TERMINEE</option>
+              </select>
+            </div>
+          </form>
+
+          <div class="mb-2">
+            <button
+              type="submit"
+              class="btn bg-success border-dark text-primary"
+              id="btn-edit-voyage">
+              Sauvegarder le trajet
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

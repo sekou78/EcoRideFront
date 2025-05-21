@@ -120,9 +120,16 @@ export const allRoutes = [
   new Route(
     "/creerUntrajet",
     "Creation d'un trajet",
-    "/pages/profilUtilisateur/creerUntrajet.html",
-    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_CHAUFFEUR_PASSAGER"],
-    "/js/profilUtiliateur/creerUntrajet.js"
+    "/pages/profilUtilisateur/trajet/creerUntrajet.html",
+    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_CHAUFFEUR_PASSAGER", "ROLE_USER"],
+    "/js/profilUtiliateur/trajet/creerUntrajet.js"
+  ),
+  new Route(
+    "/modifTrajet",
+    "Modifier un trajet",
+    "/pages/profilUtilisateur/trajet/modifTrajet.html",
+    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_CHAUFFEUR_PASSAGER", "ROLE_USER"],
+    "/js/profilUtiliateur/trajet/modifTrajet.js"
   ),
   new Route(
     "/historiqueUtilisateur",
