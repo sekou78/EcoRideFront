@@ -10,6 +10,10 @@ function getRole() {
   return getCookie(RoleCookieName);
 }
 
+function setRole(role) {
+  setCookie(RoleCookieName, role, 7);
+}
+
 function setToken(token) {
   setCookie(tokenCookieName, token, 7);
 }
@@ -63,12 +67,13 @@ function dIsconnect() {
   sessionStorage.clear();
 
   // Rediriger ou recharger la page pour appliquer les changements
-  window.location.href = "connexion";
+  window.location.href = "/connexion";
 }
 
 function showAndHideElementsForRoles() {
   const userConnected = isConnected();
-  const role = getRole();
+  // const role = getRole();
+  const userRoles = getRole()?.split(",") || [];
 
   let allElementsToEdit = document.querySelectorAll("[data-show]");
 
@@ -77,7 +82,8 @@ function showAndHideElementsForRoles() {
     const isVisible =
       (rolesToShow.includes("disconnected") && !userConnected) ||
       (rolesToShow.includes("connected") && userConnected) ||
-      (rolesToShow.includes(role) && userConnected);
+      // (rolesToShow.includes(role) && userConnected);
+      (userConnected && userRoles.some((role) => rolesToShow.includes(role)));
 
     // Ajouter ou retirer la classe `d-none` en fonction de la visibilité
     if (isVisible) {
@@ -86,4 +92,14 @@ function showAndHideElementsForRoles() {
       element.classList.add("d-none");
     }
   });
+}
+
+function getUserRoles() {
+  const roleCookie = getRole();
+  return roleCookie ? roleCookie.split(",") : [];
+}
+
+function hasAccessToRoute(allowedRoles = []) {
+  const userRoles = getUserRoles();
+  return allowedRoles.some((role) => userRoles.includes(role));
 }

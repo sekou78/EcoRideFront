@@ -86,16 +86,20 @@ fetch(apiUrl + "account/me", requestOptions)
   .then((user) => {
     console.log(user);
 
+    const roles = user.user.roles;
+    setRole(roles.join(","));
+
+    const isChauffeur =
+      roles.includes("ROLE_CHAUFFEUR") ||
+      roles.includes("ROLE_PASSAGER_CHAUFFEUR");
+
     // Affichage des infos utilisateur
     pseudoDisplay.textContent = user.user.pseudo;
     totalCredits.textContent = user.user.credits;
     emailCurrentUserDisplay.textContent = user.user.email;
-    roleDisplay.textContent = user.user.roles;
+    roleDisplay.textContent = roles.join(", ");
     telephoneDisplay.textContent = user.user.telephone;
     avatarDisplay.src = urlImg + user.user.image.filePath;
-    fumeurDisplay.textContent = user.user.accepteFumeur ? "Oui" : "Non";
-    animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
-    preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
     // Fonction pour convertir la date en format ISO (dd-mm-yyyy)
     function formatDateFR(dateString) {
@@ -116,31 +120,37 @@ fetch(apiUrl + "account/me", requestOptions)
       return `${hours}:${minutes}`;
     }
 
-    // Afficher les infos du vehicule conducteur
-    immatriculationDisplay.textContent =
-      user.profilConducteur.plaqueImmatriculation;
-    dateImmatriculationDisplay.textContent = formatDateFR(
-      user.profilConducteur.dateImmatriculation
-    );
-    marqueVehiculeDisplay.textContent = user.profilConducteur.marque;
-    modeleVehiculeDisplay.textContent = user.profilConducteur.modele;
-    couleurVehiculeDisplay.textContent = user.profilConducteur.couleur;
-    placesDisponiblesDisplay.textContent = user.profilConducteur.nombrePlaces;
-    electriqueDisplay.textContent = user.profilConducteur.electrique
-      ? "Oui"
-      : "Non";
+    if (isChauffeur) {
+      document.getElementById("section-chauffeur").style.display = "block";
+      fumeurDisplay.textContent = user.user.accepteFumeur ? "Oui" : "Non";
+      animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
+      preferencesAutresDisplay.textContent = user.user.autresPreferences;
+      // Afficher les infos du vehicule conducteur
+      immatriculationDisplay.textContent =
+        user.profilConducteur.plaqueImmatriculation;
+      dateImmatriculationDisplay.textContent = formatDateFR(
+        user.profilConducteur.dateImmatriculation
+      );
+      marqueVehiculeDisplay.textContent = user.profilConducteur.marque;
+      modeleVehiculeDisplay.textContent = user.profilConducteur.modele;
+      couleurVehiculeDisplay.textContent = user.profilConducteur.couleur;
+      placesDisponiblesDisplay.textContent = user.profilConducteur.nombrePlaces;
+      electriqueDisplay.textContent = user.profilConducteur.electrique
+        ? "Oui"
+        : "Non";
 
-    const trajets = user.trajet;
+      // Afficher les trajets en cours
+      const trajets = user.trajet;
 
-    // Filtrer tous les trajets EN_COURS
-    const trajetsEnCours = trajets.filter((t) => t.statut === "EN_COURS");
+      // Filtrer tous les trajets EN_COURS
+      const trajetsEnCours = trajets.filter((t) => t.statut === "EN_COURS");
 
-    if (trajetsEnCours.length > 0) {
-      trajetsEnCours.forEach((trajetEnCours, index) => {
-        const trajetCard = document.createElement("div");
-        trajetCard.classList.add("trajet-card");
+      if (trajetsEnCours.length > 0) {
+        trajetsEnCours.forEach((trajetEnCours, index) => {
+          const trajetCard = document.createElement("div");
+          trajetCard.classList.add("trajet-card");
 
-        trajetCard.innerHTML = `
+          trajetCard.innerHTML = `
       <h3>Trajet en cours #${index + 1}</h3>
       <p><strong>Départ :</strong> ${trajetEnCours.adresseDepart}</p>
       <p><strong>Arrivée :</strong> ${trajetEnCours.adresseArrivee}</p>
@@ -163,42 +173,47 @@ fetch(apiUrl + "account/me", requestOptions)
         trajetEnCours.nombrePlacesDisponible
       }</p>
       <p><strong>Statut :</strong> ${trajetEnCours.statut}</p>
-    `;
+      `;
 
-        // Création du container pour les boutons
-        const btnContainer = document.createElement("div");
-        btnContainer.classList.add("btn-container", "text-center");
+          // Création du container pour les boutons
+          const btnContainer = document.createElement("div");
+          btnContainer.classList.add("btn-container", "text-center");
 
-        // Bouton Modifier trajet
-        const btnModifier = document.createElement("button");
-        btnModifier.className = "btn bg-warning text-primary btn-modifier m-3";
-        btnModifier.textContent = "Modifier";
-        btnModifier.dataset.id = trajetEnCours.id;
-        btnModifier.addEventListener("click", () => {
-          editionTrajet(trajetEnCours);
-          window.location.href = "/modifTrajet";
+          // Bouton Modifier trajet
+          const btnModifier = document.createElement("button");
+          btnModifier.className =
+            "btn bg-warning text-primary btn-modifier m-3";
+          btnModifier.textContent = "Modifier";
+          btnModifier.dataset.id = trajetEnCours.id;
+          btnModifier.addEventListener("click", () => {
+            editionTrajet(trajetEnCours);
+            window.location.href = "/modifTrajet";
+          });
+
+          // Bouton Supprimer trajet
+          const btnSupprimer = document.createElement("button");
+          btnSupprimer.className = "btn btn-red text-primary btn-supprimer";
+          btnSupprimer.textContent = "Supprimer";
+          btnSupprimer.addEventListener("click", () => {
+            supprimerTrajet(trajetEnCours);
+          });
+
+          // Ajout des boutons dans le container
+          btnContainer.appendChild(btnModifier);
+          btnContainer.appendChild(btnSupprimer);
+
+          // Ajout du container de boutons à la carte
+          trajetCard.appendChild(btnContainer);
+
+          // Ajout de la carte au container principal
+          listeTrajetsContainer.appendChild(trajetCard);
         });
-
-        // Bouton Supprimer trajet
-        const btnSupprimer = document.createElement("button");
-        btnSupprimer.className = "btn btn-red text-primary btn-supprimer";
-        btnSupprimer.textContent = "Supprimer";
-        btnSupprimer.addEventListener("click", () => {
-          supprimerTrajet(trajetEnCours);
-        });
-
-        // Ajout des boutons dans le container
-        btnContainer.appendChild(btnModifier);
-        btnContainer.appendChild(btnSupprimer);
-
-        // Ajout du container de boutons à la carte
-        trajetCard.appendChild(btnContainer);
-
-        // Ajout de la carte au container principal
-        listeTrajetsContainer.appendChild(trajetCard);
-      });
+      } else {
+        listeTrajetsContainer.innerHTML = `<p>Aucun trajet en cours.</p>`;
+      }
     } else {
-      listeTrajetsContainer.innerHTML = `<p>Aucun trajet en cours.</p>`;
+      // Masquer les infos du véhicule
+      document.getElementById("section-chauffeur").style.display = "none";
     }
   });
 

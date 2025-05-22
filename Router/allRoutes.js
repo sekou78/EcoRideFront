@@ -45,7 +45,7 @@ export const allRoutes = [
       "ROLE_EMPLOYE",
       "ROLE_PASSAGER",
       "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
     "/js/profilUtiliateur/espaceUtilisateur.js"
@@ -59,7 +59,7 @@ export const allRoutes = [
       "ROLE_EMPLOYE",
       "ROLE_PASSAGER",
       "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
     "/js/profilUtiliateur/modifAvatar.js"
@@ -73,7 +73,7 @@ export const allRoutes = [
       "ROLE_EMPLOYE",
       "ROLE_PASSAGER",
       "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
     "/js/profilUtiliateur/modifProfil.js"
@@ -82,53 +82,35 @@ export const allRoutes = [
     "/modifProfilConducteur",
     "Modification Profil conducteur",
     "/pages/profilUtilisateur/gestionVehicules/modifProfilConducteur.html",
-    [
-      "ROLE_ADMIN",
-      "ROLE_EMPLOYE",
-      "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
-      "ROLE_USER",
-    ],
+    ["ROLE_ADMIN", "ROLE_EMPLOYE", "ROLE_CHAUFFEUR", "ROLE_PASSAGER_CHAUFFEUR"],
     "/js/profilUtiliateur/gestionVehicules/modifProfilConducteur.js"
   ),
   new Route(
     "/listeVehicule",
     "La liste des vehicules",
     "/pages/profilUtilisateur/gestionVehicules/listeVehicule.html",
-    [
-      "ROLE_ADMIN",
-      "ROLE_EMPLOYE",
-      "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
-      "ROLE_USER",
-    ],
+    ["ROLE_ADMIN", "ROLE_EMPLOYE", "ROLE_CHAUFFEUR", "ROLE_PASSAGER_CHAUFFEUR"],
     "/js/profilUtiliateur/gestionVehicules/listeVehicule.js"
   ),
   new Route(
     "/editerVehicule",
     "Modification d'un vehicule",
     "/pages/profilUtilisateur/gestionVehicules/editerVehicules.html",
-    [
-      "ROLE_ADMIN",
-      "ROLE_EMPLOYE",
-      "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
-      "ROLE_USER",
-    ],
+    ["ROLE_ADMIN", "ROLE_EMPLOYE", "ROLE_CHAUFFEUR", "ROLE_PASSAGER_CHAUFFEUR"],
     "/js/profilUtiliateur/gestionVehicules/editerVehicules.js"
   ),
   new Route(
     "/creerUntrajet",
     "Creation d'un trajet",
     "/pages/profilUtilisateur/trajet/creerUntrajet.html",
-    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_CHAUFFEUR_PASSAGER", "ROLE_USER"],
+    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_PASSAGER_CHAUFFEUR"],
     "/js/profilUtiliateur/trajet/creerUntrajet.js"
   ),
   new Route(
     "/modifTrajet",
     "Modifier un trajet",
     "/pages/profilUtilisateur/trajet/modifTrajet.html",
-    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_CHAUFFEUR_PASSAGER", "ROLE_USER"],
+    ["ROLE_ADMIN", "ROLE_CHAUFFEUR", "ROLE_PASSAGER_CHAUFFEUR"],
     "/js/profilUtiliateur/trajet/modifTrajet.js"
   ),
   new Route(
@@ -140,7 +122,7 @@ export const allRoutes = [
       "ROLE_EMPLOYE",
       "ROLE_PASSAGER",
       "ROLE_CHAUFFEUR",
-      "ROLE_CHAUFFEUR_PASSAGER",
+      "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
     "/js/profilUtiliateur/historiqueUtilisateur.js"

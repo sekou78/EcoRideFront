@@ -32,6 +32,7 @@ const LoadContentPage = async () => {
 
   // Vérifier les droits d'accés à la page
   const allRolesArray = actualRoute.authorize;
+  const rolesUser = getRole()?.split(",") || [];
 
   if (allRolesArray.length > 0) {
     if (allRolesArray.includes("disconnected")) {
@@ -39,8 +40,12 @@ const LoadContentPage = async () => {
         window.location.replace("/");
       }
     } else {
-      const roleUser = getRole();
-      if (!allRolesArray.includes(roleUser)) {
+      // const roleUser = getRole();
+      // if (!allRolesArray.includes(roleUser)) {
+      //   window.location.replace("/");
+      // }
+      const hasAccess = rolesUser.some((role) => allRolesArray.includes(role));
+      if (!hasAccess) {
         window.location.replace("/");
       }
     }

@@ -58,8 +58,8 @@ function editCompte() {
     selectedRoles = ["ROLE_PASSAGER"];
   } else if (selectedRole === "chauffeur") {
     selectedRoles = ["ROLE_CHAUFFEUR"];
-  } else if (selectedRole === "chauffeur_passager") {
-    selectedRoles = ["ROLE_CHAUFFEUR", "ROLE_PASSAGER"];
+  } else if (selectedRole === "passager_chauffeur") {
+    selectedRoles = ["ROLE_PASSAGER_CHAUFFEUR"];
   }
 
   const myHeaders = new Headers();
