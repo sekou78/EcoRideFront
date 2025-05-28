@@ -6,14 +6,23 @@ export const allRoutes = [
   new Route(
     "/covoiturage",
     "Covoiturage",
-    "/pages/accueil/covoiturage.html",
-    []
+    "/pages/accueil/covoiturage/covoiturage.html",
+    [],
+    "/js/accueil/covoiturage/covoiturage.js"
+  ),
+  new Route(
+    "/resultCovoiturage",
+    "Resultat covoiturage",
+    "/pages/accueil/covoiturage/resultCovoiturage.html",
+    [],
+    "/js/accueil/covoiturage/resultCovoiturage.js"
   ),
   new Route(
     "/vueDetaillee",
     "Vue detaillee",
-    "/pages/accueil/vueDetaillee.html",
-    []
+    "/pages/accueil/covoiturage/vueDetaillee.html",
+    [],
+    "/js/accueil/covoiturage/vueDetaillee.js"
   ),
   new Route(
     "/inscription",

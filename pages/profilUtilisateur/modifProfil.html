@@ -115,54 +115,51 @@
             </button>
           </div>
 
-          <section id="section-chauffeur">
+          <!-- Preferences du Chauffeur -->
+          <div data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
             <hr />
+            <form id="preferences-form">
+              <h5>Préférences du Chauffeur</h5>
+              <div class="mb-3">
+                <label for="fumeur" class="form-check-label"
+                  >Acceptez-vous les fumeurs ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="fumeur"
+                  name="fumeur" />
+                <label for="fumeur" class="form-check-label"
+                  >Oui, je accepte les fumeurs</label
+                >
+              </div>
 
-            <!-- Preferences du Chauffeur -->
-            <div>
-              <form id="preferences-form">
-                <h5>Préférences du Chauffeur</h5>
-                <div class="mb-3">
-                  <label for="fumeur" class="form-check-label"
-                    >Acceptez-vous les fumeurs ?</label
-                  ><br />
-                  <input
-                    type="checkbox"
-                    class="form-check-input bg-dark"
-                    id="fumeur"
-                    name="fumeur" />
-                  <label for="fumeur" class="form-check-label"
-                    >Oui, je accepte les fumeurs</label
-                  >
-                </div>
+              <div class="mb-3">
+                <label for="animal" class="form-check-label"
+                  >Acceptez-vous les animaux ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="animal"
+                  name="animal" />
+                <label for="animal" class="form-check-label"
+                  >Oui, j'accepte les animaux</label
+                >
+              </div>
 
-                <div class="mb-3">
-                  <label for="animal" class="form-check-label"
-                    >Acceptez-vous les animaux ?</label
-                  ><br />
-                  <input
-                    type="checkbox"
-                    class="form-check-input bg-dark"
-                    id="animal"
-                    name="animal" />
-                  <label for="animal" class="form-check-label"
-                    >Oui, j'accepte les animaux</label
-                  >
-                </div>
-
-                <div class="mb-3">
-                  <label for="preferences_autres" class="form-label"
-                    >Autres préférences</label
-                  >
-                  <textarea
-                    class="form-control bg-dark"
-                    id="preferences_autres"
-                    rows="3"
-                    placeholder="Entrez d'autres préférences"
-                    name="preferences_autres"></textarea>
-                </div>
-              </form>
-            </div>
+              <div class="mb-3">
+                <label for="preferences_autres" class="form-label"
+                  >Autres préférences</label
+                >
+                <textarea
+                  class="form-control bg-dark"
+                  id="preferences_autres"
+                  rows="3"
+                  placeholder="Entrez d'autres préférences"
+                  name="preferences_autres"></textarea>
+              </div>
+            </form>
 
             <!-- Bouton de sauvegarde de preferences -->
             <div class="text-center">
@@ -184,7 +181,7 @@
                 </button>
               </a>
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </div>

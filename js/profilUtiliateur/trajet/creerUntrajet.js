@@ -12,7 +12,7 @@ const placesDisponibles = document.getElementById("places-disponibles");
 const statutVoyage = document.getElementById("etat-voyage");
 const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
-btnValidationVoyage.disabled = true;
+// btnValidationVoyage.disabled = true;
 
 departAdresse.addEventListener("input", validInputVoyage);
 arriveeAdresse.addEventListener("input", validInputVoyage);
@@ -83,6 +83,7 @@ function validateVoyageForm() {
     estEcologique: dataForm.get("trajet_ecologique") !== null,
     nombrePlacesDisponible: parseInt(dataForm.get("places_disponibles"), 10),
     statut: selectedStatut,
+    vehiculeId: vehiculeSelectionneId,
   });
 
   const requestOptions = {
@@ -109,6 +110,69 @@ function validateVoyageForm() {
     });
   // Rediriger vers la page du profil utilisateur
   window.location.href = "/espaceUtilisateur";
+}
+
+//appel de la fonction de chargement des véhicules de l'utilisateur
+creeTrajetChargerVehiculesUtilisateur();
+
+// Fonction de chargement de véhicule selectionner
+async function creeTrajetChargerVehiculesUtilisateur() {
+  const dropdownMenu = document.getElementById("vehiculeDropdownMenu");
+  const token = getCookie(tokenCookieName);
+
+  if (!token) {
+    console.error("Token d'authentification introuvable.");
+    return;
+  }
+
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  try {
+    const response = await fetch(apiUrl + "profilConducteur/", {
+      method: "GET",
+      headers: myHeaders,
+    });
+
+    if (!response.ok) throw new Error("Erreur API");
+
+    const vehicules = await response.json();
+
+    // Vide la liste
+    dropdownMenu.innerHTML = "";
+
+    // Génère les liens de chaque véhicule
+    vehicules.forEach((vehicule) => {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.className = "dropdown-item text-primary";
+      link.textContent = vehicule.plaqueImmatriculation;
+      link.addEventListener("click", () =>
+        creeTrajetAfficherInfosVehicule(vehicule)
+      );
+      item.appendChild(link);
+      dropdownMenu.appendChild(item);
+    });
+
+    // Ajoute le lien "Ajouter un véhicule" à la fin
+    const itemAjout = document.createElement("li");
+    itemAjout.innerHTML = `
+      <a class="dropdown-item text-primary" href="/modifProfilConducteur">
+        Ajouter un véhicule
+      </a>`;
+    dropdownMenu.appendChild(itemAjout);
+  } catch (error) {
+    console.error("Erreur lors du chargement des véhicules :", error);
+  }
+}
+
+const creeTrajetChoixImmatriculation = document.getElementById("choixVehicule");
+
+let vehiculeSelectionneId = null;
+
+function creeTrajetAfficherInfosVehicule(vehicule) {
+  creeTrajetChoixImmatriculation.textContent = vehicule.plaqueImmatriculation;
+  vehiculeSelectionneId = vehicule.id;
 }
 
 //Demande de remplissage du champs requis

@@ -173,6 +173,9 @@ fetch(apiUrl + "account/me", requestOptions)
         trajetEnCours.nombrePlacesDisponible
       }</p>
       <p><strong>Statut :</strong> ${trajetEnCours.statut}</p>
+      <p><strong>Vehicule :</strong> ${
+        trajetEnCours.vehicule.plaqueImmatriculation
+      }</p>
       `;
 
           // Création du container pour les boutons

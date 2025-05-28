@@ -15,6 +15,7 @@ const btnValidationPreferencesChauffeur = document.getElementById(
 );
 
 btnValidationModifProfil.disabled = true;
+btnValidationPreferencesChauffeur.disabled = true;
 
 telephone.addEventListener("input", validModifProfilInput);
 adressePerso.addEventListener("input", validModifProfilInput);
@@ -28,6 +29,8 @@ btnValidationPreferencesChauffeur.addEventListener(
   preferencesChauffeur
 );
 
+preferencesAutres.addEventListener("input", validPreferencesChauffeur);
+
 function validModifProfilInput() {
   const telephoneOk = validTelephone(telephone);
   const adressePersoOk = validateModifProfilInfosRequired(adressePerso);
@@ -39,6 +42,18 @@ function validModifProfilInput() {
     btnValidationModifProfil.disabled = false;
   } else {
     btnValidationModifProfil.disabled = true;
+  }
+}
+
+function validPreferencesChauffeur() {
+  const preferencesAutresOk =
+    validateModifProfilInfosRequired(preferencesAutres);
+
+  // On valide uniquement si une valeur a été saisie dans le textarea
+  if (preferencesAutresOk) {
+    btnValidationPreferencesChauffeur.disabled = false;
+  } else {
+    btnValidationPreferencesChauffeur.disabled = true;
   }
 }
 
