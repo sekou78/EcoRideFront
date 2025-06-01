@@ -95,7 +95,6 @@ async function vueDetailleeTrajetInfos() {
     }
 
     const result = await response.json();
-    console.log(result);
 
     function formatDateFR(dateString) {
       if (!dateString) return "—";
@@ -118,15 +117,16 @@ async function vueDetailleeTrajetInfos() {
 
     // Remplir les champs DOM avec les infos du trajet
     pseudoDetailleeDisplay.textContent = result.chauffeur.pseudo || "—";
-    avatarDetailleeDisplay.src =
-      urlImg + result.chauffeur.image?.filePath || "/images/avatar.png";
+    avatarDetailleeDisplay.src = result.chauffeur.image?.filePath
+      ? urlImg + result.chauffeur.image.filePath
+      : "/images/avatar.png";
 
     adresseDepartDetailleeDisplay.textContent = result.adresseDepart || "—";
     adresseArriveeDetailleeDisplay.textContent = result.adresseArrivee || "—";
     statutDetailleeDisplay.textContent = result.statut || "—";
     placesDisponiblesDetailleeDisplay.textContent =
       result.nombrePlacesDisponible || "—";
-    prixDetailleeDisplay.textContent = result.prix + " €" || "—";
+    prixDetailleeDisplay.textContent = result.prix || "—";
     dateDepartDetailleeDisplay.textContent = formatDateFR(result.dateDepart);
     dateArriveeDetailleeDisplay.textContent = formatDateFR(result.dateArrivee);
     heureDepartDetailleeDisplay.textContent =

@@ -60,6 +60,20 @@ export const allRoutes = [
     "/js/profilUtiliateur/espaceUtilisateur.js"
   ),
   new Route(
+    "/modifReservation",
+    "Modification Reservation",
+    "/pages/profilUtilisateur/reservation.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/reservation.js"
+  ),
+  new Route(
     "/modifAvatar",
     "Modification Avatar",
     "/pages/profilUtilisateur/modifAvatar.html",

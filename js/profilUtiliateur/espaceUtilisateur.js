@@ -38,6 +38,9 @@ const btnEnvoyerCommentaire = document.getElementById(
   "btn-envoyer-commentaire"
 );
 const btnRemonterProblemes = document.getElementById("btn-remonter-problemes");
+const btnConfirmerSuppression = document.getElementById(
+  "btnConfirmerSuppression"
+);
 
 inputPseudoAvis.addEventListener("keyup", validInputAvis);
 textareaAvis.addEventListener("keyup", validInputAvis);
@@ -48,6 +51,7 @@ btnEnvoyerCommentaire.disabled = true;
 btnEnvoyerCommentaire.addEventListener("click", gestionEnvoyerCommentaire);
 btnRemonterProblemes.disabled = true;
 btnRemonterProblemes.addEventListener("click", gestionRemonterProblemes);
+btnConfirmerSuppression.addEventListener("click", suppressionModal);
 
 function validInputAvis() {
   const pseudoOk = validateAvisRequired(inputPseudoAvis);
@@ -89,10 +93,6 @@ fetch(apiUrl + "account/me", requestOptions)
     const roles = user.user.roles;
     setRole(roles.join(","));
 
-    const isChauffeur =
-      roles.includes("ROLE_CHAUFFEUR") ||
-      roles.includes("ROLE_PASSAGER_CHAUFFEUR");
-
     // Affichage des infos utilisateur
     pseudoDisplay.textContent = user.user.pseudo;
     totalCredits.textContent = user.user.credits;
@@ -101,128 +101,133 @@ fetch(apiUrl + "account/me", requestOptions)
     telephoneDisplay.textContent = user.user.telephone;
     avatarDisplay.src = urlImg + user.user.image.filePath;
 
-    // Fonction pour convertir la date en format ISO (dd-mm-yyyy)
-    function formatDateFR(dateString) {
-      if (!dateString) return "";
-      const date = new Date(dateString);
-      const day = String(date.getDate()).padStart(2, "0");
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const year = date.getFullYear();
-      return `${day}/${month}/${year}`;
-    }
+    //  Preferences utilisateur chauffeur
+    fumeurDisplay.textContent = user.user.accepteFumeur ? "Oui" : "Non";
+    animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
+    preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
-    // Fonction pour convertir l'heure en format ISO (hh:mm)
-    function formatHeure(dateString) {
-      if (!dateString) return "";
-      const date = new Date(dateString);
-      const hours = String(date.getHours()).padStart(2, "0");
-      const minutes = String(date.getMinutes()).padStart(2, "0");
-      return `${hours}:${minutes}`;
-    }
+    // Afficher les trajets en cours
+    const trajets = user.trajet;
 
-    if (isChauffeur) {
-      document.getElementById("section-chauffeur").style.display = "block";
-      fumeurDisplay.textContent = user.user.accepteFumeur ? "Oui" : "Non";
-      animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
-      preferencesAutresDisplay.textContent = user.user.autresPreferences;
-      // Afficher les infos du vehicule conducteur
-      immatriculationDisplay.textContent =
-        user.profilConducteur.plaqueImmatriculation;
-      dateImmatriculationDisplay.textContent = formatDateFR(
-        user.profilConducteur.dateImmatriculation
-      );
-      marqueVehiculeDisplay.textContent = user.profilConducteur.marque;
-      modeleVehiculeDisplay.textContent = user.profilConducteur.modele;
-      couleurVehiculeDisplay.textContent = user.profilConducteur.couleur;
-      placesDisponiblesDisplay.textContent = user.profilConducteur.nombrePlaces;
-      electriqueDisplay.textContent = user.profilConducteur.electrique
-        ? "Oui"
-        : "Non";
+    // Filtrer tous les trajets EN_COURS et EN_ATTENTE
+    const trajetsAFiltrer = trajets.filter(
+      (t) => t.statut === "EN_COURS" || t.statut === "EN_ATTENTE"
+    );
 
-      // Afficher les trajets en cours
-      const trajets = user.trajet;
+    if (trajetsAFiltrer.length > 0) {
+      trajetsAFiltrer.forEach((trajetEnCours, index) => {
+        // Définir dynamiquement les styles du badge selon le statut
+        const badgeStyles = {
+          EN_COURS: { bg: "dark", text: "primary" },
+          EN_ATTENTE: { bg: "warning", text: "primary" },
+        };
 
-      // Filtrer tous les trajets EN_COURS
-      const trajetsEnCours = trajets.filter((t) => t.statut === "EN_COURS");
+        const { bg, text } = badgeStyles[trajetEnCours.statut] || {
+          bg: "secondary",
+          text: "white",
+        };
 
-      if (trajetsEnCours.length > 0) {
-        trajetsEnCours.forEach((trajetEnCours, index) => {
-          const trajetCard = document.createElement("div");
-          trajetCard.classList.add("trajet-card");
+        // Création du conteneur principal de la carte Bootstrap
+        const trajetCard = document.createElement("div");
+        trajetCard.classList.add("card", "mb-4", "shadow");
 
-          trajetCard.innerHTML = `
-      <h3>Trajet en cours #${index + 1}</h3>
-      <p><strong>Départ :</strong> ${trajetEnCours.adresseDepart}</p>
-      <p><strong>Arrivée :</strong> ${trajetEnCours.adresseArrivee}</p>
-      <p><strong>Date départ :</strong> ${formatDateFR(
-        trajetEnCours.dateDepart
-      )}</p>
-      <p><strong>Date arrivée :</strong> ${formatDateFR(
-        trajetEnCours.dateArrivee
-      )}</p>
-      <p><strong>Heure départ :</strong> ${formatHeure(
-        trajetEnCours.heureDepart
-      )}</p>
-      <p><strong>Durée :</strong> ${formatHeure(trajetEnCours.dureeVoyage)}</p>
-      <p><strong>Péage :</strong> ${trajetEnCours.peage ? "Oui" : "Non"}</p>
-      <p><strong>Prix :</strong> ${trajetEnCours.prix} Crédit</p>
-      <p><strong>Écologique :</strong> ${
-        trajetEnCours.estEcologique ? "Oui" : "Non"
-      }</p>
-      <p><strong>Places disponibles :</strong> ${
-        trajetEnCours.nombrePlacesDisponible
-      }</p>
-      <p><strong>Statut :</strong> ${trajetEnCours.statut}</p>
-      <p><strong>Vehicule :</strong> ${
-        trajetEnCours.vehicule.plaqueImmatriculation
-      }</p>
-      `;
+        // Construction du contenu de la carte avec Bootstrap
+        trajetCard.innerHTML = `
+      <!-- En-tête de la carte -->
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">🚗 Trajet #${index + 1}</h5>
+        <span class="badge bg-${bg} text-${text} fw-bold px-3 py-1 rounded-pill text-uppercase">
+          ${trajetEnCours.statut.replace("_", " ")}
+        </span>
+      </div>
 
-          // Création du container pour les boutons
-          const btnContainer = document.createElement("div");
-          btnContainer.classList.add("btn-container", "text-center");
+      <!-- Corps de la carte avec les détails du trajet -->
+      <div class="card-body">
+        <p class="mb-1"><strong>Départ :</strong> ${
+          trajetEnCours.adresseDepart
+        }</p>
+        <p class="mb-1"><strong>Arrivée :</strong> ${
+          trajetEnCours.adresseArrivee
+        }</p>
+        <p class="mb-1"><strong>Date départ :</strong> ${formatDateFR(
+          trajetEnCours.dateDepart
+        )}</p>
+        <p class="mb-1"><strong>Date arrivée :</strong> ${formatDateFR(
+          trajetEnCours.dateArrivee
+        )}</p>
+        <p class="mb-1"><strong>Heure départ :</strong> ${formatHeure(
+          trajetEnCours.heureDepart
+        )}</p>
+        <p class="mb-1"><strong>Durée (estimée) :</strong> ${formatHeure(
+          trajetEnCours.dureeVoyage
+        )}</p>
+        <p class="mb-1"><strong>Péage :</strong> ${
+          trajetEnCours.peage ? "Oui" : "Non"
+        }</p>
+        <p class="mb-1"><strong>Prix :</strong> ${trajetEnCours.prix} Crédit</p>
+        <p class="mb-1"><strong>Écologique :</strong> ${
+          trajetEnCours.estEcologique ? "Oui" : "Non"
+        }</p>
+        <p class="mb-1"><strong>Places disponibles :</strong> ${
+          trajetEnCours.nombrePlacesDisponible
+        }</p>
+        <p class="mb-1"><strong>Véhicule :</strong> ${
+          trajetEnCours.vehicule.plaqueImmatriculation
+        }</p>
 
-          // Bouton Modifier trajet
-          const btnModifier = document.createElement("button");
-          btnModifier.className =
-            "btn bg-warning text-primary btn-modifier m-3";
-          btnModifier.textContent = "Modifier";
-          btnModifier.dataset.id = trajetEnCours.id;
-          btnModifier.addEventListener("click", () => {
-            editionTrajet(trajetEnCours);
-            window.location.href = "/modifTrajet";
-          });
+        <!-- Zone boutons avec Bootstrap -->
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-dark btn-sm btn-modifier text-primary" data-id="${
+            trajetEnCours.id
+          }">✏️ Modifier</button>
+          <button class="btn btn-danger btn-sm btn-supprimer text-light" style="background-color: #dc3545; border-color: #dc3545;">🗑 Supprimer</button>
+        </div>
+      </div>
+    `;
 
-          // Bouton Supprimer trajet
-          const btnSupprimer = document.createElement("button");
-          btnSupprimer.className = "btn btn-red text-primary btn-supprimer";
-          btnSupprimer.textContent = "Supprimer";
-          btnSupprimer.addEventListener("click", () => {
-            supprimerTrajet(trajetEnCours);
-          });
+        // Sélection des boutons créés dynamiquement
+        const btnModifier = trajetCard.querySelector(".btn-modifier");
+        const btnSupprimer = trajetCard.querySelector(".btn-supprimer");
 
-          // Ajout des boutons dans le container
-          btnContainer.appendChild(btnModifier);
-          btnContainer.appendChild(btnSupprimer);
-
-          // Ajout du container de boutons à la carte
-          trajetCard.appendChild(btnContainer);
-
-          // Ajout de la carte au container principal
-          listeTrajetsContainer.appendChild(trajetCard);
+        // Ajout de l'événement pour modifier un trajet
+        btnModifier.addEventListener("click", () => {
+          editionTrajet(trajetEnCours);
+          window.location.href = "/modifTrajet";
         });
-      } else {
-        listeTrajetsContainer.innerHTML = `<p>Aucun trajet en cours.</p>`;
-      }
+
+        btnSupprimer.addEventListener("click", () => {
+          // Stocker temporairement le trajet à supprimer
+          window.trajetASupprimer = trajetEnCours;
+
+          // Ouvrir la modal
+          const modal = new bootstrap.Modal(
+            document.getElementById("confirmModal")
+          );
+          modal.show();
+        });
+
+        // Ajout de la carte au conteneur principal
+        listeTrajetsContainer.appendChild(trajetCard);
+      });
     } else {
-      // Masquer les infos du véhicule
-      document.getElementById("section-chauffeur").style.display = "none";
+      // Message affiché s’il n’y a aucun trajet
+      listeTrajetsContainer.innerHTML = `
+    <div class="alert alert-info text-center">
+      Aucun trajet en cours.
+    </div>`;
     }
   });
 
 //Fonction modifier trajet
 function editionTrajet(trajet) {
   localStorage.setItem("trajet", JSON.stringify(trajet));
+}
+
+function suppressionModal() {
+  if (window.trajetASupprimer) {
+    supprimerTrajet(window.trajetASupprimer);
+    window.trajetASupprimer = null;
+  }
 }
 
 async function supprimerTrajet(trajetEnCours) {
@@ -268,65 +273,7 @@ async function supprimerTrajet(trajetEnCours) {
   }
 }
 
-// Fonction de chargement des véhicules de l'utilisateur
-async function chargerVehiculesUtilisateur() {
-  const dropdownMenu = document.getElementById("vehiculeDropdownMenu");
-  const token = getCookie(tokenCookieName);
-
-  if (!token) {
-    console.error("Token d'authentification introuvable.");
-    return;
-  }
-
-  const myHeaders = new Headers();
-  myHeaders.append("X-AUTH-TOKEN", token);
-
-  try {
-    const response = await fetch(apiUrl + "profilConducteur/", {
-      method: "GET",
-      headers: myHeaders,
-    });
-
-    if (!response.ok) throw new Error("Erreur API");
-
-    const vehicules = await response.json();
-
-    // Vide la liste
-    dropdownMenu.innerHTML = "";
-
-    // Génère les liens de chaque véhicule
-    vehicules.forEach((vehicule) => {
-      const item = document.createElement("li");
-      const link = document.createElement("a");
-      link.className = "dropdown-item text-primary";
-      link.textContent = vehicule.plaqueImmatriculation;
-      link.addEventListener("click", () => afficherInfosVehicule(vehicule));
-      item.appendChild(link);
-      dropdownMenu.appendChild(item);
-    });
-
-    // Ajoute le lien "Ajouter un véhicule" à la fin
-    const itemAjout = document.createElement("li");
-    itemAjout.innerHTML = `
-      <a class="dropdown-item text-primary" href="/modifProfilConducteur">
-        Ajouter un véhicule
-      </a>`;
-    dropdownMenu.appendChild(itemAjout);
-  } catch (error) {
-    console.error("Erreur lors du chargement des véhicules :", error);
-  }
-}
-
 function afficherInfosVehicule(vehicule) {
-  function formatDateFR(dateString) {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
-
   immatriculationDisplay.textContent = vehicule.plaqueImmatriculation;
   dateImmatriculationDisplay.textContent = formatDateFR(
     vehicule.dateImmatriculation
@@ -338,7 +285,154 @@ function afficherInfosVehicule(vehicule) {
   electriqueDisplay.textContent = vehicule.electrique ? "Oui" : "Non";
 }
 
-window.addEventListener("DOMContentLoaded", chargerVehiculesUtilisateur());
+//Appel de la fonction d'affichage des reservations
+afficherReservations();
+// Les reservations du passager
+function afficherReservations() {
+  let reservationIdASupprimer = null;
+  const modal = new bootstrap.Modal(document.getElementById("modalAnnulation"));
+  const confirmerBtn = document.getElementById("confirmerAnnulationBtn");
+
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  const requestOptions = {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  fetch(apiUrl + "reservation/", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      console.log(result);
+      const listeReservationsContainer = document.getElementById(
+        "reservations-container"
+      );
+      listeReservationsContainer.innerHTML = "";
+
+      if (result && result.length > 0) {
+        result.forEach((result, index) => {
+          const reservationCard = document.createElement("div");
+          reservationCard.className = `card shadow rounded-4 border-2 border-${
+            result.statut === "CONFIRMEE" ? "success" : "warning"
+          } p-3 my-4`;
+
+          reservationCard.innerHTML = `
+            <h4 class="fw-bold text-${
+              result.statut === "CONFIRMEE" ? "success" : "warning"
+            }">
+              Réservation ${result.statut.toLowerCase()} #${index + 1}
+              ${
+                result.statut === "CONFIRMEE"
+                  ? '<i class="bi bi-check-circle-fill ms-2"></i>'
+                  : '<i class="bi bi-hourglass-split ms-2"></i>'
+              }
+            </h4>
+            <p><strong>Départ :</strong> ${result.trajet.adresseArrivee}</p>
+            <p><strong>Arrivée :</strong> ${result.trajet.adresseDepart}</p>
+            <p><strong>Date :</strong> ${formatDateFR(
+              result.trajet.dateDepart
+            )} à ${formatHeure(result.trajet.heureDepart)}</p>
+            <p><strong>Prix :</strong> ${result.trajet.prix} Crédits</p>
+            <p><strong>Conducteur :</strong> ${
+              result.trajet.chauffeur.pseudo
+            }</p>
+            <p><strong>Véhicule :</strong> ${
+              result.trajet.vehicule.plaqueImmatriculation
+            }</p>
+            <p><strong>Durée estimée :</strong> ${formatHeure(
+              result.trajet.dureeVoyage
+            )} heures</p>
+            <p><strong>Statut du trajet :</strong> <span class="badge bg-${
+              result.trajet.statut === "CONFIRMEE" ? "success" : "warning"
+            }">${result.trajet.statut}</span></p>
+          `;
+
+          const btnContainer = document.createElement("div");
+          btnContainer.className = "text-center mt-3";
+
+          const btnDetails = document.createElement("button");
+          btnDetails.className = `btn text-primary btn-${
+            result.statut === "CONFIRMEE" ? "success" : "warning"
+          } btn-sm mx-2`;
+          btnDetails.textContent = "Voir les détails";
+          btnDetails.addEventListener("click", () =>
+            voirDetails(result.trajet)
+          );
+
+          const btnAnnuler = document.createElement("button");
+          btnAnnuler.className = "btn text-primary btn-red btn-sm mx-2";
+          btnAnnuler.textContent = "Annuler";
+          btnAnnuler.addEventListener("click", () => {
+            reservationIdASupprimer = result.id;
+            modal.show();
+          });
+
+          btnContainer.appendChild(btnDetails);
+          btnContainer.appendChild(btnAnnuler);
+          reservationCard.appendChild(btnContainer);
+          listeReservationsContainer.appendChild(reservationCard);
+        });
+      } else {
+        listeReservationsContainer.innerHTML = `<p class="text-muted">Aucune réservation pour le moment.</p>`;
+      }
+    })
+    .catch((error) => console.error(error));
+
+  // Confirmation depuis la modale
+  confirmerBtn.addEventListener("click", () => {
+    if (reservationIdASupprimer) {
+      annulerReservation(reservationIdASupprimer);
+      reservationIdASupprimer = null;
+      modal.hide();
+    }
+  });
+}
+
+// Suppression de la reservation
+function annulerReservation(id) {
+  if (confirm("Voulez-vous vraiment annuler cette réservation ?")) {
+    const myHeaders = new Headers();
+    myHeaders.append("X-AUTH-TOKEN", token);
+
+    const requestOptions = {
+      method: "DELETE",
+      headers: myHeaders,
+      redirect: "follow",
+    };
+
+    fetch(apiUrl + `reservation/${id}`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Erreur lors de l'annulation.");
+      });
+  }
+}
+
+// Fonction pour convertir la date en format ISO (dd-mm-yyyy)
+function formatDateFR(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+// Fonction pour convertir l'heure en format ISO (hh:mm)
+function formatHeure(dateString) {
+  if (!dateString) return "";
+  const date = new Date(dateString);
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  return `${hours}:${minutes}`;
+}
 
 // Fonction de gestion du bouton "Démarrer"
 function gestionDemarrer() {

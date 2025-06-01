@@ -12,7 +12,7 @@ const placesDisponibles = document.getElementById("places-disponibles");
 const statutVoyage = document.getElementById("etat-voyage");
 const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
-// btnValidationVoyage.disabled = true;
+btnValidationVoyage.disabled = true;
 
 departAdresse.addEventListener("input", validInputVoyage);
 arriveeAdresse.addEventListener("input", validInputVoyage);
