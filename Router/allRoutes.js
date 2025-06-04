@@ -62,7 +62,7 @@ export const allRoutes = [
   new Route(
     "/modifReservation",
     "Modification Reservation",
-    "/pages/profilUtilisateur/reservation.html",
+    "/pages/profilUtilisateur/reservation/reservation.html",
     [
       "ROLE_ADMIN",
       "ROLE_EMPLOYE",
@@ -71,7 +71,35 @@ export const allRoutes = [
       "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
-    "/js/profilUtiliateur/reservation.js"
+    "/js/profilUtiliateur/reservation/reservation.js"
+  ),
+  new Route(
+    "/vueReservation",
+    "Uue de la Reservation",
+    "/pages/profilUtilisateur/reservation/vueReservation.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/reservation/vueReservation.js"
+  ),
+  new Route(
+    "/statutReservation",
+    "Modification du statut de la Reservation",
+    "/pages/profilUtilisateur/reservation/statutReservation.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/reservation/statutReservation.js"
   ),
   new Route(
     "/modifAvatar",

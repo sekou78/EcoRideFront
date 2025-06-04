@@ -18,7 +18,7 @@
                   alt="Photo de profil"
                   class="img-fluid rounded-circle mb-3"
                   id="avatar-display" />
-                <h4 id="pseudo-display">Dinga Fath</h4>
+                <h4 id="pseudo-display">-</h4>
 
                 <!-- Affichage du total de crédits -->
                 <div>
@@ -27,7 +27,7 @@
                     <span
                       id="total-credits"
                       class="badge text-bg-secondary fs-3"
-                      >200</span
+                      >-</span
                     >
                   </p>
                 </div>
@@ -42,14 +42,14 @@
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                       <strong>Email :</strong>
-                      <span id="email-display">dinga.fath@mail.com</span>
+                      <span id="email-display">-</span>
                     </li>
                     <li class="list-group-item">
                       <strong>Téléphone :</strong>
-                      <span id="telephone-display">+33 6 00 00 00 00</span>
+                      <span id="telephone-display">-</span>
                     </li>
                     <li class="list-group-item">
-                      <strong>Rôle :</strong> <span id="role-display"></span>
+                      <strong>Rôle :</strong> <span id="role-display">-</span>
                     </li>
                   </ul>
                   <hr />
@@ -77,16 +77,16 @@
                   <h5 class="mt-4">Préférences</h5>
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                      <strong>Fumeur :</strong>
-                      <span id="fumeur-display"></span>
+                      <strong>🚭 Fumeur :</strong>
+                      <span id="fumeur-display">-</span>
                     </li>
                     <li class="list-group-item">
-                      <strong>Animaux acceptés :</strong>
-                      <span id="animal-display"></span>
+                      <strong>🐶 Animaux acceptés :</strong>
+                      <span id="animal-display">-</span>
                     </li>
                     <li class="list-group-item">
-                      <strong>Autres préférences :</strong>
-                      <span id="preferences-autres-display"></span>
+                      <strong>🧩 Autres préférences :</strong>
+                      <span id="preferences-autres-display">-</span>
                     </li>
                   </ul>
                 </div>
@@ -235,17 +235,21 @@
           aria-label="Fermer"></button>
       </div>
       <div class="modal-body">
-        Êtes-vous sûr de vouloir annuler cette réservation ?
+        Cette action supprimera votre reservation. <br />
+        <strong>Êtes-vous sûr de vouloir continuer ?</strong>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn btn-warning text-primary"
+          data-bs-dismiss="modal">
           Annuler
         </button>
         <button
           type="button"
-          class="btn btn-danger"
+          class="btn btn-red text-primary"
           id="confirmerAnnulationBtn">
-          Oui, annuler
+          Oui, supprimer
         </button>
       </div>
     </div>

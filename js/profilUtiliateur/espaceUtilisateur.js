@@ -143,35 +143,37 @@ fetch(apiUrl + "account/me", requestOptions)
 
       <!-- Corps de la carte avec les détails du trajet -->
       <div class="card-body">
-        <p class="mb-1"><strong>Départ :</strong> ${
+        <p class="mb-1"><strong>📍 Départ :</strong> ${
           trajetEnCours.adresseDepart
         }</p>
-        <p class="mb-1"><strong>Arrivée :</strong> ${
+        <p class="mb-1"><strong>🎯 Arrivée :</strong> ${
           trajetEnCours.adresseArrivee
         }</p>
-        <p class="mb-1"><strong>Date départ :</strong> ${formatDateFR(
+        <p class="mb-1"><strong>📅 Date départ :</strong> ${formatDateFR(
           trajetEnCours.dateDepart
         )}</p>
-        <p class="mb-1"><strong>Date arrivée :</strong> ${formatDateFR(
+        <p class="mb-1"><strong>📅 Date arrivée :</strong> ${formatDateFR(
           trajetEnCours.dateArrivee
         )}</p>
-        <p class="mb-1"><strong>Heure départ :</strong> ${formatHeure(
+        <p class="mb-1"><strong>⏰ Heure départ :</strong> ${formatHeure(
           trajetEnCours.heureDepart
         )}</p>
-        <p class="mb-1"><strong>Durée (estimée) :</strong> ${formatHeure(
+        <p class="mb-1"><strong>🕒 Durée (estimée) :</strong> ${formatHeure(
           trajetEnCours.dureeVoyage
         )}</p>
-        <p class="mb-1"><strong>Péage :</strong> ${
+        <p class="mb-1"><strong>🛣️ Péage :</strong> ${
           trajetEnCours.peage ? "Oui" : "Non"
         }</p>
-        <p class="mb-1"><strong>Prix :</strong> ${trajetEnCours.prix} Crédit</p>
-        <p class="mb-1"><strong>Écologique :</strong> ${
+        <p class="mb-1"><strong>💰 Prix :</strong> ${
+          trajetEnCours.prix
+        } Crédit</p>
+        <p class="mb-1"><strong>🌱 Écologique :</strong> ${
           trajetEnCours.estEcologique ? "Oui" : "Non"
         }</p>
-        <p class="mb-1"><strong>Places disponibles :</strong> ${
+        <p class="mb-1"><strong>🪑 Places disponibles :</strong> ${
           trajetEnCours.nombrePlacesDisponible
         }</p>
-        <p class="mb-1"><strong>Véhicule :</strong> ${
+        <p class="mb-1"><strong>🚗 Véhicule :</strong> ${
           trajetEnCours.vehicule.plaqueImmatriculation
         }</p>
 
@@ -329,11 +331,14 @@ function afficherReservations() {
                   : '<i class="bi bi-hourglass-split ms-2"></i>'
               }
             </h4>
-            <p><strong>Départ :</strong> ${result.trajet.adresseArrivee}</p>
-            <p><strong>Arrivée :</strong> ${result.trajet.adresseDepart}</p>
+            <p><strong>Départ :</strong> ${result.trajet.adresseDepart}</p>
+            <p><strong>Arrivée :</strong> ${result.trajet.adresseArrivee}</p>
             <p><strong>Date :</strong> ${formatDateFR(
               result.trajet.dateDepart
             )} à ${formatHeure(result.trajet.heureDepart)}</p>
+            <p><strong>Nombre de places restantes :</strong> ${
+              result.trajet.nombrePlacesDisponible
+            } Crédits</p>
             <p><strong>Prix :</strong> ${result.trajet.prix} Crédits</p>
             <p><strong>Conducteur :</strong> ${
               result.trajet.chauffeur.pseudo
@@ -357,9 +362,7 @@ function afficherReservations() {
             result.statut === "CONFIRMEE" ? "success" : "warning"
           } btn-sm mx-2`;
           btnDetails.textContent = "Voir les détails";
-          btnDetails.addEventListener("click", () =>
-            voirDetails(result.trajet)
-          );
+          btnDetails.addEventListener("click", () => voirDetails(result));
 
           const btnAnnuler = document.createElement("button");
           btnAnnuler.className = "btn text-primary btn-red btn-sm mx-2";
@@ -390,29 +393,32 @@ function afficherReservations() {
   });
 }
 
+// button voir details
+function voirDetails(reservation) {
+  localStorage.setItem("reservationDetails", JSON.stringify(reservation));
+  window.location.href = `/vueReservation?id=${reservation.id}`;
+}
+
 // Suppression de la reservation
 function annulerReservation(id) {
-  if (confirm("Voulez-vous vraiment annuler cette réservation ?")) {
-    const myHeaders = new Headers();
-    myHeaders.append("X-AUTH-TOKEN", token);
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", token);
 
-    const requestOptions = {
-      method: "DELETE",
-      headers: myHeaders,
-      redirect: "follow",
-    };
+  const requestOptions = {
+    method: "DELETE",
+    headers: myHeaders,
+    redirect: "follow",
+  };
 
-    fetch(apiUrl + `reservation/${id}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        window.location.reload();
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Erreur lors de l'annulation.");
-      });
-  }
+  fetch(apiUrl + `reservation/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Erreur lors de l'annulation.");
+    });
 }
 
 // Fonction pour convertir la date en format ISO (dd-mm-yyyy)
