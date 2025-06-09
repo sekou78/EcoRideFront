@@ -68,7 +68,7 @@ function trouverItineraireCovoiturage() {
   // Validation de la date
   if (!isValidDateFR(date)) {
     alert("Veuillez entrer une date valide au format jj/mm/aaaa.");
-    return; // Stopper la fonction si la date est invalide
+    return;
   }
 
   // Convertir la date jj/mm/aaaa => aaaa-mm-jj
@@ -138,17 +138,42 @@ function validateCovoiturageInputRequired(input) {
 }
 
 function validDate(input) {
-  //Regex pour valider les dates au format jj/mm/aaaa
+  // Regex pour valider le format jj/mm/aaaa
   const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
   const dateUser = input.value.trim();
 
-  if (dateRegex.test(dateUser)) {
-    input.classList.add("is-valid");
-    input.classList.remove("is-invalid");
-    return true;
-  } else {
+  if (!dateRegex.test(dateUser)) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     return false;
   }
+
+  // Extraire jour, mois, année
+  const [day, month, year] = dateUser.split("/");
+  const date = new Date(`${year}-${month}-${day}`);
+
+  if (isNaN(date.getTime())) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    return false;
+  }
+
+  // Date du jour (à minuit)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Date max = aujourd’hui + 30 jours
+  const maxDate = new Date(today);
+  maxDate.setDate(maxDate.getDate() + 30);
+
+  if (date < today || date > maxDate) {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    return false;
+  }
+
+  // Tout est ok
+  input.classList.add("is-valid");
+  input.classList.remove("is-invalid");
+  return true;
 }

@@ -12,14 +12,14 @@
       <!-- Carte du profil utilisateur -->
       <div class="card shadow-lg rounded-lg">
         <div class="card-header bg-dark text-primary text-center">
-          <h2>Créer un trajet</h2>
+          <h2>➕ Créer un trajet</h2>
         </div>
 
         <div class="container text-center mt-3">
           <!--Créer un voyage-->
           <form id="trajet-form">
             <div class="mb-3">
-              <label for="depart-trajet-adresse">Adresse de départ :</label>
+              <label for="depart-trajet-adresse">📍 Départ :</label>
               <input
                 type="text"
                 class="bg-dark"
@@ -29,7 +29,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="arrivee-trajet-adresse">Adresse d'arrivée :</label>
+              <label for="arrivee-trajet-adresse">🎯 Arrivée :</label>
               <input
                 type="text"
                 class="bg-dark"
@@ -39,7 +39,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="date-depart">Date du départ :</label>
+              <label for="date-depart">📅 Date départ :</label>
               <input
                 type="date"
                 class="bg-dark"
@@ -49,7 +49,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="date-arrivee">Date d'arrivée :</label>
+              <label for="date-arrivee">📅 Date d'arrivée :</label>
               <input
                 type="date"
                 class="bg-dark"
@@ -59,7 +59,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="heure-depart">Heure du départ :</label>
+              <label for="heure-depart">⏰ Heure départ :</label>
               <input
                 type="time"
                 class="bg-dark"
@@ -69,7 +69,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="duree-voyage">Durée du voyage :</label>
+              <label for="duree-voyage">🕒 Durée (estimée) :</label>
               <input
                 type="time"
                 class="bg-dark"
@@ -80,7 +80,7 @@
 
             <div class="mb-3">
               <label for="peage-trajet" class="form-check-label"
-                >Péage sur le trajet ?</label
+                >🛣️ Péage sur le trajet ?</label
               ><br />
               <input
                 type="checkbox"
@@ -93,7 +93,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="prix-trajet">Prix (min. 2 crédits) :</label>
+              <label for="prix-trajet">💰 Prix (min. 2 crédits) :</label>
               <input
                 type="number"
                 class="bg-dark"
@@ -105,7 +105,7 @@
 
             <div class="mb-3">
               <label for="trajet-ecologique" class="form-check-label"
-                >Est-écologique ?</label
+                >🌱 Est-écologique ?</label
               ><br />
               <input
                 type="checkbox"
@@ -119,7 +119,7 @@
 
             <div class="mb-3">
               <label for="places-disponibles"
-                >Nombre de places disponibles :</label
+                >🪑 Nombre de places disponibles :</label
               >
               <input
                 type="number"
@@ -138,7 +138,7 @@
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  <span id="choixVehicule">Choix du véhicule</span>
+                  <span id="choixVehicule">🚗 Choix du véhicule</span>
                 </button>
                 <ul class="dropdown-menu bg-success" id="vehiculeDropdownMenu">
                   <li>
@@ -148,7 +148,7 @@
                     <a
                       class="dropdown-item text-primary"
                       href="/modifProfilConducteur">
-                      Ajouter un véhicule
+                      ➕ Ajouter un véhicule
                     </a>
                   </li>
                 </ul>
@@ -164,7 +164,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="etat-voyage">Etat du voyage</label>
+              <label for="etat-voyage">🚦Etat du voyage</label>
               <select
                 class="form-select bg-dark"
                 id="etat-voyage"
@@ -172,9 +172,9 @@
                 required
                 aria-label="Default select example">
                 <option selected></option>
-                <option value="1">EN_ATTENTE</option>
-                <option value="2">EN_COURS</option>
-                <option value="3">TERMINEE</option>
+                <option value="1">⏳ EN_ATTENTE</option>
+                <option value="2">🚗 EN_COURS</option>
+                <option value="3">🏁 TERMINEE</option>
               </select>
             </div>
           </form>
@@ -184,7 +184,7 @@
               type="submit"
               class="btn bg-success border-dark text-primary"
               id="btn-ajouter-voyage">
-              Créer le voyage
+              📥 Créer le voyage
             </button>
           </div>
         </div>

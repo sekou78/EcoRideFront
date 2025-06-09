@@ -69,24 +69,24 @@ function genererModalsVehicules(vehicules) {
       </div>
       <div class="modal-body">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><strong>Immatriculation :</strong> ${
+          <li class="list-group-item"><strong>🔢 Immatriculation :</strong> ${
             vehicule.plaqueImmatriculation
           }</li>
-          <li class="list-group-item"><strong>Date d'immatriculation :</strong> ${formattedDate}</li>
-          <li class="list-group-item"><strong>Marque :</strong> ${
+          <li class="list-group-item"><strong>📅 Date d'immatriculation :</strong> ${formattedDate}</li>
+          <li class="list-group-item"><strong>🚗 Marque :</strong> ${
             vehicule.marque
           }</li>
-          <li class="list-group-item"><strong>Modèle :</strong> ${
+          <li class="list-group-item"><strong>🚘 Modèle :</strong> ${
             vehicule.modele
           }</li>
-          <li class="list-group-item"><strong>Couleur :</strong> ${
+          <li class="list-group-item"><strong>🎨 Couleur :</strong> ${
             vehicule.couleur
           }</li>
-          <li class="list-group-item"><strong>Nombre de places :</strong> ${
+          <li class="list-group-item"><strong>🪑 Nombre de places :</strong> ${
             vehicule.nombrePlaces
           }</li>
-          <li class="list-group-item"><strong>Électrique :</strong> ${
-            vehicule.electrique ? "Oui" : "Non"
+          <li class="list-group-item"><strong>🔋 Électrique :</strong> ${
+            vehicule.electrique ? "✅Oui" : "❌Non"
           }</li>
         </ul>
       </div>

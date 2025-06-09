@@ -2,7 +2,26 @@ import Route from "./Route.js";
 
 //Définir ici vos routes
 export const allRoutes = [
-  new Route("/", "Accueil", "/pages/accueil/accueil.html", []),
+  new Route(
+    "/",
+    "Accueil",
+    "/pages/accueil/accueil.html",
+    [],
+    "/js/accueil/accueil.js"
+  ),
+  new Route(
+    "/avis",
+    "Avis",
+    "/pages/accueil/avis.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/accueil/avis.js"
+  ),
   new Route(
     "/covoiturage",
     "Covoiturage",
@@ -48,7 +67,7 @@ export const allRoutes = [
   new Route(
     "/espaceUtilisateur",
     "Espace Utilisateur",
-    "/pages/profilUtilisateur/espaceUtilisateur.html",
+    "/pages/profilUtilisateur/comptes/espaceUtilisateur.html",
     [
       "ROLE_ADMIN",
       "ROLE_EMPLOYE",
@@ -57,7 +76,7 @@ export const allRoutes = [
       "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
-    "/js/profilUtiliateur/espaceUtilisateur.js"
+    "/js/profilUtiliateur/comptes/espaceUtilisateur.js"
   ),
   new Route(
     "/modifReservation",
@@ -104,7 +123,7 @@ export const allRoutes = [
   new Route(
     "/modifAvatar",
     "Modification Avatar",
-    "/pages/profilUtilisateur/modifAvatar.html",
+    "/pages/profilUtilisateur/comptes/modifAvatar.html",
     [
       "ROLE_ADMIN",
       "ROLE_EMPLOYE",
@@ -113,12 +132,12 @@ export const allRoutes = [
       "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
-    "/js/profilUtiliateur/modifAvatar.js"
+    "/js/profilUtiliateur/comptes/modifAvatar.js"
   ),
   new Route(
     "/modifProfil",
     "Modification Profil",
-    "/pages/profilUtilisateur/modifProfil.html",
+    "/pages/profilUtilisateur/comptes/modifProfil.html",
     [
       "ROLE_ADMIN",
       "ROLE_EMPLOYE",
@@ -127,7 +146,7 @@ export const allRoutes = [
       "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
-    "/js/profilUtiliateur/modifProfil.js"
+    "/js/profilUtiliateur/comptes/modifProfil.js"
   ),
   new Route(
     "/modifProfilConducteur",
@@ -167,7 +186,7 @@ export const allRoutes = [
   new Route(
     "/historiqueUtilisateur",
     "Historique Utilisateur",
-    "/pages/profilUtilisateur/historiqueUtilisateur.html",
+    "/pages/profilUtilisateur/comptes/historiqueUtilisateur.html",
     [
       "ROLE_ADMIN",
       "ROLE_EMPLOYE",
@@ -176,7 +195,7 @@ export const allRoutes = [
       "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
-    "/js/profilUtiliateur/historiqueUtilisateur.js"
+    "/js/profilUtiliateur/comptes/historiqueUtilisateur.js"
   ),
   new Route(
     "/espaceEmployee",

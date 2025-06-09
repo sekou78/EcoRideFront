@@ -20,34 +20,53 @@
     <div class="image image-4"></div>
   </div>
   <div class="scene-accueil-content">
-    <div class="mb-3">
-      <label for="departInput" class="form-label"></label>
-      <input
-        type="text"
-        id="departInput"
-        class="form-control border border-danger"
-        placeholder="Départ :" />
-    </div>
+    <form id="itineraire-accueil">
+      <div class="mb-2">
+        <label for="departInput" class="form-label"></label>
+        <input
+          type="text"
+          id="departInput"
+          class="form-control border border-danger"
+          placeholder="📍 Départ :"
+          name="depart_accueil" />
+      </div>
 
-    <div>
-      <button type="button" class="btn btn-success border-dark btn-lg">
-        <i class="bi bi-arrow-down-up text-black"></i>
-      </button>
-    </div>
+      <div>
+        <button
+          type="button"
+          id="btn-switch-accueil"
+          class="btn btn-success border-dark btn-lg">
+          <i class="bi bi-arrow-down-up text-black"></i>
+        </button>
+      </div>
 
-    <div class="mb-3">
-      <label for="arriveeInput" class="form-label"></label>
-      <input
-        type="text"
-        id="arriveeInput"
-        class="form-control border border-danger"
-        placeholder="Arrivée :" />
-    </div>
+      <div class="mb-2">
+        <label for="arriveeInput" class="form-label"></label>
+        <input
+          type="text"
+          id="arriveeInput"
+          class="form-control border border-danger"
+          placeholder="🎯 Arrivée :"
+          name="arrivee_accueil" />
+      </div>
 
-    <div>
-      <button type="button" class="btn btn-success border-dark text-primary">
-        Trouver mon itinéraire
-      </button>
-    </div>
+      <div class="mb-2">
+        <label for="accueilDateInput" class="form-label"></label>
+        <input
+          type="text"
+          id="accueilDateInput"
+          class="form-control border border-danger"
+          placeholder="📅 Date départ :"
+          name="date_accueil" />
+      </div>
+    </form>
+  </div>
+  <div>
+    <button
+      type="button"
+      id="btn-trouver-itineraire-accueil"
+      class="btn btn-success border-dark text-primary">
+      🔎 Trouver mon itinéraire
+    </button>
   </div>
 </div>

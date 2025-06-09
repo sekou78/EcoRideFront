@@ -180,3 +180,8 @@ function reserverTrajet() {
   // Redirection vers la page de statut avec l'ID de la réservation
   window.location.href = `/statutReservation?id=${reservationDetails.id}`;
 }
+
+//Recuperation de l'avis sur le chauffeur
+const reservationDetails = JSON.parse(
+  localStorage.getItem("reservationDetails")
+);

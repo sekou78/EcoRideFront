@@ -255,7 +255,7 @@ function confirmerReservation() {
           })
           .catch((error) => {
             console.error(error);
-            alert("Erreur lors de la réservation.");
+            alert("Reservation impossible.");
           });
       }
     })

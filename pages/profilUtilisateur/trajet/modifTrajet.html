@@ -12,16 +12,14 @@
       <!-- Carte du profil utilisateur -->
       <div class="card shadow-lg rounded-lg">
         <div class="card-header bg-dark text-primary text-center">
-          <h2>Modifier le trajet</h2>
+          <h2>⚙️ Modifier le trajet</h2>
         </div>
 
         <div class="container text-center mt-3">
           <!--Créer un voyage-->
           <form id="edit-trajet-form">
             <div class="mb-3">
-              <label for="edit-depart-trajet-adresse"
-                >Adresse de départ :</label
-              >
+              <label for="edit-depart-trajet-adresse">📍 Départ :</label>
               <input
                 type="text"
                 class="bg-dark"
@@ -31,9 +29,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-arrivee-trajet-adresse"
-                >Adresse d'arrivée :</label
-              >
+              <label for="edit-arrivee-trajet-adresse">🎯 Arrivée :</label>
               <input
                 type="text"
                 class="bg-dark"
@@ -43,7 +39,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-date-depart">Date du départ :</label>
+              <label for="edit-date-depart">📅 Date départ :</label>
               <input
                 type="date"
                 class="bg-dark"
@@ -53,7 +49,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-date-arrivee">Date d'arrivée :</label>
+              <label for="edit-date-arrivee">📅 Date arrivée :</label>
               <input
                 type="date"
                 class="bg-dark"
@@ -63,7 +59,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-heure-depart">Heure du départ :</label>
+              <label for="edit-heure-depart">⏰ Heure départ :</label>
               <input
                 type="time"
                 class="bg-dark"
@@ -73,7 +69,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-duree-voyage">Durée du voyage :</label>
+              <label for="edit-duree-voyage">🕒 Durée (estimée) :</label>
               <input
                 type="time"
                 class="bg-dark"
@@ -84,7 +80,7 @@
 
             <div class="mb-3">
               <label for="edit-peage-trajet" class="form-check-label"
-                >Péage sur le trajet ?</label
+                >🛣️ Péage sur le trajet ?</label
               ><br />
               <input
                 type="checkbox"
@@ -97,7 +93,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-prix-trajet">Prix (min. 2 crédits) :</label>
+              <label for="edit-prix-trajet">💰 Prix (min. 2 crédits) :</label>
               <input
                 type="number"
                 class="bg-dark"
@@ -109,7 +105,7 @@
 
             <div class="mb-3">
               <label for="edit-trajet-ecologique" class="form-check-label"
-                >Est-écologique ?</label
+                >🌱 Est-écologique ?</label
               ><br />
               <input
                 type="checkbox"
@@ -123,7 +119,7 @@
 
             <div class="mb-3">
               <label for="edit-places-disponibles"
-                >Nombre de places disponibles :</label
+                >🪑 Nombre de places disponibles :</label
               >
               <input
                 type="number"
@@ -142,7 +138,7 @@
                   type="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  <span id="choixVehiculeModif">Choix du véhicule</span>
+                  <span id="choixVehiculeModif">🚗 Choix du véhicule</span>
                 </button>
                 <ul class="dropdown-menu bg-success" id="vehiculeDropdownMenu">
                   <li>
@@ -152,7 +148,7 @@
                     <a
                       class="dropdown-item text-primary"
                       href="/modifProfilConducteur">
-                      Ajouter un véhicule
+                      ➕ Ajouter un véhicule
                     </a>
                   </li>
                 </ul>
@@ -168,7 +164,7 @@
             </div>
 
             <div class="mb-3">
-              <label for="edit-etat-voyage">Etat du voyage</label>
+              <label for="edit-etat-voyage">🚦Etat du voyage</label>
               <select
                 class="form-select bg-dark"
                 id="edit-etat-voyage"
@@ -176,9 +172,9 @@
                 required
                 aria-label="Default select example">
                 <option selected></option>
-                <option value="1">EN_ATTENTE</option>
-                <option value="2">EN_COURS</option>
-                <option value="3">TERMINEE</option>
+                <option value="1">⏳ EN_ATTENTE</option>
+                <option value="2">🚗 EN_COURS</option>
+                <option value="3">🏁 TERMINEE</option>
               </select>
             </div>
           </form>
@@ -188,7 +184,7 @@
               type="submit"
               class="btn bg-success border-dark text-primary"
               id="btn-edit-voyage">
-              Sauvegarder le trajet
+              📥 Sauvegarder le trajet
             </button>
           </div>
         </div>

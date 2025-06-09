@@ -1,11 +1,16 @@
+const avisPassagerForm = document.getElementById("avis-passager-form");
 const modifProfil = document.getElementById("profil-form");
+
+//Informations sur l'utilisateur
 const avatarDisplay = document.getElementById("avatar-display");
 const pseudoDisplay = document.getElementById("pseudo-display");
 const totalCredits = document.getElementById("total-credits");
 const emailCurrentUserDisplay = document.getElementById("email-display");
 const telephoneDisplay = document.getElementById("telephone-display");
 const roleDisplay = document.getElementById("role-display");
+//Informations sur le Trajet du chauffeur
 const listeTrajetsContainer = document.getElementById("listeTrajets");
+//Informations sur le Véhicule
 const immatriculationDisplay = document.getElementById(
   "immatriculation-display"
 );
@@ -30,41 +35,16 @@ const animalDisplay = document.getElementById("animal-display");
 const preferencesAutresDisplay = document.getElementById(
   "preferences-autres-display"
 );
-const btnDemarrer = document.getElementById("btn-demarrer");
-const btnArrivee = document.getElementById("btn-arrivee");
-const inputPseudoAvis = document.getElementById("floatingInput");
-const textareaAvis = document.getElementById("floatingTextarea");
-const btnEnvoyerCommentaire = document.getElementById(
-  "btn-envoyer-commentaire"
-);
-const btnRemonterProblemes = document.getElementById("btn-remonter-problemes");
 const btnConfirmerSuppression = document.getElementById(
   "btnConfirmerSuppression"
 );
-
-inputPseudoAvis.addEventListener("keyup", validInputAvis);
-textareaAvis.addEventListener("keyup", validInputAvis);
+const btnDemarrer = document.getElementById("btn-demarrer");
+const btnArrivee = document.getElementById("btn-arrivee");
 
 btnDemarrer.addEventListener("click", gestionDemarrer);
 btnArrivee.addEventListener("click", gestionArrivee);
-btnEnvoyerCommentaire.disabled = true;
-btnEnvoyerCommentaire.addEventListener("click", gestionEnvoyerCommentaire);
-btnRemonterProblemes.disabled = true;
-btnRemonterProblemes.addEventListener("click", gestionRemonterProblemes);
+
 btnConfirmerSuppression.addEventListener("click", suppressionModal);
-
-function validInputAvis() {
-  const pseudoOk = validateAvisRequired(inputPseudoAvis);
-  const commentaireOk = validateAvisRequired(textareaAvis);
-
-  if (pseudoOk && commentaireOk) {
-    btnEnvoyerCommentaire.disabled = false;
-    btnRemonterProblemes.disabled = false;
-  } else {
-    btnEnvoyerCommentaire.disabled = true;
-    btnRemonterProblemes.disabled = true;
-  }
-}
 
 const token = getCookie(tokenCookieName);
 
@@ -331,22 +311,22 @@ function afficherReservations() {
                   : '<i class="bi bi-hourglass-split ms-2"></i>'
               }
             </h4>
-            <p><strong>Départ :</strong> ${result.trajet.adresseDepart}</p>
-            <p><strong>Arrivée :</strong> ${result.trajet.adresseArrivee}</p>
-            <p><strong>Date :</strong> ${formatDateFR(
+            <p><strong>📍 Départ :</strong> ${result.trajet.adresseDepart}</p>
+            <p><strong>🎯 Arrivée :</strong> ${result.trajet.adresseArrivee}</p>
+            <p><strong>📅 Date départ :</strong> ${formatDateFR(
               result.trajet.dateDepart
             )} à ${formatHeure(result.trajet.heureDepart)}</p>
-            <p><strong>Nombre de places restantes :</strong> ${
+            <p><strong>🪑 Places disponibles :</strong> ${
               result.trajet.nombrePlacesDisponible
             } Crédits</p>
-            <p><strong>Prix :</strong> ${result.trajet.prix} Crédits</p>
-            <p><strong>Conducteur :</strong> ${
+            <p><strong>💰 Prix :</strong> ${result.trajet.prix} Crédits</p>
+            <p><strong>👤 Conducteur :</strong> ${
               result.trajet.chauffeur.pseudo
             }</p>
-            <p><strong>Véhicule :</strong> ${
+            <p><strong>🚗 Véhicule :</strong> ${
               result.trajet.vehicule.plaqueImmatriculation
             }</p>
-            <p><strong>Durée estimée :</strong> ${formatHeure(
+            <p><strong>🕒 Durée (estimée) :</strong> ${formatHeure(
               result.trajet.dureeVoyage
             )} heures</p>
             <p><strong>Statut du trajet :</strong> <span class="badge bg-${
@@ -363,17 +343,42 @@ function afficherReservations() {
           } btn-sm mx-2`;
           btnDetails.textContent = "Voir les détails";
           btnDetails.addEventListener("click", () => voirDetails(result));
-
-          const btnAnnuler = document.createElement("button");
-          btnAnnuler.className = "btn text-primary btn-red btn-sm mx-2";
-          btnAnnuler.textContent = "Annuler";
-          btnAnnuler.addEventListener("click", () => {
-            reservationIdASupprimer = result.id;
-            modal.show();
-          });
-
           btnContainer.appendChild(btnDetails);
-          btnContainer.appendChild(btnAnnuler);
+
+          // Calcul de la date d'arrivée + 1 jour
+          const dateDepart = new Date(result.trajet.dateDepart);
+          const dureeVoyageDate = new Date(result.trajet.dureeVoyage);
+          const dureeHeures = dureeVoyageDate.getUTCHours();
+          const dureeMinutes = dureeVoyageDate.getUTCMinutes();
+          const dureeMillis = (dureeHeures * 60 + dureeMinutes) * 60 * 1000;
+
+          const dateArrivee = new Date(dateDepart.getTime() + dureeMillis);
+          const datePlusUnJour = new Date(
+            dateArrivee.getTime() + 24 * 60 * 60 * 1000
+          );
+          const maintenant = new Date();
+
+          if (maintenant < datePlusUnJour) {
+            // Bouton "Annuler"
+            const btnAnnuler = document.createElement("button");
+            btnAnnuler.className = "btn text-primary btn-red btn-sm mx-2";
+            btnAnnuler.textContent = "Annuler";
+            btnAnnuler.addEventListener("click", () => {
+              reservationIdASupprimer = result.id;
+              modal.show();
+            });
+            btnContainer.appendChild(btnAnnuler);
+          } else {
+            // Bouton "Trajet terminé"
+            const btnTermine = document.createElement("button");
+            btnTermine.className = "btn bg-secondary btn-sm mx-2";
+            btnTermine.textContent = "Fin du trajet";
+            btnTermine.addEventListener("click", () =>
+              voirTrajetTermine(result)
+            );
+            btnContainer.appendChild(btnTermine);
+          }
+
           reservationCard.appendChild(btnContainer);
           listeReservationsContainer.appendChild(reservationCard);
         });
@@ -397,6 +402,12 @@ function afficherReservations() {
 function voirDetails(reservation) {
   localStorage.setItem("reservationDetails", JSON.stringify(reservation));
   window.location.href = `/vueReservation?id=${reservation.id}`;
+}
+
+// Fonction pour trajet terminer
+function voirTrajetTermine(reservation) {
+  localStorage.setItem("reservationTerminee", JSON.stringify(reservation));
+  window.location.href = `/avis?id=${reservation.id}`;
 }
 
 // Suppression de la reservation
@@ -532,69 +543,4 @@ function validateAvisRequired(input) {
     input.classList.add("is-invalid");
     return false;
   }
-}
-
-// Envoie de commentaire pour être validé par un employé
-function gestionEnvoyerCommentaire() {
-  // Récupérer les anciens commentaires s’ils existent
-  let commentaires = [];
-  try {
-    const saved = JSON.parse(localStorage.getItem("commentaires"));
-    if (Array.isArray(saved)) {
-      commentaires = saved;
-    } else if (saved) {
-      commentaires = [saved];
-    }
-  } catch (e) {
-    console.warn("Erreur lors du parsing de commentaires :", e);
-  }
-
-  const newComment = {
-    pseudo: inputPseudoAvis.value.trim(),
-    commentaire: textareaAvis.value.trim(),
-  };
-
-  // Ajouter le nouveau commentaire au tableau
-  commentaires.push(newComment);
-
-  // Sauvegarder le tableau mis à jour
-  localStorage.setItem("commentaires", JSON.stringify(commentaires));
-
-  alert("Commentaire envoyé !");
-  window.location.reload();
-}
-
-function gestionRemonterProblemes() {
-  // Récupérer les anciens commentaires s’ils existent
-  let problemesRemonter = [];
-  try {
-    const saved = JSON.parse(localStorage.getItem("problemesRemonter"));
-    if (Array.isArray(saved)) {
-      problemesRemonter = saved;
-    } else if (saved) {
-      problemesRemonter = [saved];
-    }
-  } catch (e) {
-    console.warn("Erreur lors du parsing de problemesRemonter :", e);
-  }
-
-  // Générer un identifiant unique style #CV123456
-  const uniqueId = "#CV" + Math.floor(100000 + Math.random() * 900000);
-
-  // Créer le nouveau commentaire
-  const newProblemesRemonter = {
-    id: uniqueId,
-    pseudo: inputPseudoAvis.value.trim(),
-    commentaire: textareaAvis.value.trim(),
-    date: new Date().toISOString(), // facultatif mais pratique
-  };
-
-  // Ajouter à la liste existante
-  problemesRemonter.push(newProblemesRemonter);
-
-  // Sauvegarder à nouveau
-  localStorage.setItem("problemesRemonter", JSON.stringify(problemesRemonter));
-
-  alert("Probleme remonter");
-  window.location.reload();
 }

@@ -1,3 +1,10 @@
+//filtrage
+const filtreEcologique = document.getElementById("trajet-ecologique");
+const filtrePrix = document.getElementById("filtrePrixVoyage");
+const filtreDuree = document.getElementById("filtreDureeVoyage");
+const filtreNotes = document.getElementById("filtreNoteMin");
+const btnAppliquerFiltre = document.getElementById("btnValidFilter");
+// pagination
 const container = document.getElementById("result-container");
 const paginationContainer = document.getElementById("pagination-container");
 
@@ -95,20 +102,18 @@ function renderPage(pageData) {
               <span class="notation-stars">${notations(trajet.note || 0)}</span>
             </h5>
             <p><strong>Statut du trajet :</strong> ${trajet.statut}</p>
-            <p><strong>Places restantes :</strong> ${
+            <p><strong>🪑 Places disponibles :</strong> ${
               trajet.placesDisponibles
             }</p>
-            <p><strong>Prix :</strong> ${trajet.prix} Crédits</p>
-            <p><strong>Date départ :</strong> ${trajet.dateDepart}</p>
-            <p><strong>Heure départ :</strong> ${trajet.heureDepart}</p>
-            <p><strong>Date arrivée :</strong> ${trajet.dateArrivee}</p>
-            <p><strong>Durée du trajet (estimée) :</strong> ${
-              trajet.dureeVoyage
-            }</p>
-            <p><strong>Péage :</strong> ${
+            <p><strong>💰 Prix :</strong> ${trajet.prix} Crédits</p>
+            <p><strong>📅 Date départ :</strong> ${trajet.dateDepart}</p>
+            <p><strong>⏰ Heure départ :</strong> ${trajet.heureDepart}</p>
+            <p><strong>📅 Date arrivée :</strong> ${trajet.dateArrivee}</p>
+            <p><strong>🕒 Durée (estimée) :</strong> ${trajet.dureeVoyage}</p>
+            <p><strong>🛣️ Péage :</strong> ${
               trajet.peage === "oui" ? "✅ Oui" : "❌ Non"
             }</p>
-            <p><strong>Écologique :</strong> ${
+            <p><strong>🌱 Écologique :</strong> ${
               trajet.estEcologique === "oui" ? "✅ Oui" : "❌ Non"
             }</p>
           </div>
