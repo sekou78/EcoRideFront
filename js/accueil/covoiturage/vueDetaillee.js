@@ -137,6 +137,62 @@ async function vueDetailleeTrajetInfos() {
       ? "Oui"
       : "Non";
 
+    //Avis sur le conducteur
+    // Appel de la fonction
+    vueAvis();
+    function vueAvis() {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+
+      fetch(apiUrl + "avis/avisVisible", requestOptions)
+        .then((response) => response.json())
+        .then((avisList) => {
+          const chauffeurPseudo = trajetIdInfos?.chauffeur;
+
+          if (!chauffeurPseudo) {
+            console.warn("Impossible de récupérer le pseudo du chauffeur.");
+            return;
+          }
+
+          const avisChauffeur = avisList.filter(
+            (avis) => avis.reservation?.chauffeur === chauffeurPseudo
+          );
+
+          const container = document.getElementById("avisVueDetaillee");
+          container.innerHTML = "";
+
+          if (avisChauffeur.length === 0) {
+            container.innerHTML = `
+          <li class="list-group-item .text-body-secondary">Aucun avis pour ce conducteur.</li>`;
+            return;
+          }
+
+          avisChauffeur.forEach((avis) => {
+            const note = parseInt(avis.note) || 0;
+            const etoiles = "⭐️".repeat(note) + "☆".repeat(5 - note);
+
+            const avisHtml = `
+          <li class="list-group-item">
+            <span>${etoiles}</span>
+          </li>
+          <li class="list-group-item">
+            <strong>🧩 Commentaire :</strong> ${avis.commentaire || "—"}
+          </li>
+        `;
+
+            container.insertAdjacentHTML("beforeend", avisHtml);
+          });
+        })
+        .catch((error) => {
+          console.error(
+            "Erreur lors de la récupération des avis visibles :",
+            error
+          );
+        });
+    }
+
     //Informations sur le Véhicule
     immatriculationDetailleeDisplay.textContent =
       result.vehicule.plaqueImmatriculation || "—";
