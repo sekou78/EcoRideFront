@@ -208,7 +208,7 @@ export const allRoutes = [
     "/espaceProblemesRemonter",
     "Espace Problemes Remonter",
     "/pages/employeeGestion/espaceProblemesRemonter.html",
-    ["ROLE_EMPLOYE"],
+    ["ROLE_EMPLOYE", "ROLE_USER"],
     "/js/employeeGestion/espaceProblemesRemonter.js"
   ),
   new Route(

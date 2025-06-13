@@ -8,8 +8,8 @@ const btnEnvoyerCommentaire = document.getElementById(
 );
 const btnRemonterProblemes = document.getElementById("btn-remonter-problemes");
 
-btnEnvoyerCommentaire.disabled = true;
-btnRemonterProblemes.disabled = true;
+btnEnvoyerCommentaire.style.display = "none";
+btnRemonterProblemes.style.display = "none";
 
 btnEnvoyerCommentaire.addEventListener("click", envoyerCommentaire);
 btnRemonterProblemes.addEventListener("click", remonterUnProbleme);
@@ -21,24 +21,25 @@ function validInputAvis() {
   const pseudoOk = validateAvisRequired(inputPseudoAvis);
   const noteChauffeurAvisOk = validNote(noteChauffeurAvis);
 
+  // Si les champs obligatoires ne sont pas remplis correctement
   if (!pseudoOk || !noteChauffeurAvisOk) {
-    btnEnvoyerCommentaire.disabled = true;
-    btnRemonterProblemes.disabled = true;
+    btnEnvoyerCommentaire.style.display = "none";
+    btnRemonterProblemes.style.display = "none";
     return;
   }
 
   const note = parseInt(noteChauffeurAvis.value.trim(), 10);
 
   if (note >= 3 && note <= 5) {
-    btnEnvoyerCommentaire.disabled = false;
-    btnRemonterProblemes.disabled = true;
+    btnEnvoyerCommentaire.style.display = "inline-block";
+    btnRemonterProblemes.style.display = "none";
   } else if (note >= 0 && note <= 2) {
-    btnEnvoyerCommentaire.disabled = true;
-    btnRemonterProblemes.disabled = false;
+    btnEnvoyerCommentaire.style.display = "none";
+    btnRemonterProblemes.style.display = "inline-block";
   } else {
-    // au cas où la note n'est pas valide
-    btnEnvoyerCommentaire.disabled = true;
-    btnRemonterProblemes.disabled = true;
+    // Note invalide : tout cacher
+    btnEnvoyerCommentaire.style.display = "none";
+    btnRemonterProblemes.style.display = "none";
   }
 }
 
@@ -73,7 +74,7 @@ function envoyerCommentaire() {
     redirect: "follow",
   };
 
-  fetch("http://localhost:8000/api/avis", requestOptions)
+  fetch(apiUrl + "avis", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       console.log("Réponse du serveur :", result);
@@ -126,7 +127,7 @@ function remonterUnProbleme() {
     redirect: "follow",
   };
 
-  fetch("http://localhost:8000/api/avis", requestOptions)
+  fetch(apiUrl + "avis", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       console.log("Réponse du serveur :", result);
