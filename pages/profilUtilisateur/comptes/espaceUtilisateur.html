@@ -110,19 +110,6 @@
             </div>
           </div>
 
-          <!-- Boutons de gestion du covoiturage (chauffeur uniquement) -->
-          <div
-            class="mt-4 mb-4 text-center"
-            data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
-            <hr />
-            <button id="btn-demarrer" class="btn btn-bg-dark text-primary">
-              Démarrer
-            </button>
-            <button id="btn-arrivee" class="btn btn-red d-none">
-              Arrivée à destination
-            </button>
-          </div>
-
           <!-- Pied de carte : actions -->
           <div class="card-footer bg-dark text-center">
             <div class="row align-items-center">
@@ -181,10 +168,7 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           Annuler
         </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          id="btnConfirmerSuppression">
+        <button type="button" class="btn btn-red" id="btnConfirmerSuppression">
           Supprimer
         </button>
       </div>

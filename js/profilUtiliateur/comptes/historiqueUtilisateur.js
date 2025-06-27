@@ -3,64 +3,73 @@ const creditsHistorique = document.getElementById("credits-historique");
 const placesDisponiblesHistorique = document.getElementById(
   "places-disponibles-historique"
 );
+const mesCovoiturages = document.getElementById("mes-covoiturages");
 
-const covoiturage1 = document.getElementById("covoiturage-1");
-const covoiturage2 = document.getElementById("covoiturage-2");
+const token = getCookie(tokenCookieName);
 
-const btnAnnulationCovoiturage1 = document.getElementById("btn-covoiturage-1");
-const btnAnnulationCovoiturage2 = document.getElementById("btn-covoiturage-2");
+const myHeaders = new Headers();
+myHeaders.append("X-AUTH-TOKEN", token);
 
-// Récupérer l'email de l'utilisateur connecté
-const currentUserEmail = localStorage.getItem("currentUserEmail");
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow",
+};
 
-if (currentUserEmail) {
-  // Charger les informations de l'utilisateur
-  const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+// Appel de l'API pour récupérer les trajets
+fetch(apiUrl + "historique/", requestOptions)
+  .then((response) => response.json())
+  .then((data) => {
+    const trajets = data.items;
 
-  if (userData) {
-    pseudoHistorique.textContent = userData.pseudo;
-    creditsHistorique.textContent = userData.credits;
-    placesDisponiblesHistorique.textContent = userData.placesDisponibles;
-  } else {
-    alert("Données utilisateur introuvables.");
-  }
-} else {
-  alert("Aucun utilisateur connecté.");
-}
+    trajets.forEach((trajet, index) => {
+      const covoiturageDiv = document.createElement("div");
+      covoiturageDiv.className = "history-item text-center mb-4";
+      covoiturageDiv.id = `covoiturage-${index}`;
 
-//Ajouter des écouteurs pour annuler un covoiturage
-btnAnnulationCovoiturage1.addEventListener("click", () =>
-  annulCovoiturage(covoiturage1, 5, 1)
-);
-btnAnnulationCovoiturage2.addEventListener("click", () =>
-  annulCovoiturage(covoiturage2, 3, 1)
-);
+      const dateParts = trajet.dateDepart.split("-"); // Format: "dd-mm-yyyy"
+      const dateTrajet = new Date(
+        `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T00:00:00`
+      );
+      const dateNow = new Date();
+
+      const isFutur = dateTrajet >= dateNow;
+
+      let boutonHTML = "";
+      if (isFutur) {
+        boutonHTML = `
+          <button type="button" class="btn btn-red text-primary" id="btn-covoiturage-${index}">
+            Annuler ce covoiturage
+          </button>
+        `;
+      }
+
+      covoiturageDiv.innerHTML = `
+        <h5 class="text-primary"><strong>Covoiturage ${index + 1}</strong></h5>
+        <p><strong>Départ :</strong> ${trajet.adresseDepart}</p>
+        <p><strong>Arrivée :</strong> ${trajet.adresseArrivee}</p>
+        <p><strong>Date :</strong> ${trajet.dateDepart}</p>
+        <p><strong>Rôle :</strong> ${
+          trajet.estChauffeur ? "Chauffeur" : "Passager"
+        }</p>
+        ${boutonHTML}
+      `;
+
+      mesCovoiturages.appendChild(covoiturageDiv);
+
+      // Ajouter l'écouteur d'annulation **seulement si date future**
+      if (isFutur) {
+        document
+          .getElementById(`btn-covoiturage-${index}`)
+          .addEventListener("click", () => {
+            annulCovoiturage();
+          });
+      }
+    });
+  })
+  .catch((error) => console.error("Erreur API :", error));
 
 // Fonction d'annulation d'un covoiturage
-function annulCovoiturage(covoiturage, creditGagne, placeAjoutee) {
-  // Masquer le covoiturage annulé
-  covoiturage.style.display = "none";
-
-  // Mise à jour des crédits et des places disponibles
-  let currentCredits = parseInt(creditsHistorique.textContent) || 0;
-  let currentPlaces = parseInt(placesDisponiblesHistorique.textContent) || 0;
-
-  const newCredits = currentCredits + creditGagne;
-  const newPlaces = currentPlaces + placeAjoutee;
-
-  creditsHistorique.textContent = newCredits;
-  placesDisponiblesHistorique.textContent = newPlaces;
-
-  // Mettre à jour les données dans le localStorage
-  if (currentUserEmail) {
-    const updatedUserData = {
-      pseudo: pseudoHistorique.textContent,
-      credits: newCredits,
-      placesDisponibles: newPlaces,
-    };
-    localStorage.setItem(currentUserEmail, JSON.stringify(updatedUserData));
-  }
-
-  // Simuler l'envoi d'un mail (par alert ici)
-  alert("Covoiturage annulé ! Un mail a été envoyé aux participants.");
+function annulCovoiturage() {
+  window.location.href = "/espaceUtilisateur";
 }

@@ -8,8 +8,10 @@ const totalCredits = document.getElementById("total-credits");
 const emailCurrentUserDisplay = document.getElementById("email-display");
 const telephoneDisplay = document.getElementById("telephone-display");
 const roleDisplay = document.getElementById("role-display");
+
 //Informations sur le Trajet du chauffeur
 const listeTrajetsContainer = document.getElementById("listeTrajets");
+
 //Informations sur le Véhicule
 const immatriculationDisplay = document.getElementById(
   "immatriculation-display"
@@ -38,11 +40,6 @@ const preferencesAutresDisplay = document.getElementById(
 const btnConfirmerSuppression = document.getElementById(
   "btnConfirmerSuppression"
 );
-const btnDemarrer = document.getElementById("btn-demarrer");
-const btnArrivee = document.getElementById("btn-arrivee");
-
-btnDemarrer.addEventListener("click", gestionDemarrer);
-btnArrivee.addEventListener("click", gestionArrivee);
 
 btnConfirmerSuppression.addEventListener("click", suppressionModal);
 
@@ -86,113 +83,351 @@ fetch(apiUrl + "account/me", requestOptions)
     animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
     preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
-    // Afficher les trajets en cours
+    // TRAJETS POUR LE CHAUFFEUR
+    // Afficher les trajets
     const trajets = user.trajet;
 
-    // Filtrer tous les trajets EN_COURS et EN_ATTENTE
-    const trajetsAFiltrer = trajets.filter(
-      (t) => t.statut === "EN_COURS" || t.statut === "EN_ATTENTE"
+    const ordreStatuts = {
+      EN_COURS: 1,
+      EN_ATTENTE: 2,
+      FINI: 3,
+    };
+
+    // Filtrer tous les trajets EN_COURS, EN_ATTENTE et FINI
+    let trajetsAFiltrer = trajets
+      .filter((t) => ["EN_COURS", "EN_ATTENTE", "FINI"].includes(t.statut))
+      .sort((a, b) => ordreStatuts[a.statut] - ordreStatuts[b.statut]);
+
+    // Lire les trajets masqués depuis localStorage
+    const trajetsMasques = JSON.parse(
+      localStorage.getItem("trajetsMasques") || "[]"
     );
 
-    if (trajetsAFiltrer.length > 0) {
-      trajetsAFiltrer.forEach((trajetEnCours, index) => {
-        // Définir dynamiquement les styles du badge selon le statut
+    // Filtrer ceux à afficher (non masqués)
+    const trajetsVisibles = trajetsAFiltrer.filter(
+      (t) => !trajetsMasques.includes(t.id)
+    );
+
+    if (trajetsVisibles.length > 0) {
+      trajetsVisibles.forEach((trajetEnCours, index) => {
         const badgeStyles = {
           EN_COURS: { bg: "dark", text: "primary" },
           EN_ATTENTE: { bg: "warning", text: "primary" },
+          FINI: { bg: "black", text: "primary" },
         };
-
         const { bg, text } = badgeStyles[trajetEnCours.statut] || {
           bg: "secondary",
           text: "white",
         };
 
-        // Création du conteneur principal de la carte Bootstrap
         const trajetCard = document.createElement("div");
         trajetCard.classList.add("card", "mb-4", "shadow");
-
-        // Construction du contenu de la carte avec Bootstrap
         trajetCard.innerHTML = `
-      <!-- En-tête de la carte -->
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="mb-0">🚗 Trajet #${index + 1}</h5>
         <span class="badge bg-${bg} text-${text} fw-bold px-3 py-1 rounded-pill text-uppercase">
           ${trajetEnCours.statut.replace("_", " ")}
         </span>
       </div>
-
-      <!-- Corps de la carte avec les détails du trajet -->
       <div class="card-body">
-        <p class="mb-1"><strong>📍 Départ :</strong> ${
-          trajetEnCours.adresseDepart
-        }</p>
-        <p class="mb-1"><strong>🎯 Arrivée :</strong> ${
-          trajetEnCours.adresseArrivee
-        }</p>
-        <p class="mb-1"><strong>📅 Date départ :</strong> ${formatDateFR(
+        <p><strong>📍 Départ :</strong> ${trajetEnCours.adresseDepart}</p>
+        <p><strong>🎯 Arrivée :</strong> ${trajetEnCours.adresseArrivee}</p>
+        <p><strong>📅 Date départ :</strong> ${formatDateFR(
           trajetEnCours.dateDepart
         )}</p>
-        <p class="mb-1"><strong>📅 Date arrivée :</strong> ${formatDateFR(
+        <p><strong>📅 Date arrivée :</strong> ${formatDateFR(
           trajetEnCours.dateArrivee
         )}</p>
-        <p class="mb-1"><strong>⏰ Heure départ :</strong> ${formatHeure(
+        <p><strong>⏰ Heure départ :</strong> ${formatHeure(
           trajetEnCours.heureDepart
         )}</p>
-        <p class="mb-1"><strong>🕒 Durée (estimée) :</strong> ${formatHeure(
+        <p><strong>🕒 Durée (estimée) :</strong> ${formatHeure(
           trajetEnCours.dureeVoyage
         )}</p>
-        <p class="mb-1"><strong>🛣️ Péage :</strong> ${
+        <p><strong>🛣️ Péage :</strong> ${
           trajetEnCours.peage ? "Oui" : "Non"
         }</p>
-        <p class="mb-1"><strong>💰 Prix :</strong> ${
-          trajetEnCours.prix
-        } Crédit</p>
-        <p class="mb-1"><strong>🌱 Écologique :</strong> ${
+        <p><strong>💰 Prix :</strong> ${trajetEnCours.prix} Crédit</p>
+        <p><strong>🌱 Écologique :</strong> ${
           trajetEnCours.estEcologique ? "Oui" : "Non"
         }</p>
-        <p class="mb-1"><strong>🪑 Places disponibles :</strong> ${
+        <p><strong>🪑 Places disponibles :</strong> ${
           trajetEnCours.nombrePlacesDisponible
         }</p>
-        <p class="mb-1"><strong>🚗 Véhicule :</strong> ${
+        <p><strong>🚗 Véhicule :</strong> ${
           trajetEnCours.vehicule.plaqueImmatriculation
         }</p>
-
-        <!-- Zone boutons avec Bootstrap -->
-        <div class="d-flex justify-content-end gap-2 mt-3">
-          <button class="btn btn-dark btn-sm btn-modifier text-primary" data-id="${
-            trajetEnCours.id
-          }">✏️ Modifier</button>
-          <button class="btn btn-danger btn-sm btn-supprimer text-light" style="background-color: #dc3545; border-color: #dc3545;">🗑 Supprimer</button>
-        </div>
       </div>
     `;
 
-        // Sélection des boutons créés dynamiquement
-        const btnModifier = trajetCard.querySelector(".btn-modifier");
-        const btnSupprimer = trajetCard.querySelector(".btn-supprimer");
+        // Fonctions pour prendre heure et date en compte
+        function appliquerHeureSurDate(date, heureStr) {
+          const [heures, minutes] = heureStr.split(":").map(Number);
+          const dateAvecHeure = new Date(date);
+          dateAvecHeure.setHours(heures);
+          dateAvecHeure.setMinutes(minutes);
+          dateAvecHeure.setSeconds(0);
+          dateAvecHeure.setMilliseconds(0);
+          return dateAvecHeure;
+        }
 
-        // Ajout de l'événement pour modifier un trajet
-        btnModifier.addEventListener("click", () => {
-          editionTrajet(trajetEnCours);
-          window.location.href = "/modifTrajet";
-        });
-
-        btnSupprimer.addEventListener("click", () => {
-          // Stocker temporairement le trajet à supprimer
-          window.trajetASupprimer = trajetEnCours;
-
-          // Ouvrir la modal
-          const modal = new bootstrap.Modal(
-            document.getElementById("confirmModal")
+        // Vérifie si la date (jour) correspond à aujourd'hui (ignore heures/minutes)
+        function estAujourdHui(date) {
+          const now = new Date();
+          return (
+            date.getFullYear() === now.getFullYear() &&
+            date.getMonth() === now.getMonth() &&
+            date.getDate() === now.getDate() &&
+            date.getHours() === now.getHours() &&
+            date.getMinutes() === now.getMinutes()
           );
-          modal.show();
-        });
+        }
 
-        // Ajout de la carte au conteneur principal
+        // Vérifie si le trajet est déjà passé (date + durée < maintenant)
+        function estPassee(date, dureeVoyage) {
+          const [heures, minutes] = dureeVoyage.split(":").map(Number);
+          const finTrajet = new Date(date);
+          finTrajet.setHours(finTrajet.getHours() + heures);
+          finTrajet.setMinutes(finTrajet.getMinutes() + minutes);
+
+          const maintenant = new Date();
+          return finTrajet < maintenant;
+        }
+
+        // Vérifie si le trajet est en cours (maintenant entre date et date + durée)
+        function estEnCours(date, dureeVoyage) {
+          const [heures, minutes] = dureeVoyage.split(":").map(Number);
+          const debut = new Date(date);
+          const fin = new Date(date);
+          fin.setHours(fin.getHours() + heures);
+          fin.setMinutes(fin.getMinutes() + minutes);
+
+          const maintenant = new Date();
+          return maintenant >= debut && maintenant <= fin;
+        }
+
+        const dateDepartBrute = new Date(trajetEnCours.dateDepart);
+        const heureDepart = formatHeure(trajetEnCours.heureDepart); // ex: "14:30"
+        const dateDepart = appliquerHeureSurDate(dateDepartBrute, heureDepart);
+        const dureeVoyage = formatHeure(trajetEnCours.dureeVoyage); // ex: "01:45"
+
+        const buttonsContainer = document.createElement("div");
+        buttonsContainer.classList.add(
+          "d-flex",
+          "justify-content-end",
+          "gap-2",
+          "mt-3"
+        );
+
+        const trajetEnCoursId = trajetEnCours?.id;
+        if (!trajetEnCoursId) {
+          console.error("Impossible de trouver l'ID du trajet.");
+          return;
+        }
+
+        // 🔴 1. Si le trajet est terminé (passé)
+        if (estPassee(dateDepart, dureeVoyage)) {
+          // Met à jour le statut automatiquement dans la BDD
+          const headers = new Headers();
+          headers.append("Content-Type", "application/json");
+          headers.append("X-AUTH-TOKEN", token);
+
+          const body = JSON.stringify({ statut: "FINI" });
+
+          fetch(apiUrl + `trajet/${trajetEnCoursId}`, {
+            method: "PUT",
+            headers,
+            body,
+          })
+            .then((response) => {
+              if (!response.ok)
+                throw new Error("Échec de la mise à jour automatique");
+              return response.json();
+            })
+            .then((result) => {
+              console.log("Trajet marqué comme FINI :", result);
+
+              // Bouton "Fin de trajet"
+              const btnFin = document.createElement("button");
+              btnFin.classList.add(
+                "btn",
+                "bg-warning",
+                "text-primary",
+                "btn-sm"
+              );
+              btnFin.textContent = "🏁 Fin de trajet";
+
+              btnFin.addEventListener("click", () => {
+                // ⚠️ Met à jour le statut à TERMINEE en BDD
+                fetch(apiUrl + `trajet/${trajetEnCoursId}`, {
+                  method: "PUT",
+                  headers,
+                  body: JSON.stringify({ statut: "TERMINEE" }),
+                })
+                  .then((response) => {
+                    if (!response.ok)
+                      throw new Error("Erreur lors de la terminaison");
+                    return response.json();
+                  })
+                  .then(() => {
+                    console.log("Trajet terminé avec succès");
+
+                    envoyerEmailParticipants(trajetEnCours); // Optionnel
+
+                    // Stocker en local
+                    let trajetsFinis = JSON.parse(
+                      localStorage.getItem("trajetsFinis") || "[]"
+                    );
+                    trajetEnCours.statut = "TERMINEE";
+                    trajetsFinis.push(trajetEnCours);
+                    localStorage.setItem(
+                      "trajetsFinis",
+                      JSON.stringify(trajetsFinis)
+                    );
+
+                    // Masquer la carte
+                    trajetCard.remove();
+
+                    // Mémoriser comme masqué
+                    let trajetsMasques = JSON.parse(
+                      localStorage.getItem("trajetsMasques") || "[]"
+                    );
+                    trajetsMasques.push(trajetEnCours.id);
+                    localStorage.setItem(
+                      "trajetsMasques",
+                      JSON.stringify(trajetsMasques)
+                    );
+                    window.location.reload();
+                  })
+                  .catch(console.error);
+              });
+
+              buttonsContainer.appendChild(btnFin);
+            })
+            .catch(console.error);
+        }
+
+        // 2. Si la date et l'heure du départ sont atteintes, mais statut encore non EN_COURS
+        else if (estEnCours(dateDepart, dureeVoyage)) {
+          // 👀 Vérifie si le statut est déjà passé à "EN_COURS" dans la BDD
+          if (trajetEnCours.statut === "EN_COURS") {
+            // ✅ Déjà démarré → on affiche "En cours" directement
+            const btnEnCours = document.createElement("button");
+            btnEnCours.classList.add(
+              "btn",
+              "btn-info",
+              "text-primary",
+              "btn-sm"
+            );
+            btnEnCours.textContent = "▶️ En cours";
+            btnEnCours.disabled = true;
+            buttonsContainer.appendChild(btnEnCours);
+          } else {
+            // 🔘 Pas encore démarré → afficher "Démarrer"
+            const btnDemarrer = document.createElement("button");
+            btnDemarrer.classList.add(
+              "btn",
+              "btn-success",
+              "text-primary",
+              "btn-sm"
+            );
+            btnDemarrer.textContent = "🟢 Démarrer";
+
+            btnDemarrer.addEventListener("click", () => {
+              const headers = new Headers();
+              headers.append("Content-Type", "application/json");
+              headers.append("X-AUTH-TOKEN", token);
+
+              fetch(apiUrl + `trajet/${trajetEnCoursId}`, {
+                method: "PUT",
+                headers,
+                body: JSON.stringify({ statut: "EN_COURS" }),
+              })
+                .then((response) => {
+                  if (!response.ok)
+                    throw new Error("Erreur API lors du changement de statut");
+                  return response.json();
+                })
+                .then(() => {
+                  console.log("🚀 Statut changé en EN_COURS");
+
+                  // 👁‍🗨 Mise à jour visuelle immédiate
+                  btnDemarrer.classList.remove("btn-success");
+                  btnDemarrer.classList.add("btn-info");
+                  btnDemarrer.textContent = "▶️ En cours";
+                  btnDemarrer.disabled = true;
+
+                  envoyerEmailParticipants(trajetEnCours);
+
+                  // Optionnel : recharger la page pour forcer l'affichage du nouveau statut
+                  window.location.reload();
+
+                  // Ou : mettre à jour localement
+                  // trajetEnCours.statut = "EN_COURS";
+                })
+                .catch((error) => {
+                  console.error(
+                    "❌ Erreur lors de la mise à jour EN_COURS :",
+                    error
+                  );
+                });
+            });
+
+            buttonsContainer.appendChild(btnDemarrer);
+          }
+        }
+
+        // 3. Si le statut est déjà EN_COURS (stocké en BDD ou local)
+        else if (trajetEnCours.statut === "EN_COURS") {
+          const btnEnCours = document.createElement("button");
+          btnEnCours.classList.add("btn", "btn-info", "text-primary", "btn-sm");
+          btnEnCours.textContent = "▶️ En cours";
+          btnEnCours.disabled = true;
+          buttonsContainer.appendChild(btnEnCours);
+        }
+
+        // 4. Avant l'heure prévue : affiche Modifier / Supprimer
+        else {
+          // Bouton modifier
+          const btnModifier = document.createElement("button");
+          btnModifier.classList.add(
+            "btn",
+            "btn-dark",
+            "btn-sm",
+            "text-primary"
+          );
+          btnModifier.textContent = "✏️ Modifier";
+          btnModifier.addEventListener("click", () => {
+            editionTrajet(trajetEnCours);
+            window.location.href = "/modifTrajet";
+          });
+
+          // Bouton supprimer
+          const btnSupprimer = document.createElement("button");
+          btnSupprimer.classList.add(
+            "btn",
+            "btn-red",
+            "btn-sm",
+            "text-primary"
+          );
+          btnSupprimer.textContent = "🗑 Supprimer";
+          btnSupprimer.addEventListener("click", () => {
+            window.trajetASupprimer = trajetEnCours;
+            const modal = new bootstrap.Modal(
+              document.getElementById("confirmModal")
+            );
+            modal.show();
+          });
+
+          buttonsContainer.appendChild(btnModifier);
+          buttonsContainer.appendChild(btnSupprimer);
+        }
+
+        // ✅ Ajouter les boutons à la carte
+        trajetCard.querySelector(".card-body").appendChild(buttonsContainer);
         listeTrajetsContainer.appendChild(trajetCard);
       });
     } else {
-      // Message affiché s’il n’y a aucun trajet
       listeTrajetsContainer.innerHTML = `
     <div class="alert alert-info text-center">
       Aucun trajet en cours.
@@ -267,6 +502,7 @@ function afficherInfosVehicule(vehicule) {
   electriqueDisplay.textContent = vehicule.electrique ? "Oui" : "Non";
 }
 
+// RESERVATIONS POUR LES PASSAGERS
 //Appel de la fonction d'affichage des reservations
 afficherReservations();
 // Les reservations du passager
@@ -318,7 +554,7 @@ function afficherReservations() {
             )} à ${formatHeure(result.trajet.heureDepart)}</p>
             <p><strong>🪑 Places disponibles :</strong> ${
               result.trajet.nombrePlacesDisponible
-            } Crédits</p>
+            } Places</p>
             <p><strong>💰 Prix :</strong> ${result.trajet.prix} Crédits</p>
             <p><strong>👤 Conducteur :</strong> ${
               result.trajet.chauffeur.pseudo
@@ -345,20 +581,75 @@ function afficherReservations() {
           btnDetails.addEventListener("click", () => voirDetails(result));
           btnContainer.appendChild(btnDetails);
 
-          // Calcul de la date d'arrivée + 1 jour
-          const dateDepart = new Date(result.trajet.dateDepart);
-          const dureeVoyageDate = new Date(result.trajet.dureeVoyage);
-          const dureeHeures = dureeVoyageDate.getUTCHours();
-          const dureeMinutes = dureeVoyageDate.getUTCMinutes();
-          const dureeMillis = (dureeHeures * 60 + dureeMinutes) * 60 * 1000;
+          // Fonctions pour prendre heure et date en compte
+          function appliquerHeureSurDateReservation(date, heureStr) {
+            const [heures, minutes] = heureStr.split(":").map(Number);
+            const dateAvecHeure = new Date(date);
+            dateAvecHeure.setHours(heures);
+            dateAvecHeure.setMinutes(minutes);
+            dateAvecHeure.setSeconds(0);
+            dateAvecHeure.setMilliseconds(0);
+            return dateAvecHeure;
+          }
 
-          const dateArrivee = new Date(dateDepart.getTime() + dureeMillis);
-          const datePlusUnJour = new Date(
-            dateArrivee.getTime() + 24 * 60 * 60 * 1000
-          );
-          const maintenant = new Date();
+          // Vérifie si la date (jour) correspond à aujourd'hui (ignore heures/minutes)
+          function estAujourdHuiReservation(date) {
+            const now = new Date();
+            return (
+              date.getFullYear() === now.getFullYear() &&
+              date.getMonth() === now.getMonth() &&
+              date.getDate() === now.getDate() &&
+              date.getHours() === now.getHours() &&
+              date.getMinutes() === now.getMinutes()
+            );
+          }
 
-          if (maintenant < datePlusUnJour) {
+          // Vérifie si le trajet est déjà passé (date + durée < maintenant)
+          function estPasseeReservation(date, dureeVoyage) {
+            const [heures, minutes] = dureeVoyage.split(":").map(Number);
+            const finTrajet = new Date(date);
+            finTrajet.setHours(finTrajet.getHours() + heures);
+            finTrajet.setMinutes(finTrajet.getMinutes() + minutes);
+
+            const maintenant = new Date();
+            return finTrajet < maintenant;
+          }
+
+          // Vérifie si le trajet est en cours (maintenant entre date et date + durée)
+          function estEnCoursReservation(date, dureeVoyage) {
+            const [heures, minutes] = dureeVoyage.split(":").map(Number);
+            const debut = new Date(date);
+            const fin = new Date(date);
+            fin.setHours(fin.getHours() + heures);
+            fin.setMinutes(fin.getMinutes() + minutes);
+
+            const maintenantReservation = new Date();
+            return (
+              maintenantReservation >= debut && maintenantReservation <= fin
+            );
+          }
+
+          const dateDepartReservationBrute = new Date(result.trajet.dateDepart); //ex:Wed Jun 25 2025 00:00:00 GMT+0200 (heure d’été d’Europe centrale)
+
+          const heureDepartReservation = formatHeure(result.trajet.heureDepart); // ex: "14:30"
+
+          const dateDepartReservation = appliquerHeureSurDateReservation(
+            dateDepartReservationBrute,
+            heureDepartReservation
+          ); //ex:Wed Jun 25 2025 08:30:00 GMT+0200 (heure d’été d’Europe centrale)
+
+          const dureeVoyage = formatHeure(result.trajet.dureeVoyage); // ex: "01:45"
+
+          if (estEnCoursReservation(dateDepartReservation, dureeVoyage)) {
+            // Bouton "En cours"
+            const btnEnCours = document.createElement("button");
+            btnEnCours.className = "btn bg-warning text-primary btn-sm mx-2";
+            btnEnCours.textContent = "En cours";
+            btnEnCours.disabled = true;
+            btnContainer.appendChild(btnEnCours);
+          } else if (
+            !estPasseeReservation(dateDepartReservation, dureeVoyage)
+          ) {
             // Bouton "Annuler"
             const btnAnnuler = document.createElement("button");
             btnAnnuler.className = "btn text-primary btn-red btn-sm mx-2";
@@ -369,7 +660,7 @@ function afficherReservations() {
             });
             btnContainer.appendChild(btnAnnuler);
           } else {
-            // Bouton "Trajet terminé"
+            // Bouton "Fin du trajet"
             const btnTermine = document.createElement("button");
             btnTermine.className = "btn bg-secondary btn-sm mx-2";
             btnTermine.textContent = "Fin du trajet";
@@ -451,79 +742,32 @@ function formatHeure(dateString) {
   return `${hours}:${minutes}`;
 }
 
-// Fonction de gestion du bouton "Démarrer"
-function gestionDemarrer() {
-  alert("Voyage démarré !");
-  btnDemarrer.classList.add("d-none");
-  btnArrivee.classList.remove("d-none");
-}
+// // Fonction de mise à jour des crédits du chauffeur
+// function mettreAJourCredits() {
+//   const currentUserEmail = localStorage.getItem("currentUser");
+//   const users = JSON.parse(localStorage.getItem("userAppli")) || [];
 
-// Fonction de gestion du bouton "Arrivée"
-function gestionArrivee() {
-  alert("Arrivée à destination, trajet terminé !");
+//   const userIndex = users.findIndex((u) => u.email === currentUserEmail);
 
-  btnArrivee.classList.add("d-none");
-}
+//   if (userIndex === -1) {
+//     alert("Utilisateur introuvable pour la mise à jour des crédits.");
+//     return;
+//   }
 
-// Fonction de gestion de l'affichage
-function gestionAffichage() {
-  // Au départ : Démarrer visible, Arrivée cachée
-  btnDemarrer.classList.remove("d-none");
-  btnArrivee.classList.add("d-none");
+//   const userData = users[userIndex];
 
-  // Quand on clique sur Démarrer → Masquer Démarrer et Afficher Arrivée
-  btnDemarrer.addEventListener("click", function () {
-    btnDemarrer.classList.add("d-none");
-    btnArrivee.classList.remove("d-none");
-  });
+//   let credits = userData.credits || 0;
+//   const prix = parseInt(prixDisplay.textContent);
 
-  // Quand on clique sur Arrivée → Tout cacher
-  btnArrivee.addEventListener("click", function () {
-    btnArrivee.classList.add("d-none");
+//   credits += prix;
+//   userData.credits = credits;
 
-    // Simuler une validation des participants
-    setTimeout(() => {
-      const validationParticipants = confirm(
-        "Tous les passagers ont confirmé que le trajet s'est bien passé ?"
-      );
+//   users[userIndex] = userData;
+//   localStorage.setItem("userAppli", JSON.stringify(users));
 
-      if (validationParticipants) {
-        mettreAJourCredits();
-      } else {
-        alert("Un problème a été signalé. Un employé va intervenir");
-      }
-    }, 1000);
-
-    envoyerEmailParticipants();
-  });
-}
-
-// Fonction de mise à jour des crédits du chauffeur
-function mettreAJourCredits() {
-  const currentUserEmail = localStorage.getItem("currentUser");
-  const users = JSON.parse(localStorage.getItem("userAppli")) || [];
-
-  const userIndex = users.findIndex((u) => u.email === currentUserEmail);
-
-  if (userIndex === -1) {
-    alert("Utilisateur introuvable pour la mise à jour des crédits.");
-    return;
-  }
-
-  const userData = users[userIndex];
-
-  let credits = userData.credits || 0;
-  const prix = parseInt(prixDisplay.textContent);
-
-  credits += prix;
-  userData.credits = credits;
-
-  users[userIndex] = userData;
-  localStorage.setItem("userAppli", JSON.stringify(users));
-
-  totalCredits.textContent = credits;
-  alert("Crédits mis à jour !");
-}
+//   totalCredits.textContent = credits;
+//   alert("Crédits mis à jour !");
+// }
 
 // Fonction pour simuler l'envoi d'un email aux passagers
 function envoyerEmailParticipants(message) {
@@ -531,7 +775,7 @@ function envoyerEmailParticipants(message) {
 }
 
 // Appel de la fonction d'affichage
-gestionAffichage();
+// gestionAffichage();
 //Demande de remplissage du champs requis
 function validateAvisRequired(input) {
   if (input.value != "") {

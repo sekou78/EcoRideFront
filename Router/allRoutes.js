@@ -79,8 +79,8 @@ export const allRoutes = [
     "/js/profilUtiliateur/comptes/espaceUtilisateur.js"
   ),
   new Route(
-    "/modifReservation",
-    "Modification Reservation",
+    "/reservation",
+    "Reservation",
     "/pages/profilUtilisateur/reservation/reservation.html",
     [
       "ROLE_ADMIN",

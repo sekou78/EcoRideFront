@@ -50,10 +50,7 @@ fetch(apiUrl + "account/me", requestOptions)
     const imageUrl = URL.createObjectURL(blob);
     avatarDisplay.src = imageUrl;
   })
-  .catch((error) => {
-    console.error(error);
-    alert("Image non chargée");
-  });
+  .catch((error) => {});
 
 function chargeImage() {
   const token = getCookie(tokenCookieName);
@@ -87,7 +84,6 @@ function chargeImage() {
       }
     })
     .then((result) => {
-      console.log(result);
       avatarDisplay.src = urlImg + result.filePath;
     })
     .catch((error) => {

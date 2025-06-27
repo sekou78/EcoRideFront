@@ -10,9 +10,6 @@ const inputInscriptionEmployeeDateNaissance = document.getElementById(
 const inputInscriptionEmployeePseudo = document.getElementById(
   "pseudoInscriptionEmployeeInput"
 );
-const inputInscriptionEmployeeRole = document.getElementById(
-  "roleInscriptionEmployeeInput"
-);
 const inputInscriptionEmployeeEmail = document.getElementById(
   "emailInscriptionEmployeeInput"
 );
@@ -21,6 +18,9 @@ const inputInscriptionEmployeePassword = document.getElementById(
 );
 const btnValidationInscriptionEmployee = document.getElementById(
   "btn-creation-employe"
+);
+const checkBoxAdminValidPasswordEmployee = document.getElementById(
+  "checkAdminValidEmployeePassword"
 );
 
 inputInscriptionEmployeeNom.addEventListener(
@@ -36,9 +36,9 @@ inputInscriptionEmployeePseudo.addEventListener(
   "keyup",
   validateInscriptionEmployeeForm
 );
-inputInscriptionEmployeeRole.addEventListener(
-  "keyup",
-  validateInscriptionEmployeeForm
+checkBoxAdminValidPasswordEmployee.addEventListener(
+  "click",
+  showPasswordAdminValidEmployee
 );
 inputInscriptionEmployeeEmail.addEventListener(
   "keyup",
@@ -67,9 +67,6 @@ function validateInscriptionEmployeeForm() {
   const pseudoEmployeeOk = validateInscriptionEmployeeRequired(
     inputInscriptionEmployeePseudo
   );
-  const roleEmployeeOk = validateInscriptionEmployeeRequired(
-    inputInscriptionEmployeeRole
-  );
   const emailEmployeeOk = validateMailInscriptionEmployee(
     inputInscriptionEmployeeEmail
   );
@@ -81,7 +78,6 @@ function validateInscriptionEmployeeForm() {
     prenomEmployeeOk &&
     dateNaissanceEmployeeOk &&
     pseudoEmployeeOk &&
-    roleEmployeeOk &&
     emailEmployeeOk &&
     passwordEmployeeOk
   ) {
@@ -139,9 +135,20 @@ function validatePasswordInscriptionEmployee(input) {
   }
 }
 
+//Montrer le mot de passe ou masquer le mot de passe
+function showPasswordAdminValidEmployee() {
+  if (inputInscriptionEmployeePassword.type === "password") {
+    inputInscriptionEmployeePassword.type = "text";
+  } else {
+    inputInscriptionEmployeePassword.type = "password";
+  }
+}
+
 //Validation de la date de naissance de l'employé
-function validDate(input) {
+function validDate(inputOrEvent) {
   //Regex pour valider les dates au format jj/mm/aaaa
+  const input = inputOrEvent?.target ?? inputOrEvent;
+
   const dateRegex = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
   const dateUser = input.value.trim();
 
@@ -164,7 +171,6 @@ function validateInscriptionEmployee() {
     prenomEmployee: inputInscriptionEmployeePrenom.value,
     dateNaissanceEmployee: inputInscriptionEmployeeDateNaissance.value,
     pseudoEmployee: inputInscriptionEmployeePseudo.value,
-    roleEmployee: inputInscriptionEmployeeRole.value,
     emailEmployee: inputInscriptionEmployeeEmail.value,
     passwordEmployee: inputInscriptionEmployeePassword.value,
   };

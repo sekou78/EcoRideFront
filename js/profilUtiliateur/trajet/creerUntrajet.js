@@ -9,7 +9,9 @@ const peage = document.getElementById("peage-trajet");
 const prix = document.getElementById("prix-trajet");
 const trajetEcologique = document.getElementById("trajet-ecologique");
 const placesDisponibles = document.getElementById("places-disponibles");
-const statutVoyage = document.getElementById("etat-voyage");
+
+// const statutVoyage = document.getElementById("etat-voyage");
+const creeTrajetChoixImmatriculation = document.getElementById("choixVehicule");
 const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
 btnValidationVoyage.disabled = true;
@@ -22,7 +24,6 @@ heureDepart.addEventListener("input", validInputVoyage);
 duree.addEventListener("input", validInputVoyage);
 prix.addEventListener("input", validInputVoyage);
 placesDisponibles.addEventListener("input", validInputVoyage);
-statutVoyage.addEventListener("change", validInputVoyage);
 
 btnValidationVoyage.addEventListener("click", validateVoyageForm);
 
@@ -35,7 +36,7 @@ function validInputVoyage() {
   const dureeOk = validHour(duree);
   const prixOk = validateVoyageRequired(prix);
   const placesDisponiblesOk = validnbresPlaces(placesDisponibles);
-  const statutOk = validateVoyageRequired(statutVoyage);
+  const vehiculeOk = vehiculeSelectionneId !== null;
 
   if (
     departAdresseOk &&
@@ -46,7 +47,7 @@ function validInputVoyage() {
     dureeOk &&
     prixOk &&
     placesDisponiblesOk &&
-    statutOk
+    vehiculeOk
   ) {
     btnValidationVoyage.disabled = false;
   } else {
@@ -57,15 +58,6 @@ function validInputVoyage() {
 function validateVoyageForm() {
   let dataForm = new FormData(creerVoyage);
   const token = getCookie(tokenCookieName);
-
-  // Récupérer le statut selectionné
-  const statutMap = {
-    1: "EN_ATTENTE",
-    2: "EN_COURS",
-    3: "TERMINEE",
-  };
-
-  const selectedStatut = statutMap[statutVoyage.value];
 
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -82,7 +74,6 @@ function validateVoyageForm() {
     prix: dataForm.get("prix_trajet"),
     estEcologique: dataForm.get("trajet_ecologique") !== null,
     nombrePlacesDisponible: parseInt(dataForm.get("places_disponibles"), 10),
-    statut: selectedStatut,
     vehiculeId: vehiculeSelectionneId,
   });
 
@@ -101,13 +92,8 @@ function validateVoyageForm() {
         alert("Une erreur est survenue");
       }
     })
-    .then((result) => {
-      alert("Trajet créer.");
-    })
-    .catch((error) => {
-      console.error(error);
-      alert("Trajet non créer.");
-    });
+    .then((result) => {})
+    .catch((error) => {});
   // Rediriger vers la page du profil utilisateur
   window.location.href = "/espaceUtilisateur";
 }
@@ -166,13 +152,12 @@ async function creeTrajetChargerVehiculesUtilisateur() {
   }
 }
 
-const creeTrajetChoixImmatriculation = document.getElementById("choixVehicule");
-
 let vehiculeSelectionneId = null;
 
 function creeTrajetAfficherInfosVehicule(vehicule) {
   creeTrajetChoixImmatriculation.textContent = vehicule.plaqueImmatriculation;
   vehiculeSelectionneId = vehicule.id;
+  validInputVoyage();
 }
 
 //Demande de remplissage du champs requis

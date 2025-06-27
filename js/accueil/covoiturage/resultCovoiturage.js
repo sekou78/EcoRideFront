@@ -16,7 +16,7 @@ function fetchPage(pageNumber) {
   params.set("page", pageNumber);
 
   fetch(`${baseUrl}?${params.toString()}`)
-    .then((res) => res.json())
+    .then((response) => response.json())
     .then((data) => {
       localStorage.setItem("resultTrajets", JSON.stringify(data));
       renderPage(data);
@@ -51,7 +51,7 @@ function renderPage(pageData) {
   // Filtrer les trajets par statut "EN_COURS" ou "EN_ATTENTE"
   let trajetsFiltres = pageData.items.filter((trajet) => {
     const statut = trajet.statut.trim().toUpperCase();
-    return statut === "EN_COURS" || statut === "EN_ATTENTE";
+    return statut === "EN_ATTENTE";
   });
 
   if (trajetsFiltres.length === 0) {
@@ -99,7 +99,9 @@ function renderPage(pageData) {
           <div class="card-body">
             <h5 class="card-title text-center">
               ${trajet.chauffeur || "N/A"} 
-              <span class="notation-stars">${notations(trajet.note || 0)}</span>
+              <span class="notation-stars">${notations(
+                trajet.moyenneNoteChauffeur || 0
+              )}</span>
             </h5>
             <p><strong>Statut du trajet :</strong> ${trajet.statut}</p>
             <p><strong>🪑 Places disponibles :</strong> ${
