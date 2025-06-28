@@ -91,8 +91,8 @@ fetch(apiUrl + "avis/", requestOptions)
           avis.codeProbleme
             ? `<p><strong>🆔 Identifiant problème :</strong> <span class="text-danger">
               <a href="/espaceProblemesRemonter#${avis.codeProbleme}" 
-                 class="text-danger lien-probleme" 
-                 data-probleme-id="${avis.codeProbleme}">
+                class="text-danger lien-probleme" 
+                data-probleme-id="${avis.codeProbleme}">
                 ${avis.codeProbleme}
               </a></span></p>`
             : ""

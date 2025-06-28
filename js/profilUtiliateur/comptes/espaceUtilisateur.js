@@ -742,33 +742,6 @@ function formatHeure(dateString) {
   return `${hours}:${minutes}`;
 }
 
-// // Fonction de mise à jour des crédits du chauffeur
-// function mettreAJourCredits() {
-//   const currentUserEmail = localStorage.getItem("currentUser");
-//   const users = JSON.parse(localStorage.getItem("userAppli")) || [];
-
-//   const userIndex = users.findIndex((u) => u.email === currentUserEmail);
-
-//   if (userIndex === -1) {
-//     alert("Utilisateur introuvable pour la mise à jour des crédits.");
-//     return;
-//   }
-
-//   const userData = users[userIndex];
-
-//   let credits = userData.credits || 0;
-//   const prix = parseInt(prixDisplay.textContent);
-
-//   credits += prix;
-//   userData.credits = credits;
-
-//   users[userIndex] = userData;
-//   localStorage.setItem("userAppli", JSON.stringify(users));
-
-//   totalCredits.textContent = credits;
-//   alert("Crédits mis à jour !");
-// }
-
 // Fonction pour simuler l'envoi d'un email aux passagers
 function envoyerEmailParticipants(message) {
   alert("Envoi d'un email aux participants :", message);
