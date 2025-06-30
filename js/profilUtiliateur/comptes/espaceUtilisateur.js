@@ -83,10 +83,30 @@ fetch(apiUrl + "account/me", requestOptions)
     animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
     preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
-    // TRAJETS POUR LE CHAUFFEUR
+    // TRAJETS POUR LES CHAUFFEURS
     // Afficher les trajets
     const trajets = user.trajet;
 
+    // Filtre pour n'afficher que les trajets créés par l'utilisateur connecté
+    const userId = user.user.id;
+
+    let trajetsFiltres = trajets;
+
+    // Si l'utilisateur est uniquement passager, il ne voit rien ici
+    if (
+      roles.includes("PASSAGER") &&
+      !roles.includes("CHAUFFEUR") &&
+      !roles.includes("PASSAGER_CHAUFFEUR")
+    ) {
+      trajetsFiltres = [];
+    } else {
+      // Pour CHAUFFEUR ou PASSAGER_CHAUFFEUR, on filtre sur le créateur
+      trajetsFiltres = trajets.filter(
+        (trajet) => trajet.chauffeur && trajet.chauffeur.id === userId
+      );
+    }
+
+    // Utilisez trajetsFiltres à la place de trajets pour l'affichage
     const ordreStatuts = {
       EN_COURS: 1,
       EN_ATTENTE: 2,
@@ -94,7 +114,7 @@ fetch(apiUrl + "account/me", requestOptions)
     };
 
     // Filtrer tous les trajets EN_COURS, EN_ATTENTE et FINI
-    let trajetsAFiltrer = trajets
+    let trajetsAFiltrer = trajetsFiltres
       .filter((t) => ["EN_COURS", "EN_ATTENTE", "FINI"].includes(t.statut))
       .sort((a, b) => ordreStatuts[a.statut] - ordreStatuts[b.statut]);
 
@@ -432,6 +452,8 @@ fetch(apiUrl + "account/me", requestOptions)
     <div class="alert alert-info text-center">
       Aucun trajet en cours.
     </div>`;
+      // Masquer le container si aucun trajet
+      listeTrajetsContainer.style.display = "none";
     }
   });
 
@@ -675,6 +697,8 @@ function afficherReservations() {
         });
       } else {
         listeReservationsContainer.innerHTML = `<p class="text-muted">Aucune réservation pour le moment.</p>`;
+        // Masquer le container si aucune réservation
+        listeReservationsContainer.style.display = "none";
       }
     })
     .catch((error) => console.error(error));
