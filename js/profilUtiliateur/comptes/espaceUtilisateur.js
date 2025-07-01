@@ -191,18 +191,6 @@ fetch(apiUrl + "account/me", requestOptions)
           return dateAvecHeure;
         }
 
-        // Vérifie si la date (jour) correspond à aujourd'hui (ignore heures/minutes)
-        function estAujourdHui(date) {
-          const now = new Date();
-          return (
-            date.getFullYear() === now.getFullYear() &&
-            date.getMonth() === now.getMonth() &&
-            date.getDate() === now.getDate() &&
-            date.getHours() === now.getHours() &&
-            date.getMinutes() === now.getMinutes()
-          );
-        }
-
         // Vérifie si le trajet est déjà passé (date + durée < maintenant)
         function estPassee(date, dureeVoyage) {
           const [heures, minutes] = dureeVoyage.split(":").map(Number);
@@ -612,18 +600,6 @@ function afficherReservations() {
             dateAvecHeure.setSeconds(0);
             dateAvecHeure.setMilliseconds(0);
             return dateAvecHeure;
-          }
-
-          // Vérifie si la date (jour) correspond à aujourd'hui (ignore heures/minutes)
-          function estAujourdHuiReservation(date) {
-            const now = new Date();
-            return (
-              date.getFullYear() === now.getFullYear() &&
-              date.getMonth() === now.getMonth() &&
-              date.getDate() === now.getDate() &&
-              date.getHours() === now.getHours() &&
-              date.getMinutes() === now.getMinutes()
-            );
           }
 
           // Vérifie si le trajet est déjà passé (date + durée < maintenant)

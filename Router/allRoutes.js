@@ -5,14 +5,14 @@ export const allRoutes = [
   new Route(
     "/",
     "Accueil",
-    "/pages/accueil/accueil.html",
+    "/pages/accueil/public/accueil.html",
     [],
-    "/js/accueil/accueil.js"
+    "/js/accueil/public/accueil.js"
   ),
   new Route(
     "/avis",
     "Avis",
-    "/pages/accueil/avis.html",
+    "/pages/accueil/public/avis.html",
     [
       "ROLE_ADMIN",
       "ROLE_EMPLOYE",
@@ -20,7 +20,7 @@ export const allRoutes = [
       "ROLE_PASSAGER_CHAUFFEUR",
       "ROLE_USER",
     ],
-    "/js/accueil/avis.js"
+    "/js/accueil/public/avis.js"
   ),
   new Route(
     "/covoiturage",
@@ -231,6 +231,13 @@ export const allRoutes = [
     "/pages/admin/gestionAdminUtilisateur.html",
     ["ROLE_ADMIN"],
     "/js/admin/gestionAdminUtlisateur.js"
+  ),
+  new Route(
+    "/commentairesSurChauffeur",
+    "Commentaires sur le chauffeur",
+    "/pages/accueil/public/commentairesSurChauffeur.html",
+    [],
+    "/js/accueil/public/commentairesSurChauffeur.js"
   ),
 ];
 

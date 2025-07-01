@@ -137,6 +137,14 @@ async function vueDetailleeTrajetInfos() {
       ? "Oui"
       : "Non";
 
+    const lienAvisChauffeur = document.getElementById("lienAvisChauffeur");
+
+    if (lienAvisChauffeur && result.chauffeur?.pseudo && result.id) {
+      lienAvisChauffeur.href = `/commentairesSurChauffeur?pseudo=${encodeURIComponent(
+        result.chauffeur.pseudo
+      )}&trajetId=${encodeURIComponent(result.id)}`;
+    }
+
     //Avis sur le conducteur
     // Appel de la fonction
     vueAvis();
@@ -157,7 +165,7 @@ async function vueDetailleeTrajetInfos() {
           }
 
           const avisChauffeur = avisList.filter(
-            (avis) => avis.reservation?.chauffeur === chauffeurPseudo
+            (avis) => avis.reservation?.chauffeur === result.chauffeur.pseudo
           );
 
           const container = document.getElementById("avisVueDetaillee");
@@ -165,25 +173,29 @@ async function vueDetailleeTrajetInfos() {
 
           if (avisChauffeur.length === 0) {
             container.innerHTML = `
-          <li class="list-group-item .text-body-secondary">Aucun avis pour ce conducteur.</li>`;
+            <li class="list-group-item text-body-secondary">Aucun avis pour ce conducteur.</li>`;
             return;
           }
 
-          avisChauffeur.forEach((avis) => {
-            const note = parseInt(avis.note) || 0;
-            const etoiles = "⭐️".repeat(note) + "☆".repeat(5 - note);
+          // 💡 Calcul de la moyenne des notes
+          const totalNotes = avisChauffeur.reduce((sum, avis) => {
+            const note = parseInt(avis.note);
+            return sum + (isNaN(note) ? 0 : note);
+          }, 0);
 
-            const avisHtml = `
+          const moyenne = totalNotes / avisChauffeur.length;
+          const noteArrondie = Math.round(moyenne); // arrondi à l'entier le plus proche
+
+          // 💡 Affichage des étoiles de la moyenne
+          const etoilesMoyenne =
+            "⭐️".repeat(noteArrondie) + "☆".repeat(5 - noteArrondie);
+          const moyenneHtml = `
           <li class="list-group-item">
-            <span>${etoiles}</span>
-          </li>
-          <li class="list-group-item">
-            <strong>🧩 Commentaire :</strong> ${avis.commentaire || "—"}
+          ${etoilesMoyenne} (${moyenne.toFixed(1)} / 5 )
           </li>
         `;
 
-            container.insertAdjacentHTML("beforeend", avisHtml);
-          });
+          container.insertAdjacentHTML("beforeend", moyenneHtml);
         })
         .catch((error) => {
           console.error(

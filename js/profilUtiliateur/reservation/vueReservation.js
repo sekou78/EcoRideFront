@@ -5,6 +5,7 @@ const avatarDetailleeDisplay = document.getElementById(
 const pseudoDetailleeDisplay = document.getElementById(
   "pseudo-vue-reservation-display"
 );
+
 //Infos du Trajet
 const adresseDepartDetailleeDisplay = document.getElementById(
   "adresse-depart-vue-reservation-display"
@@ -39,6 +40,7 @@ const peageDetailleeDisplay = document.getElementById(
 const trajetEcologiqueDetailleeDisplay = document.getElementById(
   "trajet-ecologique-vue-reservation-display"
 );
+
 //Avis sur le conducteur
 const noteDetailleeDisplay = document.getElementById(
   "note-vue-reservation-display"
@@ -46,6 +48,7 @@ const noteDetailleeDisplay = document.getElementById(
 const autresAvisDetailleeDisplay = document.getElementById(
   "autres-avis-vue-reservation-display"
 );
+
 //Informations sur le Véhicule
 const immatriculationDetailleeDisplay = document.getElementById(
   "immatriculation-vue-reservation-display"
@@ -62,6 +65,7 @@ const couleurDetailleeDisplay = document.getElementById(
 const electriqueDetailleeDisplay = document.getElementById(
   "electrique-vue-reservation-display"
 );
+
 //Préférences du Conducteur
 const fumeurDetailleeDisplay = document.getElementById(
   "fumeur-vue-reservation-display"
@@ -72,14 +76,15 @@ const animalDetailleeDisplay = document.getElementById(
 const autresPreferencesDetailleeDisplay = document.getElementById(
   "autres-preferences-display"
 );
-const btnReserver = document.getElementById("btn-reserver-trajet");
 
+const btnReserver = document.getElementById("btn-reserver-trajet");
 btnReserver.addEventListener("click", reserverTrajet);
 
 //Appel de la fonction
 vueReservations();
+
 async function vueReservations() {
-  // Récupérer les infos de l'ID de la reservation selectionné depuis le localStorage
+  // Récupérer les infos de l'ID de la réservation sélectionnée depuis le localStorage
   const reservationDetails = JSON.parse(
     localStorage.getItem("reservationDetails")
   );
@@ -88,7 +93,7 @@ async function vueReservations() {
   const reservationId = reservationDetails?.id;
 
   if (!reservationId) {
-    alert("Impossible de trouver l'ID de la reservation.");
+    alert("Impossible de trouver l'ID de la réservation.");
     return;
   }
 
@@ -101,6 +106,7 @@ async function vueReservations() {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
   }
+
   function formatHeure(dateTimeString) {
     if (!dateTimeString) return "—";
     const date = new Date(dateTimeString);
@@ -109,6 +115,7 @@ async function vueReservations() {
     const minutes = String(date.getMinutes()).padStart(2, "0");
     return `${hours}:${minutes}`;
   }
+
   // Remplir les champs DOM avec les infos du trajet
   pseudoDetailleeDisplay.textContent =
     reservationDetails.trajet.chauffeur.pseudo || "—";
@@ -142,8 +149,17 @@ async function vueReservations() {
     ? "Oui"
     : "Non";
 
+  const lienAvisChauffeur = document.getElementById("lienAvisChauffeur");
+  const pseudoChauffeur = reservationDetails?.trajet?.chauffeur?.pseudo;
+
+  if (pseudoChauffeur && lienAvisChauffeur) {
+    const reservationId = reservationDetails?.id;
+    lienAvisChauffeur.href = `/commentairesSurChauffeur?pseudo=${encodeURIComponent(
+      pseudoChauffeur
+    )}&reservationId=${encodeURIComponent(reservationId)}`;
+  }
+
   //Avis sur le conducteur
-  // Appel de la fonction
   vueAvis();
   function vueAvis() {
     const requestOptions = {
@@ -170,25 +186,29 @@ async function vueReservations() {
 
         if (avisChauffeur.length === 0) {
           container.innerHTML = `
-          <li class="list-group-item .text-body-secondary">Aucun avis pour ce conducteur.</li>`;
+            <li class="list-group-item text-body-secondary">Aucun avis pour ce conducteur.</li>`;
           return;
         }
 
-        avisChauffeur.forEach((avis) => {
-          const note = parseInt(avis.note) || 0;
-          const etoiles = "⭐️".repeat(note) + "☆".repeat(5 - note);
+        // 💡 Calcul de la moyenne des notes
+        const totalNotes = avisChauffeur.reduce((sum, avis) => {
+          const note = parseInt(avis.note);
+          return sum + (isNaN(note) ? 0 : note);
+        }, 0);
 
-          const avisHtml = `
+        const moyenne = totalNotes / avisChauffeur.length;
+        const noteArrondie = Math.round(moyenne); // arrondi à l'entier le plus proche
+
+        // 💡 Affichage des étoiles de la moyenne
+        const etoilesMoyenne =
+          "⭐️".repeat(noteArrondie) + "☆".repeat(5 - noteArrondie);
+        const moyenneHtml = `
           <li class="list-group-item">
-            <span>${etoiles}</span>
-          </li>
-          <li class="list-group-item">
-            <strong>🧩 Commentaire :</strong> ${avis.commentaire || "—"}
+          ${etoilesMoyenne} (${moyenne.toFixed(1)} / 5 )
           </li>
         `;
 
-          container.insertAdjacentHTML("beforeend", avisHtml);
-        });
+        container.insertAdjacentHTML("beforeend", moyenneHtml);
       })
       .catch((error) => {
         console.error(
@@ -211,6 +231,7 @@ async function vueReservations() {
     .electrique
     ? "Oui"
     : "Non";
+
   //Préférences du Conducteur
   fumeurDetailleeDisplay.textContent = reservationDetails.trajet.chauffeur
     .accepteFumeur
@@ -237,8 +258,3 @@ function reserverTrajet() {
   // Redirection vers la page de statut avec l'ID de la réservation
   window.location.href = `/statutReservation?id=${reservationDetails.id}`;
 }
-
-//Recuperation de l'avis sur le chauffeur
-const reservationDetails = JSON.parse(
-  localStorage.getItem("reservationDetails")
-);
