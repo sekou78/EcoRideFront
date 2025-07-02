@@ -177,6 +177,13 @@ fetch(apiUrl + "account/me", requestOptions)
         <p><strong>🚗 Véhicule :</strong> ${
           trajetEnCours.vehicule.plaqueImmatriculation
         }</p>
+
+        <p>
+          <strong>👥 </strong>
+          <a href="/listesPassagers?id=${trajetEnCours.id}" class="text-black">
+            Liste des passagers
+          </a>
+        </p>
       </div>
     `;
 
@@ -575,9 +582,13 @@ function afficherReservations() {
             <p><strong>🕒 Durée (estimée) :</strong> ${formatHeure(
               result.trajet.dureeVoyage
             )} heures</p>
-            <p><strong>Statut du trajet :</strong> <span class="badge bg-${
+            <p><strong>ℹ️ Statut du trajet :</strong> <span class="badge bg-${
               result.trajet.statut === "CONFIRMEE" ? "success" : "warning"
             }">${result.trajet.statut}</span></p>
+            <p><strong>📱 Chauffeur:</strong> ${
+              result.trajet.chauffeur.telephone
+            }
+            </p>
           `;
 
           const btnContainer = document.createElement("div");

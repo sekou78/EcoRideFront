@@ -239,6 +239,19 @@ export const allRoutes = [
     [],
     "/js/accueil/public/commentairesSurChauffeur.js"
   ),
+  new Route(
+    "/listesPassagers",
+    "Listes des passagers du trajets",
+    "/pages/profilUtilisateur/trajet/listesPassagers.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/profilUtiliateur/trajet/listesPassagers.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename
