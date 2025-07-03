@@ -5,6 +5,43 @@ const placesDisponiblesHistorique = document.getElementById(
 );
 const mesCovoiturages = document.getElementById("mes-covoiturages");
 
+// Appel de l'API pour récupérer les trajets
+function appliquerHeureSurDateReservation(dateStr, heureStr) {
+  const dateParts = dateStr.split("-");
+  const [heures, minutes] = heureStr.split(":").map(Number);
+  const dateIso = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T${heures
+    .toString()
+    .padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:00`;
+  return new Date(dateIso);
+}
+
+function estPasseeReservation(dateStr, heureStr, dureeVoyage) {
+  const debut = appliquerHeureSurDateReservation(dateStr, heureStr);
+  const [heures, minutes] = dureeVoyage.split(":").map(Number);
+  const finTrajet = new Date(debut);
+  finTrajet.setHours(finTrajet.getHours() + heures);
+  finTrajet.setMinutes(finTrajet.getMinutes() + minutes);
+  return finTrajet < new Date();
+}
+
+function estEnCoursReservation(dateStr, heureStr, dureeVoyage) {
+  const debut = appliquerHeureSurDateReservation(dateStr, heureStr);
+  const [heures, minutes] = dureeVoyage.split(":").map(Number);
+  const fin = new Date(debut);
+  fin.setHours(fin.getHours() + heures);
+  fin.setMinutes(fin.getMinutes() + minutes);
+  const maintenant = new Date();
+  return maintenant >= debut && maintenant <= fin;
+}
+
+function isFutur(dateStr) {
+  const dateParts = dateStr.split("-");
+  const dateTrajet = new Date(
+    `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T00:00:00`
+  );
+  return dateTrajet >= new Date();
+}
+
 const token = getCookie(tokenCookieName);
 
 const myHeaders = new Headers();
@@ -16,27 +53,21 @@ const requestOptions = {
   redirect: "follow",
 };
 
-// Appel de l'API pour récupérer les trajets
 fetch(apiUrl + "historique/", requestOptions)
   .then((response) => response.json())
   .then((data) => {
     const trajets = data.items;
+    console.log("Historique des trajets :", trajets);
 
     trajets.forEach((trajet, index) => {
       const covoiturageDiv = document.createElement("div");
       covoiturageDiv.className = "history-item text-center mb-4";
       covoiturageDiv.id = `covoiturage-${index}`;
 
-      const dateParts = trajet.dateDepart.split("-"); // Format: "dd-mm-yyyy"
-      const dateTrajet = new Date(
-        `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}T00:00:00`
-      );
-      const dateNow = new Date();
-
-      const isFutur = dateTrajet >= dateNow;
+      const futur = isFutur(trajet.dateDepart);
 
       let boutonHTML = "";
-      if (isFutur) {
+      if (futur && trajet.statutReservation !== "ANNULEE") {
         boutonHTML = `
           <button type="button" class="btn btn-red text-primary" id="btn-covoiturage-${index}">
             Annuler ce covoiturage
@@ -52,22 +83,28 @@ fetch(apiUrl + "historique/", requestOptions)
         <p><strong>Rôle :</strong> ${
           trajet.estChauffeur ? "Chauffeur" : "Passager"
         }</p>
+        <p><strong>Statut du trajet :</strong> <span class="text-danger">${
+          trajet.statut
+        }</span></p>
+        <p><strong>Statut de la réservation :</strong> <span class="text-danger">${
+          trajet.statutReservation
+        }</span></p>
         ${boutonHTML}
       `;
 
       mesCovoiturages.appendChild(covoiturageDiv);
 
-      // Ajouter l'écouteur d'annulation **seulement si date future**
-      if (isFutur) {
+      // Écouteur seulement si bouton créé (date future et réservation non annulée)
+      if (futur && trajet.statutReservation !== "ANNULEE") {
         document
           .getElementById(`btn-covoiturage-${index}`)
           .addEventListener("click", () => {
-            annulCovoiturage();
+            annulCovoiturage(trajet.id);
           });
       }
     });
   })
-  .catch((error) => console.error("Erreur API :", error));
+  .catch((error) => console.error("Erreur fetch historique:", error));
 
 // Fonction d'annulation d'un covoiturage
 function annulCovoiturage() {

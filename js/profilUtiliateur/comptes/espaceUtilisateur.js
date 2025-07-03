@@ -548,6 +548,101 @@ function afficherReservations() {
 
       if (result && result.length > 0) {
         result.forEach((result, index) => {
+          // Ignorer les réservations annulées, mais les stocker dans le localStorage
+          if (result.statut === "ANNULEE") {
+            let annulees =
+              JSON.parse(localStorage.getItem("reservationsAnnulees")) || [];
+            annulees.push(result);
+            localStorage.setItem(
+              "reservationsAnnulees",
+              JSON.stringify(annulees)
+            );
+            return; // Ne pas afficher
+          }
+
+          // Vérifie si la réservation est dans moins de 24h
+          function estDansMoinsDe24h(dateDepart) {
+            const maintenant = new Date();
+            const diffEnMs = dateDepart - maintenant;
+            const diffEnHeures = diffEnMs / (1000 * 60 * 60);
+            return diffEnHeures > 0 && diffEnHeures <= 24;
+          }
+
+          function annulerReservationAutomatique(idReservation) {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("X-AUTH-TOKEN", token);
+
+            fetch(apiUrl + `reservation/${idReservation}`, {
+              method: "DELETE",
+              headers: myHeaders,
+            })
+              .then((response) => {
+                if (!response.ok)
+                  throw new Error("Échec de l'annulation automatique");
+                console.log(
+                  `Réservation ${idReservation} annulée automatiquement.`
+                );
+              })
+              .catch((error) => console.error(error));
+          }
+
+          // Fonctions pour prendre heure et date en compte
+          function appliquerHeureSurDateReservation(date, heureStr) {
+            const [heures, minutes] = heureStr.split(":").map(Number);
+            const dateAvecHeure = new Date(date);
+            dateAvecHeure.setHours(heures);
+            dateAvecHeure.setMinutes(minutes);
+            dateAvecHeure.setSeconds(0);
+            dateAvecHeure.setMilliseconds(0);
+            return dateAvecHeure;
+          }
+
+          // Vérifie si le trajet est déjà passé (date + durée < maintenant)
+          function estPasseeReservation(date, dureeVoyage) {
+            const [heures, minutes] = dureeVoyage.split(":").map(Number);
+            const finTrajet = new Date(date);
+            finTrajet.setHours(finTrajet.getHours() + heures);
+            finTrajet.setMinutes(finTrajet.getMinutes() + minutes);
+
+            const maintenant = new Date();
+            return finTrajet < maintenant;
+          }
+
+          // Vérifie si le trajet est en cours (maintenant entre date et date + durée)
+          function estEnCoursReservation(date, dureeVoyage) {
+            const [heures, minutes] = dureeVoyage.split(":").map(Number);
+            const debut = new Date(date);
+            const fin = new Date(date);
+            fin.setHours(fin.getHours() + heures);
+            fin.setMinutes(fin.getMinutes() + minutes);
+
+            const maintenantReservation = new Date();
+            return (
+              maintenantReservation >= debut && maintenantReservation <= fin
+            );
+          }
+
+          const dateDepartReservationBrute = new Date(result.trajet.dateDepart); //ex:Wed Jun 25 2025 00:00:00 GMT+0200 (heure d’été d’Europe centrale)
+
+          const heureDepartReservation = formatHeure(result.trajet.heureDepart); // ex: "14:30"
+
+          const dateDepartReservation = appliquerHeureSurDateReservation(
+            dateDepartReservationBrute,
+            heureDepartReservation
+          ); //ex:Wed Jun 25 2025 08:30:00 GMT+0200 (heure d’été d’Europe centrale)
+
+          const dureeVoyage = formatHeure(result.trajet.dureeVoyage); // ex: "01:45"
+
+          // Vérifie si la réservation est EN_ATTENTE et dans moins de 24h
+          if (
+            result.statut === "EN_ATTENTE" &&
+            estDansMoinsDe24h(dateDepartReservation)
+          ) {
+            annulerReservationAutomatique(result.id);
+            return; // Ne pas l’afficher
+          }
+
           const reservationCard = document.createElement("div");
           reservationCard.className = `card shadow rounded-4 border-2 border-${
             result.statut === "CONFIRMEE" ? "success" : "warning"
@@ -601,53 +696,6 @@ function afficherReservations() {
           btnDetails.textContent = "Voir les détails";
           btnDetails.addEventListener("click", () => voirDetails(result));
           btnContainer.appendChild(btnDetails);
-
-          // Fonctions pour prendre heure et date en compte
-          function appliquerHeureSurDateReservation(date, heureStr) {
-            const [heures, minutes] = heureStr.split(":").map(Number);
-            const dateAvecHeure = new Date(date);
-            dateAvecHeure.setHours(heures);
-            dateAvecHeure.setMinutes(minutes);
-            dateAvecHeure.setSeconds(0);
-            dateAvecHeure.setMilliseconds(0);
-            return dateAvecHeure;
-          }
-
-          // Vérifie si le trajet est déjà passé (date + durée < maintenant)
-          function estPasseeReservation(date, dureeVoyage) {
-            const [heures, minutes] = dureeVoyage.split(":").map(Number);
-            const finTrajet = new Date(date);
-            finTrajet.setHours(finTrajet.getHours() + heures);
-            finTrajet.setMinutes(finTrajet.getMinutes() + minutes);
-
-            const maintenant = new Date();
-            return finTrajet < maintenant;
-          }
-
-          // Vérifie si le trajet est en cours (maintenant entre date et date + durée)
-          function estEnCoursReservation(date, dureeVoyage) {
-            const [heures, minutes] = dureeVoyage.split(":").map(Number);
-            const debut = new Date(date);
-            const fin = new Date(date);
-            fin.setHours(fin.getHours() + heures);
-            fin.setMinutes(fin.getMinutes() + minutes);
-
-            const maintenantReservation = new Date();
-            return (
-              maintenantReservation >= debut && maintenantReservation <= fin
-            );
-          }
-
-          const dateDepartReservationBrute = new Date(result.trajet.dateDepart); //ex:Wed Jun 25 2025 00:00:00 GMT+0200 (heure d’été d’Europe centrale)
-
-          const heureDepartReservation = formatHeure(result.trajet.heureDepart); // ex: "14:30"
-
-          const dateDepartReservation = appliquerHeureSurDateReservation(
-            dateDepartReservationBrute,
-            heureDepartReservation
-          ); //ex:Wed Jun 25 2025 08:30:00 GMT+0200 (heure d’été d’Europe centrale)
-
-          const dureeVoyage = formatHeure(result.trajet.dureeVoyage); // ex: "01:45"
 
           if (estEnCoursReservation(dateDepartReservation, dureeVoyage)) {
             // Bouton "En cours"
