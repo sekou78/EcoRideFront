@@ -568,6 +568,13 @@ function afficherReservations() {
             return diffEnHeures > 0 && diffEnHeures <= 24;
           }
 
+          function estDansMoinsDe12h(dateDepart) {
+            const maintenant = new Date();
+            const diffEnMs = dateDepart - maintenant;
+            const diffEnHeures = diffEnMs / (1000 * 60 * 60);
+            return diffEnHeures > 0 && diffEnHeures <= 12;
+          }
+
           function annulerReservationAutomatique(idReservation) {
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
@@ -623,24 +630,33 @@ function afficherReservations() {
             );
           }
 
-          const dateDepartReservationBrute = new Date(result.trajet.dateDepart); //ex:Wed Jun 25 2025 00:00:00 GMT+0200 (heure d’été d’Europe centrale)
+          //ex:Wed Jun 25 2025 00:00:00 GMT+0200 (heure d’été d’Europe centrale)
+          const dateDepartReservationBrute = new Date(result.trajet.dateDepart);
 
-          const heureDepartReservation = formatHeure(result.trajet.heureDepart); // ex: "14:30"
+          // ex: "14:30"
+          const heureDepartReservation = formatHeure(result.trajet.heureDepart);
 
+          //ex:Wed Jun 25 2025 08:30:00 GMT+0200 (heure d’été d’Europe centrale)
           const dateDepartReservation = appliquerHeureSurDateReservation(
             dateDepartReservationBrute,
             heureDepartReservation
-          ); //ex:Wed Jun 25 2025 08:30:00 GMT+0200 (heure d’été d’Europe centrale)
+          );
 
-          const dureeVoyage = formatHeure(result.trajet.dureeVoyage); // ex: "01:45"
+          // ex: "01:45"
+          const dureeVoyage = formatHeure(result.trajet.dureeVoyage);
 
-          // Vérifie si la réservation est EN_ATTENTE et dans moins de 24h
-          if (
-            result.statut === "EN_ATTENTE" &&
-            estDansMoinsDe24h(dateDepartReservation)
-          ) {
-            annulerReservationAutomatique(result.id);
-            return; // Ne pas l’afficher
+          if (result.statut === "EN_ATTENTE") {
+            if (estDansMoinsDe12h(dateDepartReservation)) {
+              console.log(
+                "Annulation dans moins de 12h — remboursement partiel côté backend"
+              );
+            }
+
+            if (estDansMoinsDe24h(dateDepartReservation)) {
+              // Annulation automatique comme avant
+              annulerReservationAutomatique(result.id);
+              return; // ne pas afficher la réservation annulée
+            }
           }
 
           const reservationCard = document.createElement("div");
