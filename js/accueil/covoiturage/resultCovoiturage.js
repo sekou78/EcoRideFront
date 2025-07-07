@@ -1,75 +1,151 @@
-//filtrage
+// Sélecteurs filtres
 const filtreEcologique = document.getElementById("trajet-ecologique");
 const filtrePrix = document.getElementById("filtrePrixVoyage");
 const filtreDuree = document.getElementById("filtreDureeVoyage");
 const filtreNotes = document.getElementById("filtreNoteMin");
 const btnAppliquerFiltre = document.getElementById("btnValidFilter");
-// pagination
+
+// Conteneurs résultat et pagination
 const container = document.getElementById("result-container");
 const paginationContainer = document.getElementById("pagination-container");
 
-function fetchPage(pageNumber) {
-  const baseUrl = apiUrl + "trajet/api/listeTrajets";
-  const params = new URLSearchParams(
-    JSON.parse(localStorage.getItem("searchParams") || "{}")
-  );
-  params.set("page", pageNumber);
+// Objet pour garder les filtres actuels
+let currentFilters = {
+  estEcologique: false,
+  prixMax: "",
+  dureeMax: "",
+  noteMin: "",
+};
 
-  fetch(`${baseUrl}?${params.toString()}`)
+// Appel initial sans filtre : charger page 1
+fetchPage(1);
+
+// Au clic sur "Appliquer filtre"
+btnAppliquerFiltre.addEventListener("click", () => {
+  currentFilters.estEcologique = filtreEcologique.checked;
+  currentFilters.prixMax = filtrePrix.value;
+  currentFilters.dureeMax = filtreDuree.value;
+  currentFilters.noteMin = filtreNotes.value.trim();
+
+  fetchPage(1); // Toujours repartir à la première page
+});
+
+// Fonction principale qui récupère les trajets selon filtres et page
+function fetchPage(pageNumber) {
+  const baseUrl = apiUrl + "trajet/api/trajetsFiltres";
+
+  const params = new URLSearchParams();
+  if (currentFilters.estEcologique) params.append("estEcologique", "true");
+  if (currentFilters.prixMax) params.append("prix", currentFilters.prixMax);
+  if (currentFilters.dureeMax)
+    params.append("dureeVoyage", currentFilters.dureeMax);
+  // On ne met pas la note ici, car filtrage local
+  // params.append("noteMin", ...);
+  params.append("page", 1); // toujours demander la première page complète
+  params.append("limit", 1000); // récupérer un grand nombre pour paginer localement
+
+  const token = getCookie(tokenCookieName);
+  const myHeaders = new Headers();
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  fetch(`${baseUrl}?${params.toString()}`, {
+    method: "GET",
+    headers: myHeaders,
+    redirect: "follow",
+  })
     .then((response) => response.json())
     .then((data) => {
-      localStorage.setItem("resultTrajets", JSON.stringify(data));
-      renderPage(data);
-      renderPagination(data.currentPage, data.totalPages);
+      if (!data || !Array.isArray(data.items)) {
+        container.innerHTML =
+          "<p class='text-center mt-3'>Aucun trajet trouvé.</p>";
+        paginationContainer.innerHTML = "";
+        return;
+      }
+
+      // Filtrage local sur la note minimale
+      let filteredItems = data.items;
+      const noteMinNum = parseFloat(currentFilters.noteMin);
+      if (!isNaN(noteMinNum)) {
+        filteredItems = filteredItems.filter(
+          (trajet) =>
+            trajet.moyenneNoteChauffeur !== null &&
+            parseFloat(trajet.moyenneNoteChauffeur) >= noteMinNum
+        );
+      }
+
+      // Pagination locale sur filteredItems
+      const itemsPerPage = 5;
+      const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+      const currentPage = Math.min(Math.max(pageNumber, 1), totalPages || 1);
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const itemsPage = filteredItems.slice(
+        startIndex,
+        startIndex + itemsPerPage
+      );
+
+      // Si aucun trajet filtré ne reste
+      if (filteredItems.length === 0) {
+        container.innerHTML =
+          "<p class='text-center mt-3'>Aucun trajet trouvé avec ces critères.</p>";
+        paginationContainer.innerHTML = "";
+        return;
+      }
+
+      // Affichage des trajets
+      renderPage({ items: itemsPage });
+
+      // Affichage pagination locale seulement si plus d'une page
+      if (totalPages > 1) {
+        renderPagination(currentPage, totalPages);
+      } else {
+        paginationContainer.innerHTML = "";
+      }
     })
-    .catch((err) => {
-      console.error("Erreur pagination :", err);
+    .catch((error) => {
+      console.error("Erreur lors de la récupération des trajets :", error);
       container.innerHTML =
-        "<p class='text-danger'>Erreur lors du chargement des trajets.</p>";
+        "<p class='text-danger text-center mt-3'>Erreur serveur.</p>";
+      paginationContainer.innerHTML = "";
     });
 }
 
-const data = JSON.parse(localStorage.getItem("resultTrajets"));
-console.log(data);
-
-if (data && Array.isArray(data.items)) {
-  renderPage(data);
-  renderPagination(data.currentPage, data.totalPages);
-} else {
-  container.innerHTML = "<p class='text-center mt-3'>Aucun trajet trouvé.</p>";
-}
-
+// Fonction d'affichage des trajets (tu peux garder ta fonction actuelle)
 function renderPage(pageData) {
   container.innerHTML = "";
 
-  if (!pageData || !Array.isArray(pageData.items)) {
+  if (
+    !pageData ||
+    !Array.isArray(pageData.items) ||
+    pageData.items.length === 0
+  ) {
     container.innerHTML =
       "<p class='text-center mt-3'>Aucun trajet trouvé.</p>";
+    paginationContainer.innerHTML = ""; // cacher la pagination si pas de données
     return;
   }
 
-  // Filtrer les trajets par statut "EN_COURS" ou "EN_ATTENTE"
+  // Filtrer les trajets par statut "EN_ATTENTE" (et/ou "EN_COURS" si tu veux)
   let trajetsFiltres = pageData.items.filter((trajet) => {
     const statut = trajet.statut.trim().toUpperCase();
-    return statut === "EN_ATTENTE";
+    return statut === "EN_ATTENTE" || statut === "EN_COURS";
   });
 
   if (trajetsFiltres.length === 0) {
     container.innerHTML =
       "<p class='text-center mt-3'>Aucun trajet en attente ou en cours.</p>";
+    paginationContainer.innerHTML = ""; // cacher la pagination si pas de données
     return;
   }
 
   // Trier pour que les "EN_COURS" soient en premier
   const ordreStatut = ["EN_COURS", "EN_ATTENTE"];
-
   trajetsFiltres.sort((a, b) => {
     const statutA = a.statut.trim().toUpperCase();
     const statutB = b.statut.trim().toUpperCase();
     return ordreStatut.indexOf(statutA) - ordreStatut.indexOf(statutB);
   });
 
-  // Fonction de notation
+  // Fonction notation (étoiles)
   function notations(rating) {
     const maxStars = 5;
     let stars = "";
@@ -98,7 +174,7 @@ function renderPage(pageData) {
         <div class="col-md-8">
           <div class="card-body">
             <h5 class="card-title text-center">
-              ${trajet.chauffeur || "N/A"} 
+              ${trajet.chauffeur || "N/A"}
               <span class="notation-stars">${notations(
                 trajet.moyenneNoteChauffeur || 0
               )}</span>
@@ -132,24 +208,20 @@ function renderPage(pageData) {
     btnDetail.textContent = "Détails";
 
     btnDetail.addEventListener("click", () => {
-      detailsTrajetSelected(trajet);
+      localStorage.setItem("trajetInfos", JSON.stringify(trajet));
+      window.location.href = `/vueDetaillee?id=${trajet.id}`;
     });
 
     footer.appendChild(btnDetail);
     card.appendChild(footer);
     container.appendChild(card);
   });
-
-  function detailsTrajetSelected(trajetInfos) {
-    localStorage.setItem("trajetInfos", JSON.stringify(trajetInfos));
-    window.location.href = `/vueDetaillee?id=${trajetInfos.id}`;
-  }
 }
 
+// Fonction pour afficher la pagination (avec Bootstrap)
 function renderPagination(current, total) {
   paginationContainer.innerHTML = "";
 
-  // Pas de pagination à afficher
   if (total <= 1) return;
 
   const nav = document.createElement("nav");
@@ -161,12 +233,10 @@ function renderPagination(current, total) {
     li.className =
       "page-item" + (disabled ? " disabled" : "") + (active ? " active" : "");
     const a = document.createElement("a");
-    //couleur de la pagination
     a.className = "page-link bg-dark text-primary";
     a.href = "#";
     a.textContent = label;
 
-    // Appliquer un style spécial si c’est le bouton actif
     if (active) {
       a.style.borderColor = "red";
     }
@@ -175,6 +245,7 @@ function renderPagination(current, total) {
       e.preventDefault();
       if (!disabled && !active) fetchPage(page);
     });
+
     li.appendChild(a);
     return li;
   }
