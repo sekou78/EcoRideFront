@@ -1,8 +1,15 @@
+const formCreationEmployee = document.getElementById("form-creation-employe");
 const inputInscriptionEmployeeNom = document.getElementById(
   "nomInscriptionEmployeeInput"
 );
 const inputInscriptionEmployeePrenom = document.getElementById(
   "prenomInscriptionEmployeeInput"
+);
+const inputInscriptionEmployeeAdresse = document.getElementById(
+  "adresseInscriptionEmployeeInput"
+);
+const inputInscriptionEmployeeTelephone = document.getElementById(
+  "telephoneInscriptionEmployeeInput"
 );
 const inputInscriptionEmployeeDateNaissance = document.getElementById(
   "dateNaissanceInscriptionEmployeeInput"
@@ -61,6 +68,12 @@ function validateInscriptionEmployeeForm() {
   const prenomEmployeeOk = validateInscriptionEmployeeRequired(
     inputInscriptionEmployeePrenom
   );
+  const adresseEmployeeOk = validateInscriptionEmployeeRequired(
+    inputInscriptionEmployeeAdresse
+  );
+  const telephoneEmployeeOk = validInscriptionTelephone(
+    inputInscriptionEmployeeTelephone
+  );
   const dateNaissanceEmployeeOk = validDate(
     inputInscriptionEmployeeDateNaissance
   );
@@ -76,6 +89,8 @@ function validateInscriptionEmployeeForm() {
   if (
     nomEmployeeOk &&
     prenomEmployeeOk &&
+    adresseEmployeeOk &&
+    telephoneEmployeeOk &&
     dateNaissanceEmployeeOk &&
     pseudoEmployeeOk &&
     emailEmployeeOk &&
@@ -163,51 +178,79 @@ function validDate(inputOrEvent) {
   }
 }
 
-// Fonction principale : Enregistrer l'inscription
-function validateInscriptionEmployee() {
-  //Ici, il faudra appeler l'Api pour verifier l'authentification en BDD
-  const newEmployee = {
-    nomEmployee: inputInscriptionEmployeeNom.value,
-    prenomEmployee: inputInscriptionEmployeePrenom.value,
-    dateNaissanceEmployee: inputInscriptionEmployeeDateNaissance.value,
-    pseudoEmployee: inputInscriptionEmployeePseudo.value,
-    emailEmployee: inputInscriptionEmployeeEmail.value,
-    passwordEmployee: inputInscriptionEmployeePassword.value,
-  };
+//Demande de remplissage du champs au bon format requis
+function validInscriptionTelephone(input) {
+  // Regex pour les numéros français (06XXXXXXXX ou +33 6XXXXXXXX)
+  const telephoneRegex = /^(\+33|0)[1-9](\d{2}){4}$/;
 
-  // Récupère la liste actuelle des employés
-  const allEmployees = JSON.parse(localStorage.getItem("employes")) || [];
+  // Supprime les espaces et récupère le numéro brut
+  let telephoneUser = input.value.replace(/\s+/g, "");
 
-  // Vérifie si l'email est déjà utilisé
-  const emailExists = allEmployees.some(
-    (employee) => employee.emailEmployee === newEmployee.emailEmployee
-  );
-  if (emailExists) {
-    alert("Cet email est déjà utilisé pour un autre employé.");
-    return;
+  // Vérification du format
+  if (telephoneRegex.test(telephoneUser)) {
+    input.classList.add("is-valid");
+    input.classList.remove("is-invalid");
+
+    // Ajoute automatiquement les espaces tous les 2 chiffres
+    input.value = telephoneUser
+      .replace(
+        /^(\+33|0)([1-9])(\d{2})(\d{2})(\d{2})(\d{2})$/,
+        "$1 $2 $3 $4 $5 $6"
+      )
+      .trim();
+
+    return true;
+  } else {
+    input.classList.remove("is-valid");
+    input.classList.add("is-invalid");
+    return false;
   }
-
-  // Ajoute le nouvel employé au tableau
-  allEmployees.push(newEmployee);
-
-  // Réenregistre le tableau complet dans le localStorage
-  localStorage.setItem("employes", JSON.stringify(allEmployees));
-
-  alert("Inscription réussie d'un employée.");
-  window.location.reload();
 }
 
-//Simulation des données (remplace-les avec ton vrai localStorage si nécessaire)
-if (!localStorage.getItem("covoiturages")) {
-  localStorage.setItem(
-    "covoiturages",
-    JSON.stringify([
-      { date: "2025-04-03", credits: 10 },
-      { date: "2025-04-03", credits: 15 },
-      { date: "2025-04-04", credits: 20 },
-      { date: "2025-04-05", credits: 5 },
-    ])
-  );
+// Fonction principale : Enregistrer l'inscription
+function validateInscriptionEmployee() {
+  const token = getCookie(tokenCookieName);
+
+  const dataForm = new FormData(formCreationEmployee);
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  const raw = JSON.stringify({
+    email: dataForm.get("email_inscription_employee_input"),
+    password: dataForm.get("pwd_inscription_employee_input"),
+    nom: dataForm.get("nom_inscription_employee_input"),
+    prenom: dataForm.get("prenom_inscription_employee_input"),
+    telephone: dataForm.get("telephone_inscription_employee_input"),
+    adresse: dataForm.get("adresse_inscription_employee_input"),
+    dateNaissance: dataForm.get("date_naissance_inscription_employee_input"),
+    pseudo: dataForm.get("pseudo_inscription_employee_input"),
+  });
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  fetch(apiUrl + "admin/create-user", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      // Affiche la modal Bootstrap
+      const modal = new bootstrap.Modal(
+        document.getElementById("employeeSuccessModal")
+      );
+      modal.show();
+
+      // Optionnel : recharge après fermeture
+      const modalElement = document.getElementById("employeeSuccessModal");
+      modalElement.addEventListener("hidden.bs.modal", () => {
+        window.location.reload();
+      });
+    })
+    .catch((error) => console.error(error));
 }
 
 const covoiturages = JSON.parse(localStorage.getItem("covoiturages")) || [];

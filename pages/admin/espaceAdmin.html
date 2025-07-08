@@ -16,8 +16,9 @@
             type="text"
             class="form-control bg-body-secondary text-center"
             id="nomInscriptionEmployeeInput"
-            placeholder="Nom"
-            name="nomEmployee" />
+            placeholder="🏷️ Nom de l'employee"
+            name="nom_inscription_employee_input"
+            required />
 
           <div class="invalid-feedback liens">Le nom est requis !</div>
         </div>
@@ -30,10 +31,41 @@
             type="text"
             class="form-control bg-body-secondary text-center"
             id="prenomInscriptionEmployeeInput"
-            placeholder="Prenom"
-            name="prenomEmployee" />
+            placeholder="👤 Prenom de l'employee"
+            name="prenom_inscription_employee_input"
+            required />
 
           <div class="invalid-feedback liens">Le prenom est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="adresseInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="adresseInscriptionEmployeeInput"
+            placeholder="🏠 Adresse de l'employee"
+            name="adresse_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Adresse est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="telephoneInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="tel"
+            class="form-control bg-body-secondary text-center"
+            id="telephoneInscriptionEmployeeInput"
+            placeholder="📞 Le telephone de l'employee"
+            name="telephone_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Telephone est requis !</div>
         </div>
 
         <div class="mb-3">
@@ -44,8 +76,9 @@
             type="text"
             class="form-control bg-body-secondary text-center"
             id="dateNaissanceInscriptionEmployeeInput"
-            placeholder="Date de naissance"
-            name="dateNaissanceEmployee" />
+            placeholder="📜 Date de naissance de l'employee"
+            name="date_naissance_inscription_employee_input"
+            required />
 
           <div class="invalid-feedback liens">
             La date de naissance est requis !
@@ -60,23 +93,12 @@
             type="text"
             class="form-control bg-body-secondary text-center"
             id="pseudoInscriptionEmployeeInput"
-            placeholder="Pseudo"
-            name="pseudoEmployee" />
+            placeholder="👤 Pseudo de l'employee"
+            name="pseudo_inscription_employee_input"
+            required />
 
           <div class="invalid-feedback liens">Le pseudo est requis !</div>
         </div>
-
-        <!--<div class="mb-3">
-          <label for="roleInscriptionEmployeeInput" class="form-label"></label>
-          <input
-            type="text"
-            class="form-control bg-body-secondary text-center"
-            id="roleInscriptionEmployeeInput"
-            placeholder="Rôle"
-            name="roleEmployee" />
-
-          <div class="invalid-feedback liens">Le role est requis !</div>
-        </div>-->
 
         <div class="mb-3">
           <label for="emailInscriptionEmployeeInput" class="form-label"></label>
@@ -84,8 +106,9 @@
             type="email"
             class="form-control bg-body-secondary text-center"
             id="emailInscriptionEmployeeInput"
-            placeholder="mail@mail.com"
-            name="email" />
+            placeholder="📧 Mail de l'employee"
+            name="email_inscription_employee_input"
+            required />
 
           <div class="invalid-feedback liens">
             Votre email n'est pas conforme !
@@ -101,8 +124,9 @@
             type="password"
             class="form-control bg-body-secondary text-center"
             id="PasswordInscriptionEmployeeInput"
-            placeholder="Mot de passe"
-            name="mdp" />
+            placeholder="🔐 Mot de passe de l'employee"
+            name="pwd_inscription_employee_input"
+            required />
 
           <div class="invalid-feedback liens">
             Le mot de passe n'est pas conforme ! <br />
@@ -177,7 +201,7 @@
       <h5 class="card-title">Gestion des Employées</h5>
       <p class="card-text">Liste de tous les employées de la plateforme</p>
       <button type="button" class="btn bg-dark border-dark text-primary">
-        <a href="gestionEmployee">Gestion des employées</a>
+        <a href="/gestionEmployee">Gestion des employées</a>
       </button>
     </div>
   </div>
@@ -187,8 +211,38 @@
       <h5 class="card-title">Gestion des utilisateurs</h5>
       <p class="card-text">Liste de tous les utilisateurs de la plateforme</p>
       <button type="button" class="btn bg-dark border-dark text-primary">
-        <a href="gestionUtilisateur">Gestion des utilisateurs</a>
+        <a href="/gestionUtilisateur">Gestion des utilisateurs</a>
       </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmation -->
+<!-- Modal de confirmation -->
+<div
+  class="modal fade"
+  id="employeeSuccessModal"
+  tabindex="-1"
+  aria-labelledby="employeeSuccessModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="employeeSuccessModalLabel">
+          Employé ajouté
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">✅ L'employé a été ajouté avec succès.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
     </div>
   </div>
 </div>
