@@ -287,6 +287,9 @@ fetch(apiUrl + "account/me", requestOptions)
                   .then(() => {
                     console.log("Trajet terminé avec succès");
 
+                    // ➕ Appel pour envoyer 2 crédits à l'admin
+                    envoyerCreditAdmin(trajetEnCoursId);
+
                     envoyerEmailParticipants(trajetEnCours); // Optionnel
 
                     // Stocker en local
@@ -312,6 +315,7 @@ fetch(apiUrl + "account/me", requestOptions)
                       "trajetsMasques",
                       JSON.stringify(trajetsMasques)
                     );
+
                     window.location.reload();
                   })
                   .catch(console.error);
@@ -835,4 +839,30 @@ function validateAvisRequired(input) {
     input.classList.add("is-invalid");
     return false;
   }
+}
+
+// fin de trajet et envoi de credit a l'admin
+function envoyerCreditAdmin(trajetId) {
+  const token = getCookie(tokenCookieName);
+
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("X-AUTH-TOKEN", token);
+
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    body: JSON.stringify({}),
+    redirect: "follow",
+  };
+
+  fetch(apiUrl + `trajet/terminee/${trajetId}`, requestOptions)
+    .then((response) => {
+      if (!response.ok) throw new Error("Erreur transfert crédits");
+      return response.json();
+    })
+    .then((result) => {
+      console.log("Crédits transférés :", result);
+    })
+    .catch((error) => console.error(error));
 }

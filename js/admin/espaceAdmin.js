@@ -29,6 +29,7 @@ const btnValidationInscriptionEmployee = document.getElementById(
 const checkBoxAdminValidPasswordEmployee = document.getElementById(
   "checkAdminValidEmployeePassword"
 );
+const creditAdminTotal = document.getElementById("totalAdminCredits");
 
 inputInscriptionEmployeeNom.addEventListener(
   "keyup",
@@ -252,6 +253,24 @@ function validateInscriptionEmployee() {
     })
     .catch((error) => console.error(error));
 }
+
+const token = getCookie(tokenCookieName);
+
+const myHeaders = new Headers();
+myHeaders.append("X-AUTH-TOKEN", token);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow",
+};
+
+fetch(apiUrl + "account/me", requestOptions)
+  .then((response) => response.json())
+  .then((result) => {
+    creditAdminTotal.textContent = result.user.credits;
+  })
+  .catch((error) => console.error(error));
 
 const covoiturages = JSON.parse(localStorage.getItem("covoiturages")) || [];
 
