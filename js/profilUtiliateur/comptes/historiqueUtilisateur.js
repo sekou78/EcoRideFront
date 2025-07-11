@@ -110,3 +110,6 @@ fetch(apiUrl + "historique/", requestOptions)
 function annulCovoiturage() {
   window.location.href = "/espaceUtilisateur";
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

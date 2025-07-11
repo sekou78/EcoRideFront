@@ -866,3 +866,5 @@ function envoyerCreditAdmin(trajetId) {
     })
     .catch((error) => console.error(error));
 }
+
+loadMonCompte();

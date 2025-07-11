@@ -283,3 +283,6 @@ function validnbresPlaces(input) {
     return false;
   }
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

@@ -178,3 +178,6 @@ async function supprimerderVehicule(vehicule) {
 
 // Lancer après chargement DOM
 window.addEventListener("DOMContentLoaded", chargerVehiculesUtilisateur());
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

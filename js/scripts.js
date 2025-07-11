@@ -103,3 +103,36 @@ function hasAccessToRoute(allowedRoles = []) {
   const userRoles = getUserRoles();
   return allowedRoles.some((role) => userRoles.includes(role));
 }
+
+async function loadMonCompte() {
+  const token = getCookie(tokenCookieName);
+
+  const response = await fetch(apiUrl + "account/me", {
+    headers: { "X-AUTH-TOKEN": token },
+  });
+
+  // si l'utilisateur n'est pas connecté
+  if (response.status === 401) {
+    eraseCookie(tokenCookieName);
+    eraseCookie(RoleCookieName);
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.href = "/connexion";
+    return; // on stoppe la suite
+  }
+
+  // //Si l'utilisateur est suspendu
+  // if (data.compteSuspendu === true) {
+  //   eraseCookie(tokenCookieName);
+  //   eraseCookie(RoleCookieName);
+  //   localStorage.clear();
+  //   sessionStorage.clear();
+  //   window.location.href = "/connexion";
+  //   return; // on stoppe la suite
+  // }
+
+  if (!response.ok) {
+    alert("Erreur serveur");
+    return;
+  }
+}

@@ -190,3 +190,6 @@ async function supprimeImage() {
     alert("Image non supprimée");
   }
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

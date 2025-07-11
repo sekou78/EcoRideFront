@@ -109,3 +109,6 @@ editionVehiculeModeleVehiculeInfo.value = vehicule.modele || "";
 editionVehiculeCouleurVehiculeInfo.value = vehicule.couleur || "";
 editionVehiculePlacesDisponibles.value = vehicule.nombrePlaces || "";
 editionVehiculeElectrique.checked = vehicule.electrique === true;
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

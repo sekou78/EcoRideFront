@@ -55,3 +55,6 @@ if (trajetId) {
       console.error("Erreur lors du chargement des passagers :", error);
     });
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

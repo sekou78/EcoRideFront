@@ -258,3 +258,6 @@ function reserverTrajet() {
   // Redirection vers la page de statut avec l'ID de la réservation
   window.location.href = `/statutReservation?id=${reservationDetails.id}`;
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

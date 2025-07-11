@@ -169,3 +169,6 @@ function formatHeure(dateTimeString) {
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

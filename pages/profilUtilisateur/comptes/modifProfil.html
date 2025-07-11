@@ -32,7 +32,7 @@
               <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
               <div
                 class="mb-3"
-                data-show="ROLE_CHAUFFEUR ROLE_PASSAGER ROLE_PASSAGER_CHAUFFEUR ROLE_USER">
+                data-show="ROLE_CHAUFFEUR ROLE_PASSAGER ROLE_PASSAGER_CHAUFFEUR ">
                 <label for="role" class="form-label">
                   🪪 Sélectionner votre rôle
                 </label>
@@ -40,6 +40,7 @@
                   class="form-select bg-dark text-center"
                   id="role"
                   aria-label="Sélectionner un rôle">
+                  <option selected></option>
                   <option value="passager">🧍 Passager</option>
                   <option value="chauffeur">🚗 Chauffeur</option>
                   <option value="passager_chauffeur">

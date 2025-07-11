@@ -1,3 +1,75 @@
+<div class="container text-center">
+  <div class="row align-items-center">
+    <div class="text-center m-2 col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary lg-1 me-2">
+          Mon compte
+        </button>
+      </a>
+    </div>
+    <div class="text-center m-2 col">
+      <a href="/espaceAdmin">
+        <button class="btn bg-dark border-dark text-primary lg-1 me-2">
+          Mon espace
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-2 m-1">
+  <div class="card-header bg-dark text-primary text-center">
+    <h1>Gestion des comptes utilisateurs</h1>
+  </div>
+
+  <div class="card-body">
+    <div class="table-employee">
+      <div id="listesUtilisateurs" class="text-center">
+        <!-- Rempli dynamiquement -->
+      </div>
+    </div>
+  </div>
+
+  <div id="pager" class="mb-3 text-center"></div>
+</div>
+
+<!-- Modal de confirmation suppression -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-primary">
+        <h5 class="modal-title">Confirmation</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        Voulez-vous vraiment supprimer
+        <br />
+        <strong id="modal-emp-name">cet utilisateur</strong>
+        <br />
+        ?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn bg-dark text-primary"
+          data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          id="modal-confirm-btn">
+          Oui, supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
 <div class="card mt-3 m-1">
   <div class="card-header bg-dark text-primary text-center">
     Gestion des comptes utilisateurs
@@ -17,8 +89,8 @@
         </thead>
         <tbody id="listesUtilisateurs" class="text-center">
           <!-- Rempli dynamiquement -->
-        </tbody>
+<!--</tbody>
       </table>
     </div>
   </div>
-</div>
+</div>-->

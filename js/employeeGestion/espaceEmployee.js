@@ -210,3 +210,6 @@ function refuserAvis(button) {
     })
     .catch((error) => console.error("Erreur refus :", error));
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();

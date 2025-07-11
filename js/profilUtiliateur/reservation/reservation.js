@@ -267,3 +267,6 @@ function confirmerReservation() {
       alert("Impossible de charger vos réservations.");
     });
 }
+
+// Fonction si l'utilisateur n'est pas connecté
+loadMonCompte();
