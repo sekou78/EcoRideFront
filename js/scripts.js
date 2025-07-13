@@ -10,8 +10,33 @@ function getRole() {
   return getCookie(RoleCookieName);
 }
 
+function filtrerRoles(roles) {
+  if (!roles || roles.length === 0) {
+    return ["ROLE_USER"]; // par défaut si aucun rôle
+  }
+
+  // On filtre ROLE_USER sauf s'il est le seul
+  const rolesSansUser = roles.filter((r) => r !== "ROLE_USER");
+
+  // Si après filtrage on a au moins un rôle, on le garde
+  if (rolesSansUser.length > 0) {
+    return rolesSansUser;
+  }
+
+  // Sinon on garde ROLE_USER (car c'est le seul rôle)
+  return ["ROLE_USER"];
+}
+
 function setRole(role) {
-  setCookie(RoleCookieName, role, 7);
+  let rolesArray = Array.isArray(role) ? role : role.split(",");
+  const filteredRoles = filtrerRoles(rolesArray);
+  setCookie(RoleCookieName, filteredRoles.join(","), 7);
+}
+
+function setRole(role) {
+  let rolesArray = Array.isArray(role) ? role : role.split(",");
+  const filteredRoles = filtrerRoles(rolesArray);
+  setCookie(RoleCookieName, filteredRoles.join(","), 7);
 }
 
 function setToken(token) {

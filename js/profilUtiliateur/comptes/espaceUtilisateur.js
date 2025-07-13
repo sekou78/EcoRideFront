@@ -54,6 +54,17 @@ const requestOptions = {
   redirect: "follow",
 };
 
+function filtrerRolesSansRoleUser(rolesArray) {
+  // Nettoie les espaces
+  const roles = rolesArray.map((r) => r.trim()).filter(Boolean);
+
+  if (roles.length === 0) return ["ROLE_USER"]; // aucun rôle → ROLE_USER
+  if (roles.length > 1 && roles.includes("ROLE_USER"))
+    return roles.filter((r) => r !== "ROLE_USER"); // retire ROLE_USER
+
+  return roles; // sinon inchangé
+}
+
 // 1er appel API : récupérer les infos de l'utilisateur connecté
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
@@ -68,13 +79,17 @@ fetch(apiUrl + "account/me", requestOptions)
     console.log(user);
 
     const roles = user.user.roles;
+
+    // filtrage
+    const rolesFiltrees = filtrerRolesSansRoleUser(roles);
+
     setRole(roles.join(","));
 
     // Affichage des infos utilisateur
     pseudoDisplay.textContent = user.user.pseudo;
     totalCredits.textContent = user.user.credits;
     emailCurrentUserDisplay.textContent = user.user.email;
-    roleDisplay.textContent = roles.join(", ");
+    roleDisplay.textContent = rolesFiltrees.join(", ");
     telephoneDisplay.textContent = user.user.telephone;
     avatarDisplay.src = urlImg + user.user.image.filePath;
 

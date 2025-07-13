@@ -254,6 +254,7 @@ function validateInscriptionEmployee() {
     .catch((error) => console.error(error));
 }
 
+//Afficher le nombre de crédits de l'admin
 const token = getCookie(tokenCookieName);
 
 const myHeaders = new Headers();
@@ -272,51 +273,115 @@ fetch(apiUrl + "account/me", requestOptions)
   })
   .catch((error) => console.error(error));
 
-const covoiturages = JSON.parse(localStorage.getItem("covoiturages")) || [];
+// récup & pré‑calcul
+async function fetchTrajetStats() {
+  const token = getCookie(tokenCookieName);
+  const resp = await fetch(apiUrl + "trajet/admin/trajets", {
+    headers: { "X-AUTH-TOKEN": token },
+  });
+  if (!resp.ok) throw new Error("API trajets");
 
-// Regrouper les données par jour
-const statsParJour = {};
-covoiturages.forEach((covoit) => {
-  if (!statsParJour[covoit.date]) {
-    statsParJour[covoit.date] = { nb: 0, credits: 0 };
-  }
-  statsParJour[covoit.date].nb++;
-  statsParJour[covoit.date].credits += covoit.credits;
+  const data = await resp.json();
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // dates passées
+  const past = {};
+  // today + J+1 + J+2
+  const present = {};
+  // >= J+3
+  const future = {};
+
+  data.items.forEach((t) => {
+    const [d, m, y] = t.dateDepart.split("-");
+    const dateObj = new Date(+y, m - 1, +d);
+    const dateStr = t.dateDepart;
+    const cred = t.credits ?? t.prix ?? 0;
+
+    // écart en jours
+    const diffJ = Math.floor((dateObj - today) / 86400000);
+
+    const bucket = diffJ < 0 ? past : diffJ <= 2 ? present : future;
+
+    bucket[dateStr] = bucket[dateStr] || { nb: 0, cred: 0 };
+    bucket[dateStr].nb += 1;
+    bucket[dateStr].cred += cred;
+  });
+
+  const makeArrays = (bucket) => {
+    const ordered = Object.keys(bucket).sort((a, b) => {
+      const [da, ma, ya] = a.split("-"),
+        [db, mb, yb] = b.split("-");
+      return new Date(+ya, ma - 1, +da) - new Date(+yb, mb - 1, +db);
+    });
+    return {
+      labels: ordered,
+      nb: ordered.map((d) => bucket[d].nb),
+      cred: ordered.map((d) => bucket[d].cred),
+    };
+  };
+
+  return [makeArrays(past), makeArrays(present), makeArrays(future)];
+}
+
+// navigation / affichage
+// recevra les 3 blocs
+let ranges = [];
+// 0=past 1=present 2=future
+let idxRange = 1;
+
+const ctxT = document.getElementById("graphCovoiturages").getContext("2d");
+const ctxC = document.getElementById("graphCredits").getContext("2d");
+const lbl = document.getElementById("rangeLabel");
+
+function renderCurrentGraphs() {
+  const bloc = ranges[idxRange];
+  const titres = ["Trajets passés", "Aujourd’hui +2 jours", "Trajets futurs"];
+  lbl.textContent = titres[idxRange];
+
+  drawBarGraph(ctxT, bloc.labels, bloc.nb, "#0d6efd");
+  drawBarGraph(ctxC, bloc.labels, bloc.cred, "#198754");
+}
+
+document.getElementById("prevRange").addEventListener("click", () => {
+  idxRange = (idxRange + 2) % 3; // boucle 2→1→0→2…
+  renderCurrentGraphs();
 });
 
-const dates = Object.keys(statsParJour);
-const nbCovoits = dates.map((date) => statsParJour[date].nb);
-const credits = dates.map((date) => statsParJour[date].credits);
+document.getElementById("nextRange").addEventListener("click", () => {
+  idxRange = (idxRange + 1) % 3;
+  renderCurrentGraphs();
+});
 
-// Fonction générique pour dessiner un bar graph
+//initialisation des graphiques
+fetchTrajetStats()
+  .then((result) => {
+    ranges = result;
+    renderCurrentGraphs();
+  })
+  .catch(console.error);
+
 function drawBarGraph(ctx, labels, data, barColor = "#0d6efd") {
-  const width = ctx.canvas.width;
-  const height = ctx.canvas.height;
-  const maxVal = Math.max(...data);
-  const padding = 40;
-  const barWidth = (width - padding * 2) / data.length - 10;
+  const w = ctx.canvas.width,
+    h = ctx.canvas.height,
+    pad = 40;
+  const maxVal = Math.max(...data, 1);
+  const barW = (w - pad * 2) / data.length - 10;
 
-  ctx.clearRect(0, 0, width, height);
-  ctx.fillStyle = "#000";
+  ctx.clearRect(0, 0, w, h);
   ctx.font = "12px Arial";
   ctx.textAlign = "center";
 
   data.forEach((val, i) => {
-    const x = padding + i * (barWidth + 10);
-    const barHeight = (val / maxVal) * (height - padding * 2);
-    const y = height - padding - barHeight;
+    const x = pad + i * (barW + 10);
+    const barH = (val / maxVal) * (h - pad * 2);
+    const y = h - pad - barH;
 
     ctx.fillStyle = barColor;
-    ctx.fillRect(x, y, barWidth, barHeight);
+    ctx.fillRect(x, y, barW, barH);
 
     ctx.fillStyle = "#000";
-    ctx.fillText(labels[i], x + barWidth / 2, height - 10);
-    ctx.fillText(val, x + barWidth / 2, y - 5);
+    ctx.fillText(labels[i], x + barW / 2, h - 10);
+    ctx.fillText(val, x + barW / 2, y - 5);
   });
 }
-
-const ctxCovoit = document.getElementById("graphCovoiturages").getContext("2d");
-const ctxCredits = document.getElementById("graphCredits").getContext("2d");
-
-drawBarGraph(ctxCovoit, dates, nbCovoits, "#0d6efd");
-drawBarGraph(ctxCredits, dates, credits, "#198754");

@@ -1,7 +1,6 @@
 // Variables globales
 let utilisateurs = [];
 let deleteIndexPending = null;
-// let currentPage = 1;
 let currentPage =
   parseInt(new URL(window.location).searchParams.get("page")) || 1;
 let totalPages = 1;
