@@ -173,8 +173,7 @@
                 aria-label="Default select example">
                 <option selected></option>
                 <option value="1">⏳ EN_ATTENTE</option>
-                <option value="2">🚗 EN_COURS</option>
-                <option value="3">🏁 TERMINEE</option>
+                <option value="2">🏁 TERMINEE</option>
               </select>
             </div>
           </form>
@@ -188,6 +187,35 @@
             </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBody">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
       </div>
     </div>
   </div>

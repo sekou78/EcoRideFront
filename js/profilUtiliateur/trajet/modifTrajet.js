@@ -28,18 +28,47 @@ statutVoyage.addEventListener("change", validInputVoyage);
 
 btnValidationVoyage.addEventListener("click", validateModifTrajetForm);
 
+function parseDateMulti(str) {
+  if (!str) return null;
+
+  // ISO
+  if (/^\d{4}-\d{2}-\d{2}$/.test(str)) {
+    const [y, m, d] = str.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+
+  // FR
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(str)) {
+    const [d, m, y] = str.split("/").map(Number);
+    return new Date(y, m - 1, d);
+  }
+  return null;
+}
+
+function dateInFuture(str) {
+  const d = parseDateMulti(str);
+  if (!d) return false; // format incorrect
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // 00:00:00
+  return d >= today; // aujourd’hui ou futur
+}
+
 function validInputVoyage() {
   const departAdresseOk = validateVoyageRequired(departAdresse);
   const arriveeAdresseOk = validateVoyageRequired(arriveeAdresse);
-  const dateDepartOk = validDate(dateDepart);
-  const dateArriveeOk = validDate(dateArrivee);
+
+  const dateDepartOk = validDate(dateDepart) && dateInFuture(dateDepart.value);
+  const dateArriveeOk =
+    validDate(dateArrivee) && dateInFuture(dateArrivee.value);
+
   const heureDepartOk = validHour(heureDepart);
   const dureeOk = validHour(duree);
   const prixOk = validateVoyageRequired(prix);
   const placesDisponiblesOk = validnbresPlaces(placesDisponibles);
   const statutOk = validateVoyageRequired(statutVoyage);
 
-  if (
+  btnValidationVoyage.disabled = !(
     departAdresseOk &&
     arriveeAdresseOk &&
     dateDepartOk &&
@@ -49,14 +78,24 @@ function validInputVoyage() {
     prixOk &&
     placesDisponiblesOk &&
     statutOk
-  ) {
-    btnValidationVoyage.disabled = false;
-  } else {
-    btnValidationVoyage.disabled = true;
-  }
+  );
 }
 
 async function validateModifTrajetForm() {
+  const dateDepartOk = validDate(dateDepart) && dateInFuture(dateDepart.value);
+  const dateArriveeOk =
+    validDate(dateArrivee) && dateInFuture(dateArrivee.value);
+
+  if (!dateDepartOk) {
+    showErrorModal("La date de départ doit être aujourd’hui ou dans le futur.");
+    return;
+  }
+
+  if (!dateArriveeOk) {
+    showErrorModal("La date d’arrivée doit être aujourd’hui ou dans le futur.");
+    return;
+  }
+
   let dataForm = new FormData(editVoyage);
   const token = getCookie(tokenCookieName);
 
@@ -111,19 +150,35 @@ async function validateModifTrajetForm() {
 
   try {
     const response = await fetch(apiUrl + `trajet/${trajetId}`, requestOptions);
+    const result = await response.json();
+
     if (!response.ok) {
-      throw new Error("Erreur lors de l'édition du trajet.");
+      // Gestion des erreurs détaillées du backend
+      if (result.error) {
+        showErrorModal(result.error);
+      } else if (result.errors && Array.isArray(result.errors)) {
+        showErrorModal(result.errors.join("<br>"));
+      } else {
+        showErrorModal("Erreur inconnue lors de l'édition du trajet.");
+      }
+      return;
     }
 
-    const result = await response.json();
-    document.location.href = "/espaceUtilisateur";
-
-    // Supprimer le trajet modifié du localStorage
+    // Succès : redirection et nettoyage localStorage
     localStorage.removeItem("trajet");
+    document.location.href = "/espaceUtilisateur";
   } catch (error) {
     console.error("Erreur :", error);
-    alert("Trajet non modifié. Vehicule déja assigné.");
+    showErrorModal("Une erreur réseau est survenue. Veuillez réessayer.");
   }
+}
+// Fonction pour afficher le modal avec le message d'erreur
+function showErrorModal(message) {
+  const modalBody = document.getElementById("errorModalBody");
+  modalBody.innerHTML = message;
+
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 //appel de la fonction de chargement des véhicules de l'utilisateur
@@ -198,6 +253,8 @@ function extraireHeureMinutes(dateString) {
   return `${heures}:${minutes}`;
 }
 
+let vehiculeSelectionneId = null;
+
 const trajet = JSON.parse(localStorage.getItem("trajet"));
 if (!trajet) {
   console.warn("Aucun trajet trouvé dans le localStorage.");
@@ -213,11 +270,13 @@ if (!trajet) {
   trajetEcologique.checked = !!trajet.estEcologique;
   placesDisponibles.value = trajet.nombrePlacesDisponible || "";
   statutVoyage.value = trajet.statut || "";
-  afficheModifTrajetChoixImmatriculation.textContent =
-    trajet.vehicule.plaqueImmatriculation;
-}
 
-let vehiculeSelectionneId = null;
+  if (trajet.vehicule) {
+    afficheModifTrajetChoixImmatriculation.textContent =
+      trajet.vehicule.plaqueImmatriculation;
+    vehiculeSelectionneId = trajet.vehicule.id;
+  }
+}
 
 function modifTrajetSelectionnerVehicule(vehicule) {
   const choixVehicule = document.getElementById("choixVehiculeModif");

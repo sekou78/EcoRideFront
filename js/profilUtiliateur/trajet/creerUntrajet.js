@@ -10,7 +10,6 @@ const prix = document.getElementById("prix-trajet");
 const trajetEcologique = document.getElementById("trajet-ecologique");
 const placesDisponibles = document.getElementById("places-disponibles");
 
-// const statutVoyage = document.getElementById("etat-voyage");
 const creeTrajetChoixImmatriculation = document.getElementById("choixVehicule");
 const btnValidationVoyage = document.getElementById("btn-ajouter-voyage");
 
@@ -27,32 +26,88 @@ placesDisponibles.addEventListener("input", validInputVoyage);
 
 btnValidationVoyage.addEventListener("click", validateVoyageForm);
 
+function dateInFuture(input) {
+  const value = input.value.trim();
+  if (!value) return false; // vide
+
+  let picked;
+
+  // 1) format dd‑mm‑aaaa
+  const fr = /^(\d{2})-(\d{2})-(\d{4})$/;
+  const iso = /^(\d{4})-(\d{2})-(\d{2})$/;
+
+  if (fr.test(value)) {
+    const [, d, m, y] = value.match(fr);
+    picked = new Date(`${y}-${m}-${d}T00:00:00`);
+  } else if (iso.test(value)) {
+    picked = new Date(`${value}T00:00:00`);
+  } else {
+    // format invalide : laisse validDate() marquer l’input en rouge
+    return false;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const ok = picked >= today;
+  input.classList.toggle("is-valid", ok);
+  input.classList.toggle("is-invalid", !ok);
+
+  return ok;
+}
+
+function parseDDMMYYYY(str) {
+  const m = str.match(/^(\d{2})-(\d{2})-(\d{4})$/);
+  if (!m) return null;
+  const [, d, mth, y] = m;
+  return new Date(`${y}-${mth}-${d}T00:00:00`);
+}
+
+function parseDateInput(str) {
+  return parseDDMMYYYY(str) || new Date(`${str}T00:00:00`);
+}
+
+function dateAfter(dateBInput, dateAInput) {
+  const a = parseDateInput(dateAInput.value.trim());
+  const b = parseDateInput(dateBInput.value.trim());
+  if (isNaN(a) || isNaN(b)) return false;
+
+  const ok = b >= a;
+  dateBInput.classList.toggle("is-valid", ok);
+  dateBInput.classList.toggle("is-invalid", !ok);
+  return ok;
+}
+
+// Ajout de la règle dans ta validation centrale
 function validInputVoyage() {
   const departAdresseOk = validateVoyageRequired(departAdresse);
   const arriveeAdresseOk = validateVoyageRequired(arriveeAdresse);
-  const dateDepartOk = validDate(dateDepart);
-  const dateArriveeOk = validDate(dateArrivee);
+
+  const dateDepartFormatOk = validDate(dateDepart);
+  const dateArriveeFormatOk = validDate(dateArrivee);
+
+  const dateDepartFutureOk = dateInFuture(dateDepart);
+  const dateArriveeAfterOk = dateAfter(dateArrivee, dateDepart);
+
   const heureDepartOk = validHour(heureDepart);
   const dureeOk = validHour(duree);
   const prixOk = validateVoyageRequired(prix);
   const placesDisponiblesOk = validnbresPlaces(placesDisponibles);
   const vehiculeOk = vehiculeSelectionneId !== null;
 
-  if (
+  btnValidationVoyage.disabled = !(
     departAdresseOk &&
     arriveeAdresseOk &&
-    dateDepartOk &&
-    dateArriveeOk &&
+    dateDepartFormatOk &&
+    dateArriveeFormatOk &&
+    dateDepartFutureOk &&
+    dateArriveeAfterOk &&
     heureDepartOk &&
     dureeOk &&
     prixOk &&
     placesDisponiblesOk &&
     vehiculeOk
-  ) {
-    btnValidationVoyage.disabled = false;
-  } else {
-    btnValidationVoyage.disabled = true;
-  }
+  );
 }
 
 function validateVoyageForm() {
@@ -84,18 +139,44 @@ function validateVoyageForm() {
     redirect: "follow",
   };
 
+  // modale Bootstrap
+  const modalErreurEl = document.getElementById("modalErreurTrajet");
+  const modalErreur = new bootstrap.Modal(modalErreurEl);
+  const modalErreurMsg = document.getElementById("modalErreurMsg");
+
   fetch(apiUrl + "trajet", requestOptions)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        alert("Une erreur est survenue");
+        // Pour les erreurs, on parse aussi le JSON d’erreur
+        return response.json().then((error) => {
+          let message = "Une erreur est survenue.";
+
+          if (error.error) {
+            // Erreur simple string
+            message = error.error;
+          } else if (Array.isArray(error.errors)) {
+            // Plusieurs erreurs sous forme de tableau → on concatène
+            message = error.errors.join("\n");
+          }
+
+          // Affiche dans le modal bootstrap
+          modalErreurMsg.textContent = message;
+          modalErreur.show();
+
+          // On rejette la promesse pour ne pas passer au .then()
+          throw new Error(message);
+        });
       }
     })
-    .then((result) => {})
-    .catch((error) => {});
-  // Rediriger vers la page du profil utilisateur
-  window.location.href = "/espaceUtilisateur";
+    .then((result) => {
+      // Ici traitement du succès, redirection
+      window.location.href = "/espaceUtilisateur";
+    })
+    .catch((error) => {
+      console.error("Erreur lors de la création du trajet :", error.message);
+    });
 }
 
 //appel de la fonction de chargement des véhicules de l'utilisateur
