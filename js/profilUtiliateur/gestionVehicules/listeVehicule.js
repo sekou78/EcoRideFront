@@ -142,7 +142,7 @@ async function supprimerderVehicule(vehicule) {
 
   // 2. Vérification de l'ID
   if (!vehiculeId) {
-    alert("Impossible de trouver l'ID du véhicule.");
+    afficherErreurModalListeVehicule("Impossible de trouver l'ID du véhicule.");
     return;
   }
 
@@ -172,8 +172,17 @@ async function supprimerderVehicule(vehicule) {
     document.location.href = "/listeVehicule";
   } catch (error) {
     console.error("Erreur :", error);
-    alert("Véhicule non supprimé.");
+    afficherErreurModalListeVehicule("Véhicule non supprimé.");
   }
+}
+
+function afficherErreurModalListeVehicule(message) {
+  const errorModalBody = document.getElementById("errorModalBodyListeVehicule");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Lancer après chargement DOM

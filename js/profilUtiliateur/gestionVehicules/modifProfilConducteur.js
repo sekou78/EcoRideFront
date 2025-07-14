@@ -91,7 +91,9 @@ async function validateEnregistrerVehicule() {
     document.location.href = "/espaceUtilisateur";
   } catch (error) {
     console.error(error);
-    alert("Profil conducteur non modifié.");
+    afficherErreurModalModifProfilConducteur(
+      "Vehicule non enregistré. Veuillez vérifier les informations saisies."
+    );
   }
 }
 
@@ -171,6 +173,17 @@ function validDate(input) {
     input.classList.add("is-invalid");
     return false;
   }
+}
+
+function afficherErreurModalModifProfilConducteur(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyModifProfilConducteur"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

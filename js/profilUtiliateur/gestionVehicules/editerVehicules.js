@@ -43,7 +43,9 @@ async function modificationVehicule() {
   const vehiculeId = vehicule?.id;
 
   if (!vehiculeId) {
-    alert("Impossible de trouver l'ID du véhicule.");
+    afficherErreurModalEditerVehicule(
+      "Impossible de trouver l'ID du véhicule."
+    );
     return;
   }
 
@@ -84,7 +86,9 @@ async function modificationVehicule() {
     localStorage.removeItem("vehicule_a_editer");
   } catch (error) {
     console.error("Erreur :", error);
-    alert("Véhicule non modifié.");
+    afficherErreurModalEditerVehicule(
+      "Données manquantes, véhicule non modifié."
+    );
   }
 }
 
@@ -109,6 +113,17 @@ editionVehiculeModeleVehiculeInfo.value = vehicule.modele || "";
 editionVehiculeCouleurVehiculeInfo.value = vehicule.couleur || "";
 editionVehiculePlacesDisponibles.value = vehicule.nombrePlaces || "";
 editionVehiculeElectrique.checked = vehicule.electrique === true;
+
+function afficherErreurModalEditerVehicule(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyEditerVehicule"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
+}
 
 // Fonction si l'utilisateur n'est pas connecté
 loadMonCompte();

@@ -111,28 +111,55 @@
           </div>
 
           <!-- Pied de carte : actions -->
-          <div class="card-footer bg-dark text-center">
-            <div class="row align-items-center">
-              <a href="/modifProfil" class="col">
-                <button class="btn btn-bg-dark text-primary">
-                  Modifier mon profil
-                </button>
-              </a>
+          <div class="card-footer bg-dark py-4">
+            <div class="row text-center justify-content-around">
+              <div class="col-6 col-md-3 mb-3">
+                <a href="/modifProfil" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto"
+                    style="width: 100px; height: 100px; cursor: pointer">
+                    <i class="fas fa-user-edit fs-4 mb-2"></i>
+                    <span class="fw-semibold">Modifier profil</span>
+                  </div>
+                </a>
+              </div>
 
-              <a
-                href="/creerUntrajet"
-                class="col"
+              <div
+                class="col-6 col-md-3 mb-3"
                 data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
-                <button class="btn btn-bg-dark text-primary">
-                  Créer un trajet
-                </button>
-              </a>
+                <a href="/creerUntrajet" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto"
+                    style="width: 100px; height: 100px; cursor: pointer">
+                    <i class="fas fa-car fs-4 mb-2"></i>
+                    <span class="fw-semibold">Créer trajet</span>
+                  </div>
+                </a>
+              </div>
 
-              <a href="/historiqueUtilisateur" class="col">
-                <button class="btn btn-bg-dark text-primary">
-                  Mon historique
-                </button>
-              </a>
+              <div
+                class="col-6 col-md-3 mb-3"
+                data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
+                <a href="/listeVehicule" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto"
+                    style="width: 100px; height: 100px; cursor: pointer">
+                    <i class="fas fa-car-side fs-4 mb-2"></i>
+                    <span class="fw-semibold">Mes véhicules</span>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-6 col-md-3 mb-3">
+                <a href="/historiqueUtilisateur" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto"
+                    style="width: 100px; height: 100px; cursor: pointer">
+                    <i class="fas fa-clock fs-4 mb-2"></i>
+                    <span class="fw-semibold">Historique</span>
+                  </div>
+                </a>
+              </div>
             </div>
           </div>
         </div>
