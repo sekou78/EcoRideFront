@@ -22,8 +22,6 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((user) => {
-    console.log(user);
-
     // Affichage des infos utilisateur
     pseudoEmployeDisplay.textContent = user.user.pseudo;
   });
@@ -38,10 +36,16 @@ const covoituragesContainer = document.getElementById(
 fetch(apiUrl + "avis/", requestOptions)
   .then((response) => response.json())
   .then((result) => {
-    console.log("Avis reçus depuis l’API :", result);
-
     // Stockage en local storage
     localStorage.setItem("commentairesAvis", JSON.stringify(result));
+
+    // Vérifie que result est bien un tableau
+    if (!Array.isArray(result)) {
+      afficherErreurModalEspaceEmployee(
+        "Pas de données reçues. Veuillez réessayer plus tard."
+      );
+      return;
+    }
 
     result
       .filter((avis) => avis.isVisible === false && avis.isRefused === false)
@@ -58,7 +62,7 @@ fetch(apiUrl + "avis/", requestOptions)
           // Enregistrer directement l'objet avis avec l'ID dans le localStorage
           const problemes =
             JSON.parse(localStorage.getItem("problemesRemonter")) || [];
-          problemes.push(avis); // Pas besoin de créer un objet à part
+          problemes.push(avis);
           localStorage.setItem("problemesRemonter", JSON.stringify(problemes));
         } else if (note >= 3 && note <= 5) {
           container = avisContainer;
@@ -105,13 +109,18 @@ fetch(apiUrl + "avis/", requestOptions)
               </div>`
             : ""
         }
-        <hr />
       `;
 
         container.appendChild(avisDiv);
+        avisDiv.className = "mb-3 pb-3 border-bottom";
       });
   })
-  .catch((error) => console.error("Erreur API avis :", error));
+  .catch((error) => {
+    console.error("Erreur API avis :", error);
+    afficherErreurModalEspaceEmployee(
+      "Une erreur est survenue lors de la récupération des avis. Veuillez réessayer plus tard."
+    );
+  });
 
 // Gestion des boutons et du lien "codeProbleme"
 function handleAvisActions(event) {
@@ -158,7 +167,8 @@ function validerAvis(button) {
   if (!avisBlock) return;
 
   const avisId = button.getAttribute("data-id");
-  console.log("ID de l'avis validé :", avisId);
+  // console.log("ID de l'avis validé :", avisId);
+  afficherErreurModalEspaceEmployee("Avis validé avec succès.");
 
   const token = getCookie(tokenCookieName);
   const myHeaders = new Headers();
@@ -176,10 +186,18 @@ function validerAvis(button) {
       return response.json();
     })
     .then((result) => {
-      console.log("Avis validé avec succès :", result);
+      // console.log("Avis validé avec succès :", result);
+      afficherErreurModalEspaceEmployee("Avis validé avec succès.");
+      // Suppression de l'élément du DOM
       avisBlock.remove();
+      window.location.reload();
     })
-    .catch((error) => console.error("Erreur validation :", error));
+    .catch((error) => {
+      console.error("Erreur validation :", error);
+      afficherErreurModalEspaceEmployee(
+        "Une erreur est survenue lors de la validation de l'avis. Veuillez réessayer plus tard."
+      );
+    });
 }
 
 function refuserAvis(button) {
@@ -187,7 +205,8 @@ function refuserAvis(button) {
   if (!avisBlock) return;
 
   const avisId = button.getAttribute("data-id");
-  console.log("ID de l'avis refusé :", avisId);
+  // console.log("ID de l'avis refusé :", avisId);
+  afficherErreurModalEspaceEmployee("Avis refusé avec succès.");
 
   const token = getCookie(tokenCookieName);
   const myHeaders = new Headers();
@@ -205,10 +224,29 @@ function refuserAvis(button) {
       return response.json();
     })
     .then((result) => {
-      console.log("Avis refusé avec succès :", result);
+      // console.log("Avis refusé avec succès :", result);
+      afficherErreurModalEspaceEmployee("Avis refusé avec succès.");
+      // Suppression de l'élément du DOM
       avisBlock.remove();
+      window.location.reload();
     })
-    .catch((error) => console.error("Erreur refus :", error));
+    .catch((error) => {
+      console.error("Erreur refus :", error);
+      afficherErreurModalEspaceEmployee(
+        "Une erreur est survenue lors du refus de l'avis. Veuillez réessayer plus tard."
+      );
+    });
+}
+
+function afficherErreurModalEspaceEmployee(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyEspaceEmployee"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

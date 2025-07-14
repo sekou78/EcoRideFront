@@ -24,8 +24,6 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((user) => {
-    console.log(user);
-
     // Affichage des infos utilisateur
     pseudoEmployeEspaceProblemesRemonterDisplay.textContent = user.user.pseudo;
   });
@@ -43,13 +41,15 @@ function initEspaceProblemesRemonter() {
   let problemes = [];
   try {
     const saved = JSON.parse(localStorage.getItem("problemeSelectionne"));
-    console.log(saved);
 
     if (saved) {
       problemes = [saved];
     }
-  } catch (e) {
-    console.error("Erreur JSON parse:", e);
+  } catch (error) {
+    console.error("Erreur JSON parse:", error);
+    afficherErreurModalEspaceProblemesRemonter(
+      "Erreur lors de la récupération des problèmes. Veuillez réessayer plus tard."
+    );
   }
 
   // Lire le hash (ex: #CV123456)
@@ -156,7 +156,8 @@ function validerAvis(button) {
   const container = button.closest(".accordion-item");
   if (container) {
     const problemeId = button.getAttribute("data-id");
-    console.log("ID de l'avis validé :", problemeId);
+    // console.log("ID de l'avis validé :", problemeId);
+    afficherErreurModalEspaceProblemesRemonter("Avis validé avec succès.");
 
     const token = getCookie(tokenCookieName);
     const myHeaders = new Headers();
@@ -174,11 +175,18 @@ function validerAvis(button) {
         return response.json();
       })
       .then((result) => {
-        console.log("Avis validé avec succès :", result);
+        // console.log("Avis validé avec succès :", result);
+        afficherErreurModalEspaceProblemesRemonter("Avis validé avec succès.");
+        // Suppression de l'élément du DOM
         container.remove();
         window.location.href = "/espaceEmployee";
       })
-      .catch((error) => console.error("Erreur validation :", error));
+      .catch((error) => {
+        console.error("Erreur validation :", error);
+        afficherErreurModalEspaceProblemesRemonter(
+          "Une erreur est survenue lors de la validation de l'avis. Veuillez réessayer plus tard."
+        );
+      });
   }
 }
 
@@ -186,7 +194,8 @@ function refuserAvis(button) {
   const container = button.closest(".accordion-item");
   if (container) {
     const problemeId = button.getAttribute("data-id");
-    console.log("ID de l'avis refusé :", problemeId);
+    // console.log("ID de l'avis refusé :", problemeId);
+    afficherErreurModalEspaceProblemesRemonter("Avis refusé avec succès.");
 
     const token = getCookie(tokenCookieName);
     const myHeaders = new Headers();
@@ -204,11 +213,17 @@ function refuserAvis(button) {
         return response.json();
       })
       .then((result) => {
-        console.log("Avis refusé avec succès :", result);
+        // console.log("Avis refusé avec succès :", result);
+        afficherErreurModalEspaceProblemesRemonter("Avis refusé avec succès.");
         container.remove();
         window.location.href = "/espaceEmployee";
       })
-      .catch((error) => console.error("Erreur validation :", error));
+      .catch((error) => {
+        console.error("Erreur validation :", error);
+        afficherErreurModalEspaceProblemesRemonter(
+          "Une erreur est survenue lors du refus de l'avis. Veuillez réessayer plus tard."
+        );
+      });
   }
 }
 
@@ -229,6 +244,17 @@ function formatHeure(dateString) {
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
+}
+
+function afficherErreurModalEspaceProblemesRemonter(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyEspaceProblemesRemonter"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté
