@@ -25,7 +25,7 @@ async function chargerUtilisateurs(page = 1) {
     });
 
     if (!resp.ok) {
-      alert("Erreur de chargement");
+      afficherErreurModalBodyGestionAdminUtilisateur("Erreur de chargement");
       return;
     }
 
@@ -51,7 +51,9 @@ async function chargerUtilisateurs(page = 1) {
     construirePager(totalPages);
   } catch (error) {
     console.error(error);
-    tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">Erreur lors du chargement</td></tr>`;
+    afficherErreurModalBodyGestionAdminUtilisateur(
+      (tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">Erreur lors du chargement</td></tr>`)
+    );
   }
 }
 
@@ -179,17 +181,27 @@ async function suspendre(index) {
   const token = getCookie(tokenCookieName);
   const id = utilisateurs[index].id;
 
-  const response = await fetch(apiUrl + `admin/droitSuspensionComptes/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "X-AUTH-TOKEN": token,
-    },
-  });
-  if (!response.ok) throw new Error("Erreur suspension");
+  try {
+    const response = await fetch(
+      apiUrl + `admin/droitSuspensionComptes/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "X-AUTH-TOKEN": token,
+        },
+      }
+    );
+    if (!response.ok) throw new Error("Erreur suspension");
 
-  utilisateurs[index].compteSuspendu = true;
-  window.location.reload();
+    utilisateurs[index].compteSuspendu = true;
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+    afficherErreurModalBodyGestionAdminEmployee(
+      "La suspension du compte a échoué."
+    );
+  }
 }
 
 // Fonction pour réactiver un utilisateur
@@ -197,17 +209,24 @@ async function reactiver(index) {
   const token = getCookie(tokenCookieName);
   const id = utilisateurs[index].id;
 
-  const response = await fetch(apiUrl + `droitsReactiverComptes/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "X-AUTH-TOKEN": token,
-    },
-  });
-  if (!response.ok) throw new Error("Erreur réactivation");
+  try {
+    const response = await fetch(apiUrl + `droitsReactiverComptes/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-AUTH-TOKEN": token,
+      },
+    });
+    if (!response.ok) throw new Error("Erreur réactivation");
 
-  utilisateurs[index].compteSuspendu = false;
-  window.location.reload();
+    utilisateurs[index].compteSuspendu = false;
+    window.location.reload();
+  } catch (error) {
+    console.error(error);
+    afficherErreurModalBodyGestionAdminEmployee(
+      "La réactivation du compte a échoué."
+    );
+  }
 }
 
 // Fonction pour supprimer un utilisateur (appelée par la modale)
@@ -221,11 +240,15 @@ async function supprimer(index) {
   });
 
   if (!response.ok) {
-    alert("Erreur lors de la suppression.");
+    afficherErreurModalBodyGestionAdminUtilisateur(
+      "Erreur lors de la suppression."
+    );
     return;
   }
 
-  alert("Utilisateurs supprimé avec succès !");
+  afficherErreurModalBodyGestionAdminUtilisateur(
+    "Utilisateurs supprimé avec succès !"
+  );
   window.location.reload(); // recharge la page
   afficherUtilisateurs(); // recharge la liste
 }
@@ -274,4 +297,15 @@ function updateUrlPageParam(page) {
   const url = new URL(window.location);
   url.searchParams.set("page", page);
   window.history.replaceState({}, "", url);
+}
+
+function afficherErreurModalBodyGestionAdminUtilisateur(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyGestionAdminUtilisateur"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }

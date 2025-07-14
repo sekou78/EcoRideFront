@@ -251,7 +251,12 @@ function validateInscriptionEmployee() {
         window.location.reload();
       });
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      console.error(error);
+      afficherErreurModalBodyEspaceAdmin(
+        "Une erreur est survenue lors de la création de l'employé. Veuillez réessayer."
+      );
+    });
 }
 
 //Afficher le nombre de crédits de l'admin
@@ -271,17 +276,24 @@ fetch(apiUrl + "account/me", requestOptions)
   .then((result) => {
     creditAdminTotal.textContent = result.user.credits;
   })
-  .catch((error) => console.error(error));
+  .catch((error) => {
+    console.error(error);
+    afficherErreurModalBodyEspaceAdmin(
+      "Une erreur est survenue lors de la récupération des crédits. Veuillez réessayer."
+    );
+  });
 
 // récup & pré‑calcul
 async function fetchTrajetStats() {
   const token = getCookie(tokenCookieName);
-  const resp = await fetch(apiUrl + "trajet/admin/trajets", {
+  const response = await fetch(apiUrl + "trajet/admin/trajets", {
     headers: { "X-AUTH-TOKEN": token },
   });
-  if (!resp.ok) throw new Error("API trajets");
 
-  const data = await resp.json();
+  if (!response.ok) throw new Error("API trajets");
+
+  const data = await response.json();
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -296,7 +308,7 @@ async function fetchTrajetStats() {
     const [d, m, y] = t.dateDepart.split("-");
     const dateObj = new Date(+y, m - 1, +d);
     const dateStr = t.dateDepart;
-    const cred = t.credits ?? t.prix ?? 0;
+    const cred = 2; // Chaque trajet terminé rapporte 2 crédits à la plateforme
 
     // écart en jours
     const diffJ = Math.floor((dateObj - today) / 86400000);
@@ -336,7 +348,7 @@ const lbl = document.getElementById("rangeLabel");
 
 function renderCurrentGraphs() {
   const bloc = ranges[idxRange];
-  const titres = ["Trajets passés", "Aujourd’hui +2 jours", "Trajets futurs"];
+  const titres = ["Trajets passés", "Aujourd’hui + 2 jours", "Trajets futurs"];
   lbl.textContent = titres[idxRange];
 
   drawBarGraph(ctxT, bloc.labels, bloc.nb, "#0d6efd");
@@ -384,4 +396,13 @@ function drawBarGraph(ctx, labels, data, barColor = "#0d6efd") {
     ctx.fillText(labels[i], x + barW / 2, h - 10);
     ctx.fillText(val, x + barW / 2, y - 5);
   });
+}
+
+function afficherErreurModalBodyEspaceAdmin(message) {
+  const errorModalBody = document.getElementById("errorModalBodyEspaceAdmin");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
