@@ -49,7 +49,9 @@ function envoyerCommentaire() {
     localStorage.getItem("reservationTerminee")
   );
   if (!reservationTermine || !reservationTermine.id) {
-    console.error("Impossible d’envoyer l’avis : réservation introuvable.");
+    afficherErreurModalBodyAvis(
+      "Impossible d’envoyer l’avis : réservation introuvable."
+    );
     return;
   }
 
@@ -77,7 +79,6 @@ function envoyerCommentaire() {
   fetch(apiUrl + "avis", requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      console.log("Réponse du serveur :", result);
       // Supprimer la réservation du localStorage
       localStorage.removeItem("reservationTerminee");
 
@@ -93,7 +94,10 @@ function envoyerCommentaire() {
 
       window.location.href = "/espaceUtilisateur";
     })
-    .catch((error) => console.error("Erreur lors de l’envoi :", error));
+    .catch((error) => {
+      // console.error("Erreur lors de l’envoi :", error);
+      afficherErreurModalBodyAvis("Erreur lors de l’envoi de l’avis.");
+    });
 }
 
 //fonction pour remonter un probleme
@@ -102,7 +106,9 @@ function remonterUnProbleme() {
     localStorage.getItem("reservationTerminee")
   );
   if (!reservationTermine || !reservationTermine.id) {
-    console.error("Impossible d’envoyer l’avis : réservation introuvable.");
+    afficherErreurModalBodyAvis(
+      "Impossible d’envoyer l’avis : réservation introuvable."
+    );
     return;
   }
 
@@ -130,7 +136,6 @@ function remonterUnProbleme() {
   fetch(apiUrl + "avis", requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      console.log("Réponse du serveur :", result);
       // Supprimer la réservation du localStorage
       localStorage.removeItem("reservationTerminee");
 
@@ -152,7 +157,10 @@ function remonterUnProbleme() {
 
       window.location.href = "/espaceUtilisateur";
     })
-    .catch((error) => console.error("Erreur lors de l’envoi :", error));
+    .catch((error) => {
+      // console.error("Erreur lors de l’envoi :", error);
+      afficherErreurModalBodyAvis("Erreur lors de l’envoi du problème.");
+    });
 }
 
 const reservationTermine = JSON.parse(
@@ -164,7 +172,7 @@ if (
   !reservationTermine.trajet ||
   !reservationTermine.trajet.chauffeur
 ) {
-  console.error("Aucune réservation valide trouvée.");
+  afficherErreurModalBodyAvis("Aucune réservation valide trouvée.");
 } else {
   inputPseudoAvis.value = reservationTermine.trajet.chauffeur.pseudo || "";
 }
@@ -197,4 +205,13 @@ function validNote(input) {
     input.classList.add("is-invalid");
     return false;
   }
+}
+
+function afficherErreurModalBodyAvis(message) {
+  const errorModalBody = document.getElementById("errorModalBodyAvis");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }

@@ -29,11 +29,8 @@ if (!pseudo) {
       const avisChauffeur = avisList.filter(
         (avis) => avis.reservation?.chauffeur === pseudo
       );
-      console.log(avisChauffeur);
 
       if (listeAvis) {
-        console.log(listeAvis);
-
         listeAvis.innerHTML = "";
 
         if (avisChauffeur.length === 0) {
@@ -56,9 +53,23 @@ if (!pseudo) {
       }
     })
     .catch((error) => {
-      console.error("Erreur lors du chargement des avis :", error);
+      // console.error("Erreur lors du chargement des avis :", error);
+      afficherErreurModalBodyCommentairesSruChauffeur(
+        "Erreur lors du chargement des avis."
+      );
       if (listeAvis) {
         listeAvis.innerHTML = `<li class="list-group-item text-danger">Erreur de chargement des avis.</li>`;
       }
     });
+}
+
+function afficherErreurModalBodyCommentairesSruChauffeur(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyCommentairesSruChauffeur"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
