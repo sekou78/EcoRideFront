@@ -62,7 +62,8 @@ function chargeImage() {
   const imageFile = avatar.files[0];
 
   if (!imageFile) {
-    console.error("Aucun fichier sélectionné");
+    // console.error("Aucun fichier sélectionné");
+    afficherErreurModalBodyModifAvatar("Aucun fichier sélectionné");
     return;
   }
 
@@ -80,15 +81,17 @@ function chargeImage() {
       if (response.ok) {
         return response.json();
       } else {
-        alert("Erreur lors du chargement de l'image");
+        afficherErreurModalBodyModifAvatar(
+          "Erreur lors du chargement de l'image"
+        );
       }
     })
     .then((result) => {
       avatarDisplay.src = urlImg + result.filePath;
     })
     .catch((error) => {
-      console.error(error);
-      alert("Image non charger");
+      // console.error(error);
+      afficherErreurModalBodyModifAvatar("Image non charger");
     });
 }
 
@@ -120,7 +123,8 @@ async function modifImage() {
     // Étape 2 : Préparer l'image à modifier
     const imageFile = avatar.files[0];
     if (!imageFile) {
-      console.error("Aucun fichier sélectionné");
+      // console.error("Aucun fichier sélectionné");
+      afficherErreurModalBodyModifAvatar("Aucun fichier sélectionné");
       return;
     }
 
@@ -142,8 +146,8 @@ async function modifImage() {
     const imageUrl = URL.createObjectURL(blob);
     window.location.reload();
   } catch (error) {
-    console.error(error);
-    alert("Image non modifiée");
+    // console.error(error);
+    afficherErreurModalBodyModifAvatar("Image non modifiée");
   }
 }
 
@@ -186,9 +190,18 @@ async function supprimeImage() {
     avatarDisplay.src = ""; // Efface l'image affichée
     window.location.reload();
   } catch (error) {
-    console.error(error);
-    alert("Image non supprimée");
+    // console.error(error);
+    afficherErreurModalBodyModifAvatar("Image non supprimée");
   }
+}
+
+function afficherErreurModalBodyModifAvatar(message) {
+  const errorModalBody = document.getElementById("errorModalBodyModifAvatar");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

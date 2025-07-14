@@ -102,16 +102,16 @@ function editCompte() {
       if (response.ok) {
         return response.json();
       } else {
-        alert("Une erreur est survenue");
+        afficherErreurModalBodyModifProfil("Une erreur est survenue");
       }
     })
     .then((result) => {
-      alert("Compte modifié.");
+      afficherErreurModalBodyModifProfil("Compte modifié.");
       document.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
-      console.error(error);
-      alert("Compte non modifié.");
+      // console.error(error);
+      afficherErreurModalBodyModifProfil("Compte non modifié.");
     });
 }
 
@@ -141,15 +141,15 @@ async function preferencesChauffeur() {
       if (response.ok) {
         return response.json();
       } else {
-        alert("Une erreur est survenue");
+        afficherErreurModalBodyModifProfil("Une erreur est survenue");
       }
     })
     .then((result) => {
       document.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
-      console.error(error);
-      alert("Preferences chauffeur non modifié.");
+      // console.error(error);
+      afficherErreurModalBodyModifProfil("Preferences chauffeur non modifié.");
     });
 }
 
@@ -209,6 +209,15 @@ function validDate(input) {
     input.classList.add("is-invalid");
     return false;
   }
+}
+
+function afficherErreurModalBodyModifProfil(message) {
+  const errorModalBody = document.getElementById("errorModalBodyModifProfil");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

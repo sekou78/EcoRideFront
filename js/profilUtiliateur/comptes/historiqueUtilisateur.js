@@ -57,8 +57,6 @@ fetch(apiUrl + "historique/", requestOptions)
   .then((response) => response.json())
   .then((data) => {
     const trajets = data.items;
-    console.log("Historique des trajets :", trajets);
-
     trajets.forEach((trajet, index) => {
       const covoiturageDiv = document.createElement("div");
       covoiturageDiv.className = "history-item text-center mb-4";
@@ -104,11 +102,27 @@ fetch(apiUrl + "historique/", requestOptions)
       }
     });
   })
-  .catch((error) => console.error("Erreur fetch historique:", error));
+  .catch((error) => {
+    console.error("Erreur fetch historique:", error);
+    afficherErreurModalBodyHistoriqueUtilisateur(
+      "Erreur lors du chargement de l'historique des trajets."
+    );
+  });
 
 // Fonction d'annulation d'un covoiturage
 function annulCovoiturage() {
   window.location.href = "/espaceUtilisateur";
+}
+
+function afficherErreurModalBodyHistoriqueUtilisateur(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyHistoriqueUtilisateur"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

@@ -76,8 +76,6 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((user) => {
-    console.log(user);
-
     const roles = user.user.roles;
 
     // filtrage
@@ -251,7 +249,10 @@ fetch(apiUrl + "account/me", requestOptions)
 
         const trajetEnCoursId = trajetEnCours?.id;
         if (!trajetEnCoursId) {
-          console.error("Impossible de trouver l'ID du trajet.");
+          // console.error("Impossible de trouver l'ID du trajet.");
+          afficherErreurModalBodyEspaceUtilisateur(
+            "Impossible de trouver l'ID du trajet."
+          );
           return;
         }
 
@@ -275,8 +276,6 @@ fetch(apiUrl + "account/me", requestOptions)
               return response.json();
             })
             .then((result) => {
-              console.log("Trajet marqué comme FINI :", result);
-
               // Bouton "Fin de trajet"
               const btnFin = document.createElement("button");
               btnFin.classList.add(
@@ -300,8 +299,6 @@ fetch(apiUrl + "account/me", requestOptions)
                     return response.json();
                   })
                   .then(() => {
-                    console.log("Trajet terminé avec succès");
-
                     // ➕ Appel pour envoyer 2 crédits à l'admin
                     envoyerCreditAdmin(trajetEnCoursId);
 
@@ -383,8 +380,6 @@ fetch(apiUrl + "account/me", requestOptions)
                   return response.json();
                 })
                 .then(() => {
-                  console.log("🚀 Statut changé en EN_COURS");
-
                   // 👁‍🗨 Mise à jour visuelle immédiate
                   btnDemarrer.classList.remove("btn-success");
                   btnDemarrer.classList.add("btn-info");
@@ -400,9 +395,12 @@ fetch(apiUrl + "account/me", requestOptions)
                   // trajetEnCours.statut = "EN_COURS";
                 })
                 .catch((error) => {
-                  console.error(
-                    "❌ Erreur lors de la mise à jour EN_COURS :",
-                    error
+                  // console.error(
+                  //   "❌ Erreur lors de la mise à jour EN_COURS :",
+                  //   error
+                  // );
+                  afficherErreurModalBodyEspaceUtilisateur(
+                    "Erreur lors de la mise à jour EN_COURS."
                   );
                 });
             });
@@ -492,7 +490,9 @@ async function supprimerTrajet(trajetEnCours) {
 
   // 2. Vérification de l'ID
   if (!trajetEnCoursId) {
-    alert("Impossible de trouver l'ID du trajet.");
+    afficherErreurModalBodyEspaceUtilisateur(
+      "Impossible de trouver l'ID du trajet."
+    );
     return;
   }
 
@@ -521,8 +521,8 @@ async function supprimerTrajet(trajetEnCours) {
     localStorage.removeItem("trajet_en_cours");
     document.location.href = "/espaceUtilisateur";
   } catch (error) {
-    console.error("Erreur :", error);
-    alert("trajet non supprimé.");
+    // console.error("Erreur :", error);
+    afficherErreurModalBodyEspaceUtilisateur("trajet non supprimé.");
   }
 }
 
@@ -559,7 +559,6 @@ function afficherReservations() {
   fetch(apiUrl + "reservation/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      console.log(result);
       const listeReservationsContainer = document.getElementById(
         "reservations-container"
       );
@@ -606,11 +605,19 @@ function afficherReservations() {
               .then((response) => {
                 if (!response.ok)
                   throw new Error("Échec de l'annulation automatique");
-                console.log(
-                  `Réservation ${idReservation} annulée automatiquement.`
+                // console.log(
+                //   `Réservation ${idReservation} annulée automatiquement.`
+                // );
+                afficherErreurModalBodyEspaceUtilisateur(
+                  "Réservation annulée automatiquement car dans moins de 24h."
                 );
               })
-              .catch((error) => console.error(error));
+              .catch((error) => {
+                console.error(error);
+                afficherErreurModalBodyEspaceUtilisateur(
+                  "Erreur lors de l'annulation automatique."
+                );
+              });
           }
 
           // Fonctions pour prendre heure et date en compte
@@ -668,6 +675,9 @@ function afficherReservations() {
             if (estDansMoinsDe12h(dateDepartReservation)) {
               console.log(
                 "Annulation dans moins de 12h — remboursement partiel côté backend"
+              );
+              afficherErreurModalBodyEspaceUtilisateur(
+                "Réservation annulée automatiquement car dans moins de 12h."
               );
             }
 
@@ -771,7 +781,12 @@ function afficherReservations() {
         listeReservationsContainer.style.display = "none";
       }
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      console.error(error);
+      afficherErreurModalBodyEspaceUtilisateur(
+        "Erreur lors de la récupération des réservations."
+      );
+    });
 
   // Confirmation depuis la modale
   confirmerBtn.addEventListener("click", () => {
@@ -812,8 +827,8 @@ function annulerReservation(id) {
       window.location.reload();
     })
     .catch((error) => {
-      console.error(error);
-      alert("Erreur lors de l'annulation.");
+      // console.error(error);
+      afficherErreurModalBodyEspaceUtilisateur("Erreur lors de l'annulation.");
     });
 }
 
@@ -838,7 +853,10 @@ function formatHeure(dateString) {
 
 // Fonction pour simuler l'envoi d'un email aux passagers
 function envoyerEmailParticipants(message) {
-  alert("Envoi d'un email aux participants :", message);
+  afficherErreurModalBodyEspaceUtilisateur(
+    "Envoi d'un email aux participants :",
+    message
+  );
 }
 
 // Appel de la fonction d'affichage
@@ -877,9 +895,29 @@ function envoyerCreditAdmin(trajetId) {
       return response.json();
     })
     .then((result) => {
-      console.log("Crédits transférés :", result);
+      // console.log("Crédits transférés :", result);
+      afficherErreurModalBodyEspaceUtilisateur(
+        "Crédits transférés à l'administrateur."
+      );
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      // console.error(error);
+      afficherErreurModalBodyEspaceUtilisateur(
+        "Erreur lors du transfert de crédits."
+      );
+    });
 }
 
+function afficherErreurModalBodyEspaceUtilisateur(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyEspaceUtilisateur"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
+}
+
+// Fonction si l'utilisateur n'est pas connecté
 loadMonCompte();
