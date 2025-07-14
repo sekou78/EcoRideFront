@@ -67,7 +67,9 @@ function trouverItineraireCovoiturage() {
 
   // Validation de la date
   if (!isValidDateFR(date)) {
-    alert("Veuillez entrer une date valide au format jj/mm/aaaa.");
+    afficherErreurModalBodyCovoiturage(
+      "Veuillez entrer une date valide au format jj/mm/aaaa."
+    );
     return;
   }
 
@@ -94,13 +96,14 @@ function trouverItineraireCovoiturage() {
       return response.json();
     })
     .then((result) => {
-      console.log("Résultat :", result);
       localStorage.setItem("resultTrajets", JSON.stringify(result));
       window.location.href = "/resultCovoiturage";
     })
     .catch((error) => {
       console.error("Erreur API :", error);
-      alert("Impossible de récupérer les trajets.");
+      afficherErreurModalBodyCovoiturage(
+        "Impossible de récupérer les trajets."
+      );
     });
 }
 
@@ -176,4 +179,13 @@ function validDate(input) {
   input.classList.add("is-valid");
   input.classList.remove("is-invalid");
   return true;
+}
+
+function afficherErreurModalBodyCovoiturage(message) {
+  const errorModalBody = document.getElementById("errorModalBodyCovoiturage");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }

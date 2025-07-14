@@ -76,7 +76,9 @@ async function vueDetailleeTrajetInfos() {
   const trajetInfosId = trajetIdInfos?.id;
 
   if (!trajetInfosId) {
-    alert("Impossible de trouver l'ID du trajet.");
+    afficherErreurModalBodyVueDetaillee(
+      "Impossible de trouver l'ID du trajet."
+    );
     return;
   }
   const requestOptions = {
@@ -160,7 +162,9 @@ async function vueDetailleeTrajetInfos() {
           const chauffeurPseudo = trajetIdInfos?.chauffeur;
 
           if (!chauffeurPseudo) {
-            console.warn("Impossible de récupérer le pseudo du chauffeur.");
+            afficherErreurModalBodyVueDetaillee(
+              "Impossible de récupérer le pseudo du chauffeur."
+            );
             return;
           }
 
@@ -198,9 +202,12 @@ async function vueDetailleeTrajetInfos() {
           container.insertAdjacentHTML("beforeend", moyenneHtml);
         })
         .catch((error) => {
-          console.error(
-            "Erreur lors de la récupération des avis visibles :",
-            error
+          // console.error(
+          //   "Erreur lors de la récupération des avis visibles :",
+          //   error
+          // );
+          afficherErreurModalBodyVueDetaillee(
+            "Impossible de récupérer les avis."
           );
         });
     }
@@ -225,7 +232,18 @@ async function vueDetailleeTrajetInfos() {
     autresPreferencesDetailleeDisplay.textContent =
       result.chauffeur.autresPreferences || "—";
   } catch (error) {
-    console.error("Erreur :", error);
-    alert("Impossible d'afficher les détails du trajet.");
+    // console.error("Erreur :", error);
+    afficherErreurModalBodyVueDetaillee(
+      "Impossible d'afficher les détails du trajet."
+    );
   }
+}
+
+function afficherErreurModalBodyVueDetaillee(message) {
+  const errorModalBody = document.getElementById("errorModalBodyVueDetaillee");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
