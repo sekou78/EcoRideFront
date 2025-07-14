@@ -115,16 +115,30 @@ function validInscription() {
       if (response.ok) {
         return response.json();
       } else {
-        alert("Erreur lors de l'inscription");
+        afficherErreurModalBodyInscription("Erreur lors de l'inscription");
       }
     })
     .then((result) => {
-      alert(
+      afficherErreurModalBodyInscription(
         "Bravo ! " +
           dataForm.get("pseudo") +
           " Vous pouvez maintenant vous connecter."
       );
       document.location.href = "/connexion";
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      console.error(error);
+      afficherErreurModalBodyInscription(
+        "Une erreur est survenue lors de l'inscription. Veuillez réessayer."
+      );
+    });
+}
+
+function afficherErreurModalBodyInscription(message) {
+  const errorModalBody = document.getElementById("errorModalBodyInscription");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }

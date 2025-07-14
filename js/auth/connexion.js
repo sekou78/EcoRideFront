@@ -120,5 +120,19 @@ function validConnexion() {
       setCookie(RoleCookieName, result.roles[0], 7);
       window.location.replace("/");
     })
-    .catch((error) => console.error(error));
+    .catch((error) => {
+      console.error(error);
+      afficherErreurModalBodyConnexion(
+        "Une erreur est survenue lors de la connexion. Veuillez réessayer."
+      );
+    });
+}
+
+function afficherErreurModalBodyConnexion(message) {
+  const errorModalBody = document.getElementById("errorModalBodyConnexion");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }

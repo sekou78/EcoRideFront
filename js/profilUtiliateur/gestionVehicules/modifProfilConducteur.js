@@ -91,7 +91,7 @@ async function validateEnregistrerVehicule() {
     document.location.href = "/espaceUtilisateur";
   } catch (error) {
     console.error(error);
-    afficherErreurModalModifProfilConducteur(
+    afficherErreurModalBodyModifProfilConducteur(
       "Vehicule non enregistré. Veuillez vérifier les informations saisies."
     );
   }
@@ -175,7 +175,7 @@ function validDate(input) {
   }
 }
 
-function afficherErreurModalModifProfilConducteur(message) {
+function afficherErreurModalBodyModifProfilConducteur(message) {
   const errorModalBody = document.getElementById(
     "errorModalBodyModifProfilConducteur"
   );
