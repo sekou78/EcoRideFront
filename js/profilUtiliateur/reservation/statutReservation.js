@@ -102,7 +102,9 @@ if (reservationDetails) {
   autresPreferencesStatutDisplay.textContent =
     reservationDetails.trajet.chauffeur.autresPreferences;
 } else {
-  alert("Impossible de trouver l'ID de la reservation.");
+  afficherErreurModalStatutReservation(
+    "Impossible de trouver l'ID de la reservation."
+  );
 }
 
 function ValidStatutReservation() {
@@ -111,13 +113,15 @@ function ValidStatutReservation() {
   console.log(reservationId);
 
   if (!reservationId) {
-    alert("Impossible de trouver l'ID de la reservation.");
+    afficherErreurModalStatutReservation(
+      "Impossible de trouver l'ID de la reservation."
+    );
     return;
   }
 
   const statut = editStatutReservation.value;
   if (!statut) {
-    alert("Veuillez sélectionner un statut.");
+    afficherErreurModalStatutReservation("Veuillez sélectionner un statut.");
     return;
   }
 
@@ -147,7 +151,9 @@ function ValidStatutReservation() {
     })
     .catch((error) => {
       console.error(error);
-      alert("Erreur lors de la mise à jour du statut.");
+      afficherErreurModalStatutReservation(
+        "Erreur lors de la mise à jour du statut."
+      );
     });
 }
 
@@ -168,6 +174,17 @@ function formatHeure(dateTimeString) {
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
   return `${hours}:${minutes}`;
+}
+
+function afficherErreurModalStatutReservation(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyStatutReservation"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

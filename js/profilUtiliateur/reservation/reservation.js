@@ -55,7 +55,7 @@ async function vueReserverTrajetInfos() {
   const trajetInfosId = trajetIdInfos?.id;
 
   if (!trajetInfosId) {
-    alert("Impossible de trouver l'ID du trajet.");
+    afficherErreurModalReservation("Impossible de trouver l'ID du trajet.");
     return;
   }
   const requestOptions = {
@@ -121,7 +121,9 @@ async function vueReserverTrajetInfos() {
     prixReservationReserverModalDisplay.textContent = result.prix;
   } catch (error) {
     console.error("Erreur :", error);
-    alert("Impossible d'afficher les détails du trajet.");
+    afficherErreurModalReservation(
+      "Impossible d'afficher les détails du trajet."
+    );
   }
 }
 
@@ -130,13 +132,13 @@ function confirmerReservation() {
   const trajetId = trajetInfos?.id;
 
   if (!trajetId) {
-    alert("Impossible de trouver l'ID du trajet.");
+    afficherErreurModalReservation("Impossible de trouver l'ID du trajet.");
     return;
   }
 
   const statut = statutReservationSelect.value;
   if (!statut) {
-    alert("Veuillez sélectionner un statut.");
+    afficherErreurModalReservation("Veuillez sélectionner un statut.");
     return;
   }
 
@@ -168,7 +170,7 @@ function confirmerReservation() {
       // Cas 1 : Annulation
       if (statut === "ANNULEE") {
         if (!reservationId) {
-          alert("Aucune réservation à annuler.");
+          afficherErreurModalReservation("Aucune réservation à annuler.");
           return;
         }
 
@@ -192,12 +194,12 @@ function confirmerReservation() {
                 JSON.stringify(nouvellesReservations)
               );
 
-              alert("Réservation annulée.");
+              afficherErreurModalReservation("Réservation annulée.");
               window.location.href = "/espaceUtilisateur";
             })
             .catch((error) => {
               console.error(error);
-              alert("Erreur lors de l'annulation.");
+              afficherErreurModalReservation("Erreur lors de l'annulation.");
             });
         }
         return;
@@ -227,12 +229,12 @@ function confirmerReservation() {
               JSON.stringify(updatedReservations)
             );
 
-            alert("Réservation mise à jour.");
+            afficherErreurModalReservation("Réservation mise à jour.");
             window.location.href = "/espaceUtilisateur";
           })
           .catch((error) => {
             console.error(error);
-            alert("Erreur lors de la mise à jour.");
+            afficherErreurModalReservation("Erreur lors de la mise à jour.");
           });
       } else {
         // Cas 3 : Création
@@ -250,12 +252,16 @@ function confirmerReservation() {
               JSON.stringify(nouvellesReservations)
             );
 
-            alert(`Réservation ${result.statut.toLowerCase()}.`);
+            afficherErreurModalReservation(
+              `Réservation ${result.statut.toLowerCase()}.`
+            );
             window.location.href = "/espaceUtilisateur";
           })
           .catch((error) => {
             console.error(error);
-            alert("Reservation impossible.");
+            afficherErreurModalReservation(
+              "Vous pouvez pas reserver ce trajet, reservation impossible."
+            );
           });
       }
     })
@@ -264,8 +270,17 @@ function confirmerReservation() {
         "Erreur lors du chargement des réservations utilisateur :",
         error
       );
-      alert("Impossible de charger vos réservations.");
+      afficherErreurModalReservation("Impossible de charger vos réservations.");
     });
+}
+
+function afficherErreurModalReservation(message) {
+  const errorModalBody = document.getElementById("errorModalBodyReservation");
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté

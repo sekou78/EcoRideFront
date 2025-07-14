@@ -93,7 +93,9 @@ async function vueReservations() {
   const reservationId = reservationDetails?.id;
 
   if (!reservationId) {
-    alert("Impossible de trouver l'ID de la réservation.");
+    afficherErreurModalVueReservation(
+      "Impossible de trouver l'ID de la réservation."
+    );
     return;
   }
 
@@ -251,12 +253,25 @@ function reserverTrajet() {
   );
 
   if (!reservationDetails || !reservationDetails.id) {
-    alert("Erreur : les informations de la réservation sont introuvables.");
+    afficherErreurModalVueReservation(
+      "Erreur : les informations de la réservation sont introuvables."
+    );
     return;
   }
 
   // Redirection vers la page de statut avec l'ID de la réservation
   window.location.href = `/statutReservation?id=${reservationDetails.id}`;
+}
+
+function afficherErreurModalVueReservation(message) {
+  const errorModalBody = document.getElementById(
+    "errorModalBodyVueReservation"
+  );
+  errorModalBody.textContent = message;
+
+  // Initialiser et afficher la modal Bootstrap
+  const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
+  errorModal.show();
 }
 
 // Fonction si l'utilisateur n'est pas connecté
