@@ -61,7 +61,14 @@ export const allRoutes = [
     "/changeMdp",
     "Changer de Mot de passe",
     "/pages/auth/changeMdp.html",
-    [],
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
     "/js/auth/changeMdp.js"
   ),
   new Route(
