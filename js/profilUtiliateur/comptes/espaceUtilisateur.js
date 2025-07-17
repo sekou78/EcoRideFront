@@ -673,9 +673,9 @@ function afficherReservations() {
 
           if (result.statut === "EN_ATTENTE") {
             if (estDansMoinsDe12h(dateDepartReservation)) {
-              console.log(
-                "Annulation dans moins de 12h — remboursement partiel côté backend"
-              );
+              // console.log(
+              //   "Annulation dans moins de 12h — remboursement partiel côté backend"
+              // );
               afficherErreurModalBodyEspaceUtilisateur(
                 "Réservation annulée automatiquement car dans moins de 12h."
               );

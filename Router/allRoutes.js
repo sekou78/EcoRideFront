@@ -252,6 +252,20 @@ export const allRoutes = [
     ],
     "/js/profilUtiliateur/trajet/listesPassagers.js"
   ),
+  new Route(
+    "/supprimerMonCompte",
+    "Suppression du compte utilisateur",
+    "/pages/auth/supprimerMonCompte.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/auth/supprimerMonCompte.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename
