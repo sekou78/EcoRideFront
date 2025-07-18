@@ -1,0 +1,82 @@
+<div class="container text-center m-2">
+  <div class="row align-items-center">
+    <div class="text-center col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary">Mon compte</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="container mt-2">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Supprimer mon compte</h2>
+          </div>
+          <div class="mb-5">
+            <div class="container">
+              <div class="card mb-2 shadow-sm">
+                <div class="row g-0">
+                  <div class="col-md-8">
+                    <div class="card-body text-center">
+                      <h3 class="text-warning">
+                        Attention, cette action est irréversible !
+                      </h3>
+                      <button
+                        type="button"
+                        class="btn bg-danger text-primary mt-5"
+                        data-bs-toggle="modal"
+                        data-bs-target="#confirmModal">
+                        Supprimer mon compte
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="confirmModal"
+  tabindex="-1"
+  aria-labelledby="confirmModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir supprimer votre compte ?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary text-primary"
+          data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn btn-red text-primary"
+          id="btnConfirmerSuppression">
+          Oui, supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

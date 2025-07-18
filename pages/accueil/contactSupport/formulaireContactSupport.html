@@ -1,0 +1,79 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg rounded">
+        <div class="card-header bg-dark text-primary text-center">
+          <h3 class="text-decoration-underline">Contacter le support :</h3>
+          <p class="mb-0">
+            Une question, un problème, une suggestion ? Écrivez-nous !
+          </p>
+        </div>
+        <div class="card-body">
+          <form id="support-form" novalidate>
+            <div class="mb-3">
+              <label for="name" class="form-label">Nom complet</label>
+              <input type="text" class="form-control" id="name" required />
+              <div class="invalid-feedback">Veuillez entrer votre nom.</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Adresse email</label>
+              <input type="email" class="form-control" id="email" required />
+              <div class="invalid-feedback">
+                Une adresse e-mail valide est requise.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="subject" class="form-label">Objet</label>
+              <select class="form-select" id="subject" required>
+                <option selected disabled value="">
+                  Choisissez un objet...
+                </option>
+                <option value="question">Question générale</option>
+                <option value="probleme">Problème technique</option>
+                <option value="paiement">Problème de paiement</option>
+                <option value="compte">Problème de compte</option>
+                <option value="autre">Autre</option>
+              </select>
+              <div class="invalid-feedback">
+                Veuillez sélectionner un objet.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="message" class="form-label">Message</label>
+              <textarea
+                class="form-control"
+                id="message"
+                rows="5"
+                required></textarea>
+              <div class="invalid-feedback">Veuillez entrer un message.</div>
+            </div>
+
+            <div class="mb-4">
+              <label for="file" class="form-label"
+                >Joindre un fichier (facultatif)</label
+              >
+              <input class="form-control" type="file" id="file" />
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn bg-dark text-primary btn-lg">
+                Envoyer
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

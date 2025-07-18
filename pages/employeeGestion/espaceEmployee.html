@@ -1,0 +1,66 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container mt-2">
+  <div>
+    <div class="bg-dark text-primary text-center rounded-1">
+      <h2 class="mb-2">
+        👤 Employé: <strong id="employee-pseudo-display">-</strong>
+      </h2>
+    </div>
+
+    <!-- Section: Validation des avis -->
+    <div class="card mt-3 mb-3">
+      <div class="card-header bg-secondary text-center">
+        Validation des Avis
+      </div>
+      <div class="card-body" id="avis-container">
+        <!-- Les avis seront ajoutés ici dynamiquement -->
+      </div>
+    </div>
+
+    <!-- Section : Covoiturages problématiques -->
+    <div class="card">
+      <div class="card-header bg-secondary text-center">
+        Covoiturages Problématiques
+      </div>
+      <div class="card-body" id="covoiturages-problemes-container">
+        <!-- Les covoiturages seront ajoutés ici dynamiquement -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyEspaceEmployee">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

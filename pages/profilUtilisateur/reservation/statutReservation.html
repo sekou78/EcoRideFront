@@ -1,0 +1,183 @@
+<div class="container text-center m-2">
+  <div class="row align-items-center">
+    <div class="text-center col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary">Mon compte</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="container mt-2">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>🚦 Statut de ma reservation</h2>
+          </div>
+          <div class="mb-5">
+            <div class="container">
+              <div class="card mb-2 shadow-sm">
+                <div class="row g-0">
+                  <!-- Infos du Trajet -->
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <!-- Infos de la reservation -->
+                      <div class="mb-3">
+                        <label for="edit-statut-reservation"
+                          >Statut reservation</label
+                        >
+                        <select
+                          class="form-select bg-dark"
+                          id="edit-statut-reservation"
+                          name="edit_statut_reservation"
+                          required
+                          aria-label="Default select example">
+                          <option selected>
+                            <span id="edit-statut-reservation-display">-</span>
+                          </option>
+                          <option value="EN_ATTENTE">⏳EN_ATTENTE</option>
+                          <option value="CONFIRMEE">✅CONFIRMEE</option>
+                        </select>
+                      </div>
+                      <hr />
+                      <p class="card-title">
+                        <strong>👤 Chauffeur :</strong>
+                        <span id="pseudo-statut-reservation-display"> -</span>
+                      </p>
+                      <hr />
+                      <p class="card-title">
+                        <strong>📍 Départ : </strong>
+                        <span id="adresse-depart-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <p class="card-title">
+                        <strong>🎯 Arrivée : </strong>
+                        <span id="adresse-arrivee-statut-reservation-display">
+                          -
+                        </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🚦 Statut du trajet :</strong>
+                        <span id="statut-statut-reservation-display"> -</span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🪑 restantes :</strong>
+                        <span
+                          id="places-disponibles-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>💰 Prix :</strong>
+                        <span id="prix-statut-reservation-display"> -</span>
+                        Crédits
+                      </p>
+                      <p class="card-text">
+                        <strong>📅 Départ :</strong>
+                        <span id="date-depart-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>📅 Arrivée :</strong>
+                        <span id="date-arrivee-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>⏰ Départ :</strong>
+                        <span id="heure-depart-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>🕒Durée trajet :</strong>
+                        <span id="duree-trajet-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>🛣️ Péage :</strong>
+                        <span id="peage-statut-reservation-display"> -</span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🌱 Trajet ecologique :</strong>
+                        <span id="trajet-ecologique-statut-reservation-display">
+                          -</span
+                        >
+                      </p>
+                      <hr />
+
+                      <!-- Préférences du Conducteur -->
+                      <h5>
+                        <i class="bi bi-heart-fill text-danger"></i> Préférences
+                        du conducteur :
+                      </h5>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <strong>🚭 Fumeur : </strong
+                          ><span id="fumeur-statut-reservation-display">
+                            -</span
+                          >
+                        </li>
+                        <li class="list-group-item">
+                          <strong>🐶 Animaux acceptés :</strong>
+                          <span id="animal-statut-reservation-display"> -</span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong>🧩 Autres préférences :</strong>
+                          <span id="autres-preferences-display"> -</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Reservation du trajet-->
+<div class="text-center mt-2">
+  <button
+    type="button"
+    class="btn bg-dark border-dark text-primary btn-lg"
+    id="btn-validation-statut">
+    Confirmation de la statut
+  </button>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyStatutReservation">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

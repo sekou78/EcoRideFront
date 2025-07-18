@@ -1,0 +1,84 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+<hr />
+<h1 class="text-center text-primary m-3">Mon avatar</h1>
+
+<div class="container">
+  <form id="avatar-form">
+    <div class="col-md-4 text-center">
+      <img
+        src="/images/avatar.png"
+        alt="Photo de profil"
+        class="img-fluid w-auto p-4 rounded-circle mb-3"
+        id="avatar-display" />
+    </div>
+
+    <div class="mb-2">
+      <input
+        type="file"
+        class="form-control bg-dark"
+        id="avatar"
+        placeholder="Entrez votre photo de profil"
+        accept=".png, .jpg, .jpeg, .webp"
+        name="image" />
+      <label for="avatar" class="form-label"></label>
+    </div>
+    <div class="text-center">
+      <div class="row align-items-center">
+        <button
+          type="button"
+          id="btn-charger-avatar"
+          class="btn bg-dark border-dark text-primary m-2 col">
+          📥 Charger l'avatar
+        </button>
+
+        <button
+          type="button"
+          id="btn-modif-avatar"
+          class="btn bg-dark border-dark text-primary m-2 col">
+          ⚙️ Modifier l'avatar
+        </button>
+
+        <button
+          type="button"
+          id="btn-supprimer-avatar"
+          class="btn bg-dark border-dark text-primary m-2 col">
+          ❌ Supprimer l'avatar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyModifAvatar">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

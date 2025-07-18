@@ -1,0 +1,220 @@
+<div class="container text-center m-2">
+  <div class="row align-items-center">
+    <div class="text-center col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary">Mon compte</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="container mt-2">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>🏞️ Détails du trajet</h2>
+          </div>
+          <div class="mb-5">
+            <!-- Section Détails du Trajet 1 -->
+            <div class="container">
+              <div class="card mb-2 shadow-sm">
+                <div class="row g-0">
+                  <!-- Image du Conducteur -->
+                  <div class="col-md-4">
+                    <img
+                      src="/images/avatar.png"
+                      class="img-fluid rounded-start"
+                      id="avatar-vue-reservation-display"
+                      alt="avatar Conducteur" />
+                  </div>
+
+                  <!-- Infos du Trajet -->
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title">
+                        <strong>👤 Pseudo chauffeur :</strong>
+                        <span id="pseudo-vue-reservation-display">pseudo</span>
+                      </h3>
+                      <hr />
+                      <p class="card-title">
+                        <strong>Covoiturage de : </strong> <br />
+                        📍
+                        <span id="adresse-depart-vue-reservation-display"
+                          >Paris</span
+                        >
+                        ➜ <br />
+                        🎯
+                        <span id="adresse-arrivee-vue-reservation-display">
+                          Lyon
+                        </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🚦 Statut du trajet :</strong>
+                        <span id="statut-vue-reservation-display"> </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🪑 Places restantes :</strong>
+                        <span id="places-disponibles-vue-reservation-display">
+                          2</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>💰 Prix :</strong>
+                        <span id="prix-vue-reservation-display"> 30</span>
+                        Crédits
+                      </p>
+                      <p class="card-text">
+                        <strong>📅 Date départ :</strong>
+                        <span id="date-depart-vue-reservation-display">
+                          10/10/2025</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>📅 Date arrivée :</strong>
+                        <span id="date-arrivee-vue-reservation-display">
+                          10/10/2025</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>⏰ Heure départ :</strong>
+                        <span id="heure-depart-vue-reservation-display">
+                          10:30</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>🕒 Durée (estimée) :</strong>
+                        <span id="duree-trajet-vue-reservation-display">
+                          01:45</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>🛣️ Péage :</strong>
+                        <span id="peage-vue-reservation-display"> </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🌱 Écologique :</strong>
+                        <span id="trajet-ecologique-vue-reservation-display">
+                        </span>
+                      </p>
+                      <hr />
+
+                      <!-- Avis sur le conducteur -->
+                      <h5 class="mt-4">
+                        <i class="bi bi-star-fill text-warning"></i> Avis sur le
+                        conducteur :
+                      </h5>
+                      <ul class="list-group mb-3" id="avisVueReservee">
+                        <!-- Les avis seront injectés ici -->
+                      </ul>
+                      <a
+                        id="lienAvisChauffeur"
+                        class="badge text-bg-secondary text-wrap text-black text-lowercase fs-6"
+                        href="#"
+                        style="
+                          display: inline-block;
+                          margin-top: 10px;
+                          font-size: 1.1em;
+                          text-decoration: underline;
+                        ">
+                        Voir tous les avis sur le chauffeur
+                      </a>
+                      <hr />
+
+                      <!-- Informations sur le Véhicule -->
+                      <h5><i class="bi bi-car-front-fill"></i> Véhicule :</h5>
+                      <p>
+                        🔢 <strong>Immatriculation :</strong>
+                        <span id="immatriculation-vue-reservation-display">
+                          12345</span
+                        >
+                      </p>
+                      <p>
+                        🚗 <strong>Marque :</strong>
+                        <span id="marque-vue-reservation-display"> Tesla</span>
+                      </p>
+                      <p>
+                        🔋 <strong>Modèle :</strong>
+                        <span id="modele-vue-reservation-display">
+                          Model 3</span
+                        >
+                      </p>
+                      <p>
+                        🎨 <strong>Couleur :</strong>
+                        <span id="couleur-vue-reservation-display"> Verte</span>
+                      </p>
+                      <p>
+                        ⚡ <strong>Electrique :</strong>
+                        <span id="electrique-vue-reservation-display"> </span>
+                      </p>
+                      <hr />
+
+                      <!-- Préférences du Conducteur -->
+                      <h5>
+                        <i class="bi bi-heart-fill text-danger"></i> Préférences
+                        du conducteur :
+                      </h5>
+                      <ul class="list-group">
+                        <li class="list-group-item">
+                          <strong>🚭 Fumeur : </strong
+                          ><span id="fumeur-vue-reservation-display"></span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong>🐶 Animaux acceptés :</strong>
+                          <span id="animal-vue-reservation-display"></span>
+                        </li>
+                        <li class="list-group-item">
+                          <strong>🧩 Autres préférences :</strong>
+                          <span id="autres-preferences-display"> </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Reservation du trajet-->
+<div class="text-center mt-2">
+  <button
+    type="button"
+    class="btn bg-dark border-dark text-primary btn-lg"
+    id="btn-reserver-trajet">
+    Modifier ma reservation
+  </button>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyVueReservation">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,284 @@
+<div class="text-center m-3" data-show="ROLE_EMPLOYE">
+  <a href="/espaceEmployee">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon espace
+    </button>
+  </a>
+</div>
+
+<div class="text-center m-3" data-show="ROLE_ADMIN ">
+  <a href="/espaceAdmin">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon espace
+    </button>
+  </a>
+</div>
+
+<div>
+  <!-- Conteneur principal -->
+  <div class="container mt-3">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Carte du profil utilisateur -->
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Mon compte</h2>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <!-- Section image de profil -->
+              <div class="col-md-4 text-center">
+                <img
+                  src="/images/avatar.png"
+                  alt="Photo de profil"
+                  class="img-fluid rounded-circle mb-3"
+                  id="avatar-display" />
+                <h4>👤<span id="pseudo-display">-</span></h4>
+
+                <!-- Affichage du total de crédits -->
+                <div
+                  data-show="ROLE_PASSAGER ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR ROLE_USER">
+                  <p>
+                    Total des crédits :
+                    <span
+                      id="total-credits"
+                      class="badge text-bg-secondary fs-3"
+                      >-</span
+                    >
+                  </p>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="col-md-8">
+                <!-- Informations personnelles -->
+                <div class="mb-3">
+                  <h5 class="mb-3">Informations personnelles</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong>📧 Email :</strong>
+                      <span id="email-display">-</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>📞 Téléphone :</strong>
+                      <span id="telephone-display">-</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>🪪 Rôle :</strong> <span id="role-display">-</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Les reservations du passager et passager chauffeur -->
+                <div
+                  id="reservations-container"
+                  data-show="ROLE_PASSAGER ROLE_PASSAGER_CHAUFFEUR">
+                  <hr />
+                  <!--ICI seront affichés les reservations-->
+                </div>
+
+                <!-- Informations du voyage -->
+                <div
+                  id="listeTrajets"
+                  data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
+                  <hr />
+                  <!-- Les trajets seront injectés ici -->
+                </div>
+
+                <!-- Préférences du chauffeur -->
+                <div data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
+                  <hr />
+                  <h5 class="mt-4">🔧 Préférences</h5>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                      <strong>🚭 Fumeur :</strong>
+                      <span id="fumeur-display">-</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>🐶 Animaux acceptés :</strong>
+                      <span id="animal-display">-</span>
+                    </li>
+                    <li class="list-group-item">
+                      <strong>🧩 Autres préférences :</strong>
+                      <span id="preferences-autres-display">-</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pied de carte : actions -->
+          <div class="card-footer bg-dark p-2">
+            <div class="row text-center justify-content-around">
+              <div class="col-6 col-md-3 mb-3">
+                <a href="/modifProfil" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto style">
+                    <span class="fw-semibold">Modifier profil</span>
+                  </div>
+                </a>
+              </div>
+
+              <div
+                class="col-6 col-md-3 mb-3"
+                data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
+                <a href="/creerUntrajet" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto style">
+                    <span class="fw-semibold">Créer trajet</span>
+                  </div>
+                </a>
+              </div>
+
+              <div
+                class="col-6 col-md-3 mb-3"
+                data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
+                <a href="/listeVehicule" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto style">
+                    <span class="fw-semibold">Mes véhicules</span>
+                  </div>
+                </a>
+              </div>
+
+              <div class="col-6 col-md-3 mb-3">
+                <a href="/historiqueUtilisateur" class="text-decoration-none">
+                  <div
+                    class="d-flex flex-column justify-content-center align-items-center bg-success text-white shadow-sm rounded-2 mx-auto style">
+                    <span class="fw-semibold">Historique</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Changement de mot de passe -->
+            <div
+              class="text-center"
+              data-show="ROLE_PASSAGER ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR ROLE_USER">
+              <a href="/changeMdp" class="text-danger">
+                Changer votre mot de passe
+              </a>
+            </div>
+
+            <!-- Suppression du compte utilisateur -->
+            <div
+              class="text-center"
+              data-show="ROLE_PASSAGER ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR ROLE_USER">
+              <a href="/supprimerMonCompte" class="text-danger">
+                Supprimer mon compte
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmation suppression -->
+<div
+  class="modal fade"
+  id="confirmModal"
+  tabindex="-1"
+  aria-labelledby="confirmModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="confirmModalLabel">
+          Confirmer la suppression
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir supprimer ce trajet ? Cette action est
+        irréversible.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn btn-red" id="btnConfirmerSuppression">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALE D'ANNULATION -->
+<div
+  class="modal fade"
+  id="modalAnnulation"
+  tabindex="-1"
+  aria-labelledby="modalAnnulationLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="modalAnnulationLabel">
+          Confirmation d'annulation
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        Cette action supprimera votre reservation. <br />
+        <strong>Êtes-vous sûr de vouloir continuer ?</strong>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-warning text-primary"
+          data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn btn-red text-primary"
+          id="confirmerAnnulationBtn">
+          Oui, supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyEspaceUtilisateur">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
