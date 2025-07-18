@@ -69,9 +69,13 @@ function filtrerRolesSansRoleUser(rolesArray) {
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
-      throw new Error(
-        "Impossible de charger les informations de l'utilisateur."
-      );
+      // D'abord convertir la réponse en JSON pour lire les messages d'erreur
+      return response.json().then((errorData) => {
+        compteSuspendu(errorData); // redirige si suspendu
+        throw new Error(
+          "Impossible de charger les informations de l'utilisateur."
+        );
+      });
     }
     return response.json();
   })
@@ -917,6 +921,14 @@ function afficherErreurModalBodyEspaceUtilisateur(message) {
   // Initialiser et afficher la modal Bootstrap
   const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
   errorModal.show();
+}
+
+function compteSuspendu(response) {
+  if (response?.error?.includes("Compte suspendu")) {
+    window.location.href = "/pageSuspensionCompte";
+    return false;
+  }
+  return true;
 }
 
 // Fonction si l'utilisateur n'est pas connecté

@@ -273,6 +273,25 @@ export const allRoutes = [
     ],
     "/js/auth/supprimerMonCompte.js"
   ),
+  new Route(
+    "/pageSuspensionCompte",
+    "Suspension du compte utilisateur",
+    "/pages/profilUtilisateur/comptes/pageSuspensionCompte.html",
+    []
+  ),
+  new Route(
+    "/contactSupport",
+    "Contacter le support",
+    "/pages/accueil/contactSupport/formulaireContactSupport.html",
+    [],
+    "/js/accueil/contactSupport/formulaireContactSupport.js"
+  ),
+  new Route(
+    "/mentionsLegales",
+    "Les mentions legales",
+    "/pages/accueil/mentionsLegales/mentionsLegales.html",
+    []
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename
