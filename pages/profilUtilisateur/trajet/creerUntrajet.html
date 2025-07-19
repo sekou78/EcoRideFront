@@ -1,0 +1,203 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center mt-2">
+    <div class="col-lg-8">
+      <!-- Carte du profil utilisateur -->
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>➕ Créer un trajet</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <!--Créer un voyage-->
+          <form id="trajet-form">
+            <div class="mb-3">
+              <label for="depart-trajet-adresse">📍 Départ :</label>
+              <input
+                type="text"
+                class="bg-dark"
+                id="depart-trajet-adresse"
+                required
+                name="depart_trajet_adresse" />
+            </div>
+
+            <div class="mb-3">
+              <label for="arrivee-trajet-adresse">🎯 Arrivée :</label>
+              <input
+                type="text"
+                class="bg-dark"
+                id="arrivee-trajet-adresse"
+                required
+                name="arrivee_trajet_adresse" />
+            </div>
+
+            <div class="mb-3">
+              <label for="date-depart">📅 Date départ :</label>
+              <input
+                type="date"
+                class="bg-dark"
+                id="date-depart"
+                required
+                name="date_depart" />
+            </div>
+
+            <div class="mb-3">
+              <label for="date-arrivee">📅 Date d'arrivée :</label>
+              <input
+                type="date"
+                class="bg-dark"
+                id="date-arrivee"
+                required
+                name="date_arrivee" />
+            </div>
+
+            <div class="mb-3">
+              <label for="heure-depart">⏰ Heure départ :</label>
+              <input
+                type="time"
+                class="bg-dark"
+                id="heure-depart"
+                required
+                name="heure_depart" />
+            </div>
+
+            <div class="mb-3">
+              <label for="duree-voyage">🕒 Durée (estimée) :</label>
+              <input
+                type="time"
+                class="bg-dark"
+                id="duree-voyage"
+                required
+                name="duree_voyage" />
+            </div>
+
+            <div class="mb-3">
+              <label for="peage-trajet" class="form-check-label"
+                >🛣️ Péage sur le trajet ?</label
+              ><br />
+              <input
+                type="checkbox"
+                class="form-check-input bg-dark"
+                id="peage-trajet"
+                name="peage_trajet" />
+              <label for="peage-trajet" class="form-check-label"
+                >Oui, péage sur le trajet</label
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="prix-trajet">💰 Prix (min. 2 crédits) :</label>
+              <input
+                type="number"
+                class="bg-dark"
+                id="prix-trajet"
+                min="2"
+                required
+                name="prix_trajet" />
+            </div>
+
+            <div class="mb-3">
+              <label for="trajet-ecologique" class="form-check-label"
+                >🌱 Est-écologique ?</label
+              ><br />
+              <input
+                type="checkbox"
+                class="form-check-input bg-dark"
+                id="trajet-ecologique"
+                name="trajet_ecologique" />
+              <label for="trajet-ecologique" class="form-check-label"
+                >Oui, c'est un trajet écologique</label
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="places-disponibles"
+                >🪑 Nombre de places disponibles :</label
+              >
+              <input
+                type="number"
+                class="bg-dark"
+                id="places-disponibles"
+                required
+                name="places_disponibles" />
+            </div>
+
+            <!-- Liste de mes vehicules -->
+            <div
+              class="d-flex justify-content-center align-items-center m-2 mt-3 gap-2">
+              <div class="dropdown">
+                <button
+                  class="btn bg-dark dropdown-toggle btn-sm py-2 px-3"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <span id="choixVehicule">🚗 Choix du véhicule</span>
+                </button>
+                <ul class="dropdown-menu bg-success" id="vehiculeDropdownMenu">
+                  <li>
+                    <!-- Éléments injectés dynamiquement -->
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item text-primary"
+                      href="/modifProfilConducteur">
+                      ➕ Ajouter un véhicule
+                    </a>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <button class="btn bg-dark btn-sm" type="button">
+                  <a href="/listeVehicule"
+                    ><i class="bi bi-card-list text-black fs-5"></i
+                  ></a>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div class="mb-2">
+            <button
+              type="submit"
+              class="btn bg-success border-dark text-primary"
+              id="btn-ajouter-voyage">
+              📥 Créer le voyage
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d’erreur -->
+<div class="modal fade" id="modalErreurTrajet" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="modalErreurMsg">
+        <!-- le message d’erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

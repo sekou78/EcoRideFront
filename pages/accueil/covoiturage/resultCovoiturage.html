@@ -1,0 +1,106 @@
+<div class="container text-center">
+  <div class="row align-items-center">
+    <div class="text-center m-2 col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary">Mon compte</button>
+      </a>
+    </div>
+    <div class="text-center m-2 col">
+      <a href="/covoiturage">
+        <button class="btn bg-dark border-dark text-primary lh-1 me-2">
+          Chercher un trajet
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="mb-3 d-flex justify-content-center">
+  <div class="dropdown">
+    <!-- Bouton principal -->
+    <button
+      class="btn bg-dark border-dark text-primary dropdown-toggle"
+      type="button"
+      id="dropdownCheckbox"
+      data-bs-toggle="dropdown"
+      aria-expanded="false">
+      ⚙️ Choisir un filtre
+    </button>
+
+    <!-- Menu déroulant avec options -->
+    <ul
+      class="dropdown-menu p-3"
+      aria-labelledby="dropdownCheckbox"
+      data-bs-auto-close="outside">
+      <!-- Input : ecologique -->
+      <li class="dropdown-item">
+        <label for="filtreEsEcologique" class="form-check-label"
+          >🌱 Est-écologique ?</label
+        ><br />
+
+        <input
+          type="checkbox"
+          class="form-check-input bg-dark"
+          id="trajet-ecologique"
+          name="filtre_es_ecologique" />
+        <label for="filtreEsEcologique" class="form-check-label"
+          >Oui, c'est un trajet écologique</label
+        >
+      </li>
+
+      <!-- Input : Prix max -->
+      <li class="dropdown-item">
+        <label for="filtrePrixVoyage">💰 Prix (max. 100 crédits) :</label>
+        <br />
+        <input
+          type="number"
+          id="filtrePrixVoyage"
+          max="100"
+          required
+          name="filtre_prix_voyage"
+          class="form-control bg-dark" />
+      </li>
+
+      <!-- Input : durée voyage (estimée) -->
+      <li class="dropdown-item">
+        <label for="filtreDureeVoyage">🕒 Durée (estimée) :</label>
+        <br />
+        <input
+          type="time"
+          id="filtreDureeVoyage"
+          required
+          name="filtre_duree_voyage"
+          class="form-control bg-dark" />
+      </li>
+
+      <!-- Input : Note minimale covoitureur -->
+      <li class="dropdown-item">
+        <label for="filtreNoteMin" class="form-label"
+          >⭐ Note minimale du covoitureur :</label
+        >
+        <br />
+        <input
+          type="number"
+          id="filtreNoteMin"
+          name="filtre_note_min"
+          min="0"
+          max="5"
+          step="0.1"
+          class="bg-dark form-control"
+          placeholder="Ex : 4.5" />
+      </li>
+
+      <!-- Bouton : Appliquer les filtres -->
+      <li class="text-center mt-3">
+        <button
+          class="btn bg-dark border-dark text-primary"
+          id="btnValidFilter">
+          🔎 Appliquer
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div id="result-container" class="container"></div>
+<div id="pagination-container" class="d-flex justify-content-center mt-4"></div>

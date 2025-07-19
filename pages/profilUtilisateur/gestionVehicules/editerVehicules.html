@@ -1,0 +1,146 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>🔧 Modifier mon vehicule</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <div>
+            <!-- Informations vehicule -->
+            <div>
+              <form id="edit-vehicule-form">
+                <div class="mb-3">
+                  <label for="immatriculation-edit" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="immatriculation-edit"
+                    name="immatriculation_edit"
+                    placeholder="🔢 AB-123-CD" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="date_immatriculation-edit" class="form-label">
+                    📅 Date de première immatriculation
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="date_immatriculation-edit"
+                    name="date_immatriculation_edit" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="marque_vehicule_edit" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="marque_vehicule-edit"
+                    name="marque_vehicule_edit"
+                    placeholder="🚗 Marque du véhicule" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="modele_vehicule_edit" class="form-label"> </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="modele_vehicule-edit"
+                    name="modele_vehicule_edit"
+                    placeholder="🚗 Modèle du véhicule" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="couleur_vehicule_edit" class="form-label">
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control bg-dark"
+                    id="couleur_vehicule-edit"
+                    name="couleur_vehicule_edit"
+                    placeholder="🎨 Couleur du véhicule" />
+                </div>
+
+                <div class="mb-3">
+                  <label
+                    for="places_disponibles_edit"
+                    class="form-label"></label>
+                  <input
+                    type="number"
+                    class="form-control bg-dark"
+                    id="places_disponibles-edit"
+                    name="places_disponibles_edit"
+                    placeholder="🪑 Nombre de places disponibles" />
+                </div>
+
+                <div class="mb-3">
+                  <label for="electrique_edit" class="form-check-label"
+                    >🔋 Es ce un véhicule électrique ?</label
+                  ><br />
+                  <input
+                    type="checkbox"
+                    class="form-check-input bg-dark"
+                    id="electrique-edit"
+                    name="electrique_edit" />
+                  <label for="electrique" class="form-check-label"
+                    >Oui, c'est un véhicule électrique</label
+                  >
+                </div>
+              </form>
+            </div>
+
+            <div class="text-center">
+              <div class="row align-items-center">
+                <button
+                  type="button"
+                  id="btn-modifier-vehicule"
+                  class="btn bg-success border-dark text-primary m-2 col">
+                  ⚙️ Modifier le vehicule
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyEditerVehicule">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

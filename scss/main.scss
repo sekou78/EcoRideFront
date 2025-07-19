@@ -1,0 +1,169 @@
+@import url("/node_modules/bootstrap-icons/font/bootstrap-icons.css");
+@import "custom";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  background-color: $bg-dark;
+}
+
+.titre {
+  font-family: $font-family-sans-serif;
+}
+
+header.menu,
+body {
+  font-family: $font-family-serif;
+}
+
+footer {
+  font-family: $font-family-serif;
+}
+
+main {
+  margin-bottom: 100px;
+}
+
+.bi-search {
+  display: inline-block;
+  transform: rotate(90deg);
+  font-size: 2rem;
+}
+
+.hero-scene {
+  margin: 10px;
+  * {
+    //Positionner les éléments devant le &::before
+    position: relative;
+  }
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-image: url(../images/image_3.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 250px;
+    filter: brightness(0.9);
+  }
+
+  .hero-scene-content {
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.scene-accueil {
+  height: auto;
+  margin: 10px;
+  position: relative;
+  background: black;
+  padding: 10px;
+
+  .images-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .image {
+    height: 150px;
+    background-position: center;
+    background-size: cover;
+    filter: brightness(0.5);
+  }
+
+  // Définir les images
+  .image-1 {
+    background-image: url(../images/image_6.jpg);
+  }
+  .image-2 {
+    background-image: url(../images/image_4.webp);
+  }
+  .image-3 {
+    background-image: url(../images/image_5.jpg);
+  }
+  .image-4 {
+    background-image: url(../images/image_1.jpeg);
+  }
+
+  // Contenu au-dessus des images
+  .scene-accueil-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    color: white;
+    text-align: center;
+    width: 100%;
+  }
+}
+
+.btn {
+  background-color: $bg-dark;
+}
+
+.card-conducteur {
+  max-width: 500px;
+}
+
+.renseignement {
+  font-size: 13px;
+}
+
+.btn-red {
+  background-color: $Red-Button;
+}
+
+.history-item {
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.cancel-btn {
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+}
+
+#floatingInput {
+  width: auto;
+}
+
+#floatingTextarea {
+  height: 100px;
+}
+
+.table-employee {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.style-card-footer {
+  width: 100px;
+  height: 90px;
+  cursor: pointer;
+}
+
+footer.footer {
+  padding: 15px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}

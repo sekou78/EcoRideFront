@@ -1,0 +1,307 @@
+<div class="container text-center">
+  <div class="row align-items-center">
+    <div class="text-center m-2 col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary lg-1 me-2">
+          Mon compte
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="container pb-3">
+  <!-- Création de compte employé -->
+  <div class="card mb-3">
+    <div class="card-header bg-secondary text-center text-black">
+      Créer un compte employé
+    </div>
+    <div class="card-body text-center">
+      <form id="form-creation-employe" class="row g-3">
+        <div class="mb-3">
+          <label for="nomInscriptionEmployeeInput" class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="nomInscriptionEmployeeInput"
+            placeholder="🏷️ Nom de l'employee"
+            name="nom_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Le nom est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="prenomInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="prenomInscriptionEmployeeInput"
+            placeholder="👤 Prenom de l'employee"
+            name="prenom_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Le prenom est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="adresseInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="adresseInscriptionEmployeeInput"
+            placeholder="🏠 Adresse de l'employee"
+            name="adresse_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Adresse est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="telephoneInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="tel"
+            class="form-control bg-body-secondary text-center"
+            id="telephoneInscriptionEmployeeInput"
+            placeholder="📞 Le telephone de l'employee"
+            name="telephone_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Telephone est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="dateNaissanceInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="dateNaissanceInscriptionEmployeeInput"
+            placeholder="📜 Date de naissance de l'employee"
+            name="date_naissance_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">
+            La date de naissance est requis !
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label
+            for="pseudoInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="text"
+            class="form-control bg-body-secondary text-center"
+            id="pseudoInscriptionEmployeeInput"
+            placeholder="👤 Pseudo de l'employee"
+            name="pseudo_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">Le pseudo est requis !</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="emailInscriptionEmployeeInput" class="form-label"></label>
+          <input
+            type="email"
+            class="form-control bg-body-secondary text-center"
+            id="emailInscriptionEmployeeInput"
+            placeholder="📧 Mail de l'employee"
+            name="email_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">
+            Votre email n'est pas conforme !
+          </div>
+          <div class="valid-feedback liens">Email correct !</div>
+        </div>
+
+        <div class="mb-2">
+          <label
+            for="PasswordInscriptionEmployeeInput"
+            class="form-label"></label>
+          <input
+            type="password"
+            class="form-control bg-body-secondary text-center"
+            id="PasswordInscriptionEmployeeInput"
+            placeholder="🔐 Mot de passe de l'employee"
+            name="pwd_inscription_employee_input"
+            required />
+
+          <div class="invalid-feedback liens">
+            Le mot de passe n'est pas conforme ! <br />
+            Au moins 8 caractères comprenant: <br />
+            1 lettre majuscule, <br />
+            1 lettre miniscule, <br />
+            1chiffre et <br />
+            1 caractères sepéciale
+          </div>
+          <div class="valid-feedback liens">Le mot de passe est conforme !</div>
+        </div>
+
+        <div class="mb-5 form-check">
+          <input
+            type="checkbox"
+            class="form-check-input bg-dark"
+            id="checkAdminValidEmployeePassword" />
+          <label class="form-check-label" for="checkAdminValidEmployeePassword">
+            Afficher le mot de passe
+          </label>
+        </div>
+
+        <div class="col-12">
+          <button
+            type="button"
+            class="btn bg-dark border-dark text-primary"
+            id="btn-creation-employe">
+            Créer le compte
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Graphiques -->
+  <div class="row mb-3">
+    <!-- Graphiques Covoiturages par jour -->
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-sm h-100 d-flex flex-column">
+        <!-- AJOUT: h-100 + d-flex flex-column -->
+        <div class="card-header bg-secondary text-black text-center">
+          Covoiturages par jour
+        </div>
+        <div class="card-body d-flex flex-column flex-grow-1 text-center">
+          <div class="mb-2">
+            <button
+              id="prevRange"
+              class="btn btn-sm btn-dark me-2 text-primary">
+              <i class="bi bi-arrow-left fs-3"></i>
+            </button>
+            <span id="rangeLabel" class="fw-bold"></span>
+            <button
+              id="nextRange"
+              class="btn btn-sm btn-dark ms-2 text-primary">
+              <i class="bi bi-arrow-right fs-3"></i>
+            </button>
+          </div>
+          <canvas
+            id="graphCovoiturages"
+            height="150"
+            class="w-100 flex-grow-1"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Graphiques Crédits gagnés par jour -->
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-sm h-100 d-flex flex-column">
+        <!-- AJOUT: h-100 + d-flex flex-column -->
+        <div class="card-header bg-secondary text-black text-center">
+          Crédits gagnés par jour
+        </div>
+        <div class="card-body d-flex flex-column flex-grow-1">
+          <canvas
+            id="graphCredits"
+            height="150"
+            class="w-100 flex-grow-1"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total crédits gagnés par la plateforme -->
+  <div class="card mb-4">
+    <div class="card-body text-center">
+      <h5>Total des crédits gagnés par la plateforme :</h5>
+      <h2 class="text-dark" id="totalAdminCredits">0 crédits</h2>
+    </div>
+  </div>
+
+  <!-- Liste des employées -->
+  <div class="card text-bg-secondary text-center mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Gestion des Employées</h5>
+      <p class="card-text">Liste de tous les employées de la plateforme</p>
+      <button type="button" class="btn bg-dark border-dark text-primary">
+        <a href="/gestionEmployee">Gestion des employées</a>
+      </button>
+    </div>
+  </div>
+
+  <!-- Liste des utilisateurs -->
+  <div class="card text-bg-secondary text-center mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Gestion des utilisateurs</h5>
+      <p class="card-text">Liste de tous les utilisateurs de la plateforme</p>
+      <button type="button" class="btn bg-dark border-dark text-primary">
+        <a href="/gestionUtilisateur">Gestion des utilisateurs</a>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de confirmation -->
+<div
+  class="modal fade"
+  id="employeeSuccessModal"
+  tabindex="-1"
+  aria-labelledby="employeeSuccessModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="employeeSuccessModalLabel">
+          Employé ajouté
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">✅ L'employé a été ajouté avec succès.</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyEspaceAdmin">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,221 @@
+<div class="text-center m-3">
+  <a href="/espaceUtilisateur">
+    <button class="btn bg-dark border-dark text-primary me-2">
+      Mon compte
+    </button>
+  </a>
+</div>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <!-- Carte du profil utilisateur -->
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Modifier mon compte</h2>
+        </div>
+
+        <div class="text-center mt-3">
+          <!-- lien pour modifier l'avatar de profil -->
+          <a href="/modifAvatar">
+            <button class="btn btn-bg-dark text-primary">
+              ⚙️ Modifier mon avatar
+            </button>
+          </a>
+        </div>
+
+        <hr />
+
+        <div class="container text-center">
+          <div>
+            <form id="profil-form">
+              <!-- Choix du rôle (Chauffeur / Passager / Les deux) -->
+              <div
+                class="mb-3"
+                data-show="ROLE_CHAUFFEUR ROLE_PASSAGER ROLE_PASSAGER_CHAUFFEUR ROLE_USER ">
+                <label for="role" class="form-label">
+                  🪪 Sélectionner votre rôle
+                </label>
+                <select
+                  class="form-select bg-dark text-center"
+                  id="role"
+                  aria-label="Sélectionner un rôle">
+                  <option selected></option>
+                  <option value="passager">🧍 Passager</option>
+                  <option value="chauffeur">🚗 Chauffeur</option>
+                  <option value="passager_chauffeur">
+                    🚗🧍 Passager et Chauffeur
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="telephone" class="form-label"></label>
+                <input
+                  type="tel"
+                  class="form-control bg-dark"
+                  id="telephone"
+                  placeholder="📞 Entrez votre numero de telephone"
+                  name="telephone"
+                  required />
+              </div>
+
+              <!--Informations personnelles Utilisateurs-->
+              <div class="mb-3">
+                <label for="nom" class="form-label"></label>
+                <input
+                  type="text"
+                  class="form-control bg-dark text-center"
+                  id="nom"
+                  placeholder="🏷️ Entrez votre nom"
+                  name="nom"
+                  required />
+              </div>
+
+              <div class="mb-3">
+                <label for="prenom" class="form-label"></label>
+                <input
+                  type="text"
+                  class="form-control bg-dark text-center"
+                  id="prenom"
+                  placeholder="👤 Entrez votre prenom"
+                  name="prenom"
+                  required />
+              </div>
+
+              <div class="mb-3">
+                <label for="adresse-perso" class="form-label"></label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="adresse-perso"
+                  placeholder="🏠 Entrez votre adresse personnelle"
+                  name="adresse-perso"
+                  required />
+              </div>
+
+              <div class="mb-3">
+                <label for="date_naissance" class="form-label">
+                  Date de naissance
+                </label>
+                <input
+                  type="text"
+                  class="form-control bg-dark"
+                  id="date_naissance"
+                  placeholder="📜 10/10/1910"
+                  name="date_naissance" />
+              </div>
+            </form>
+          </div>
+
+          <!-- Bouton de sauvegarde profil -->
+          <div class="text-center mb-3">
+            <button
+              type="button"
+              class="btn bg-success border-dark text-primary"
+              id="btn-modif">
+              📥 Enregistrer le profil
+            </button>
+          </div>
+
+          <!-- Preferences du Chauffeur -->
+          <div data-show="ROLE_CHAUFFEUR ROLE_PASSAGER_CHAUFFEUR">
+            <hr />
+            <form id="preferences-form">
+              <h5>Préférences du Chauffeur</h5>
+              <div class="mb-3">
+                <label for="fumeur" class="form-check-label"
+                  >🚭 Acceptez-vous les fumeurs ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="fumeur"
+                  name="fumeur" />
+                <label for="fumeur" class="form-check-label"
+                  >Oui, je accepte les fumeurs</label
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="animal" class="form-check-label"
+                  >🐶 Acceptez-vous les animaux ?</label
+                ><br />
+                <input
+                  type="checkbox"
+                  class="form-check-input bg-dark"
+                  id="animal"
+                  name="animal" />
+                <label for="animal" class="form-check-label"
+                  >Oui, j'accepte les animaux</label
+                >
+              </div>
+
+              <div class="mb-3">
+                <label for="preferences_autres" class="form-label"
+                  >🧩 Autres préférences</label
+                >
+                <textarea
+                  class="form-control bg-dark"
+                  id="preferences_autres"
+                  rows="3"
+                  placeholder="Entrez d'autres préférences"
+                  name="preferences_autres"></textarea>
+              </div>
+            </form>
+
+            <!-- Bouton de sauvegarde de preferences -->
+            <div class="text-center">
+              <button
+                type="button"
+                class="btn bg-success border-dark text-primary"
+                id="btn-preferences-chauffeur">
+                📥 Enregistrer les préférences
+              </button>
+            </div>
+
+            <hr />
+
+            <div class="text-center m-3">
+              <!-- lien pour ajouter un vehicule -->
+              <a href="/modifProfilConducteur">
+                <button class="btn btn-bg-dark text-primary">
+                  ➕ Ajouter un vehicule
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyModifProfil">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

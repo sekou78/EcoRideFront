@@ -1,0 +1,197 @@
+<div class="container text-center m-2">
+  <div class="row align-items-center">
+    <div class="text-center col">
+      <a href="/espaceUtilisateur">
+        <button class="btn bg-dark border-dark text-primary">Mon compte</button>
+      </a>
+    </div>
+    <div class="text-center col">
+      <a
+        href="/vueDetaillee"
+        class="btn bg-dark border-dark text-primary text-center">
+        Retour
+      </a>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="container mt-2">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Réservation</h2>
+          </div>
+          <div class="mb-5">
+            <!-- Section Détails du Trajet 1 -->
+            <div class="container">
+              <div class="card mb-2 shadow-sm">
+                <div class="row g-0">
+                  <!-- Image du Conducteur -->
+                  <div class="col-md-4">
+                    <img
+                      src="/images/avatar.png"
+                      class="img-fluid rounded-start"
+                      id="avatar-reserver-display"
+                      alt="avatar Conducteur" />
+                  </div>
+
+                  <!-- Infos du Trajet -->
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h3 class="card-title">
+                        <strong>👤 Pseudo chauffeur :</strong>
+                        <span id="pseudo-reserver-display">pseudo</span>
+                      </h3>
+                      <hr />
+                      <p class="card-title">
+                        <strong>Covoiturage de : </strong> <br />
+                        📍
+                        <span id="adresse-depart-reserver-display">Paris</span>
+                        ➜ <br />
+                        🎯
+                        <span id="adresse-arrivee-reserver-display">
+                          Lyon
+                        </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🚦 Statut du trajet :</strong>
+                        <span id="statut-reserver-display"> </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🪑 Places restantes :</strong>
+                        <span id="places-disponibles-reserver-display"> 2</span>
+                      </p>
+                      <p class="card-text">
+                        <strong>💰 Prix :</strong>
+                        <span id="prix-reserver-display"> 30</span> Crédits
+                      </p>
+                      <p class="card-text">
+                        <strong>📅 Date départ :</strong>
+                        <span id="date-depart-reserver-display">
+                          10/10/2025</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>📅 Date arrivée :</strong>
+                        <span id="date-arrivee-reserver-display">
+                          10/10/2025</span
+                        >
+                      </p>
+                      <p class="card-text">
+                        <strong>⏰ Heure départ :</strong>
+                        <span id="heure-depart-reserver-display"> 10:30</span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🕒 Durée (estimée) :</strong>
+                        <span id="duree-trajet-reserver-display"> 01:45</span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🛣️ Péage :</strong>
+                        <span id="peage-reserver-display"> </span>
+                      </p>
+                      <p class="card-text">
+                        <strong>🌱 Écologique :</strong>
+                        <span id="trajet-ecologique-reserver-display"> </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Button participation modal -->
+<div class="text-center mt-2">
+  <button
+    type="button"
+    class="btn bg-dark border-dark text-primary btn-lg"
+    data-bs-toggle="modal"
+    data-bs-target="#reserverModal">
+    Reserver
+  </button>
+</div>
+
+<!-- Modal button participation -->
+<div
+  class="modal fade"
+  id="reserverModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header text-center bg-dark text-primary">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">
+          Confirmation de la reservation
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Êtes-vous sûr de vouloir utiliser
+        <span id="prix-reserver-reservation-voyage-modal"> 30 </span> crédits
+        pour ce trajet ?
+      </div>
+      <div class="text-center">
+        <label for="choix-trajet">Choix du trajet</label>
+        <select
+          class="form-select bg-dark text-center"
+          id="choix-trajet"
+          aria-label="Default select example">
+          <option selected></option>
+          <option value="CONFIRMEE">✅ CONFIRMEE</option>
+          <option value="EN_ATTENTE">⏳ EN_ATTENTE</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="btn-validation-participation"
+          class="btn btn-dark">
+          Confirmer
+        </button>
+        <button type="button" class="btn btn-red" data-bs-dismiss="modal">
+          Annuler
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyReservation">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

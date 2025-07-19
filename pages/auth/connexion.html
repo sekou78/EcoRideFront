@@ -1,0 +1,113 @@
+<div class="text-center text-primary mb-5">
+  <h1>Connexion</h1>
+</div>
+
+<div class="container">
+  <div class="col">
+    <form id="formulaireConnexion">
+      <div class="mb-3">
+        <label for="emailConnexionInput" class="form-label"></label>
+        <input
+          type="email"
+          class="form-control bg-body-secondary text-center"
+          id="emailConnexionInput"
+          placeholder="mail@mail.com"
+          name="email" />
+
+        <div class="invalid-feedback liens">
+          Votre email n'est pas conforme !
+        </div>
+        <div class="valid-feedback liens">Email correct !</div>
+      </div>
+
+      <div class="mb-2">
+        <label for="PasswordConnexionInput" class="form-label"></label>
+        <input
+          type="password"
+          class="form-control bg-body-secondary text-center"
+          id="PasswordConnexionInput"
+          placeholder="Mot de passe"
+          name="mdp" />
+
+        <div class="invalid-feedback liens">
+          Le mot de passe n'est pas conforme ! <br />
+          Au moins 8 caractères comprenant: <br />
+          1 lettre majuscule, <br />
+          1 lettre miniscule, <br />
+          1chiffre et <br />
+          1 caractères sepéciale
+        </div>
+        <div class="valid-feedback liens">Le mot de passe est conforme !</div>
+      </div>
+
+      <div class="mb-5 form-check">
+        <input
+          type="checkbox"
+          class="form-check-input bg-dark"
+          id="checkConnexionPassword" />
+        <label class="form-check-label" for="checkConnexionPassword">
+          Afficher le mot de passe
+        </label>
+      </div>
+
+      <div class="text-center d-flex justify-content-lg-around mb-5">
+        <button
+          type="button"
+          class="btn bg-dark border-dark text-primary btn-lg mx-4"
+          id="btn-validation-connexion">
+          Connexion
+        </button>
+
+        <a href="/">
+          <button
+            type="button"
+            class="btn btn-red text-primary btn-lg mx-4"
+            data-bs-dismiss="modal">
+            Annuler
+          </button>
+        </a>
+      </div>
+    </form>
+    <div class="text-center">
+      <a href="/inscription" class="lien-connexion text-secondary">
+        Si vous n'avez pas de compte, inscrivez-vous ICI?
+      </a>
+    </div>
+    <hr />
+    <div class="text-center">
+      <a href="/changeMdp" class="lien-connexion text-secondary">
+        Vous avez oubliez ou vous voulez modifier votre mot de passe, cliquez
+        ici?
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyConnexion">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<div>
+  <!-- Conteneur principal -->
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Carte du profil utilisateur -->
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Avis</h2>
+          </div>
+
+          <!--Avis seulement pour les passagers-->
+          <div
+            class="text-center mt-2"
+            data-show="ROLE_PASSAGER ROLE_PASSAGER_CHAUFFEUR">
+            <form id="avis-passager-form">
+              <div class="d-flex justify-content-center align-items-center">
+                <div class="d-flex flex-column align-items-center">
+                  <div class="mb-2">
+                    <input
+                      type="text"
+                      class="form-control text-center bg-dark"
+                      id="floatingInput"
+                      placeholder="Pseudo du chauffeur"
+                      name="pseudo_chauffeur_avis" />
+                  </div>
+
+                  <div class="form-floating mb-2 w-100">
+                    <input
+                      type="number"
+                      class="form-control bg-dark"
+                      id="noteChauffeurAvis"
+                      name="note_chauffeur_avis"
+                      placeholder="Note de 0 à 5"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      required />
+                    <label for="noteChauffeurAvis">Note de 0 à 5</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-floating">
+                <textarea
+                  class="form-control w-100 bg-dark"
+                  placeholder="Leave a comment here"
+                  id="floatingTextarea"
+                  name="commentaire_avis"></textarea>
+                <label for="floatingTextarea"
+                  >Laissez un avis sur le chauffeur <strong>Ici</strong></label
+                >
+              </div>
+            </form>
+
+            <div class="mt-2 mb-3">
+              <button
+                type="button"
+                id="btn-envoyer-commentaire"
+                class="btn bg-dark border-dark text-primary">
+                Valider votre commentaire
+              </button>
+            </div>
+            <div class="mt-2 mb-3">
+              <button
+                type="button"
+                id="btn-remonter-problemes"
+                class="btn bg-danger text-primary">
+                Valider votre problèmes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal d'erreur -->
+<div
+  class="modal fade"
+  id="errorModal"
+  tabindex="-1"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content border-danger">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="errorModalBodyAvis">
+        <!-- Le message d'erreur sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
