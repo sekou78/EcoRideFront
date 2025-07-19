@@ -146,18 +146,17 @@ async function loadMonCompte() {
     return; // on stoppe la suite
   }
 
-  // //Si l'utilisateur est suspendu
-  // if (data.compteSuspendu === true) {
-  //   eraseCookie(tokenCookieName);
-  //   eraseCookie(RoleCookieName);
-  //   localStorage.clear();
-  //   sessionStorage.clear();
-  //   window.location.href = "/connexion";
-  //   return; // on stoppe la suite
-  // }
-
   if (!response.ok) {
     alert("Erreur serveur");
     return;
   }
+}
+
+// Fonction pour rediriger si le compte est suspendu
+function compteSuspendu(response) {
+  if (response?.error?.includes("Compte suspendu")) {
+    window.location.href = "/pageSuspensionCompte";
+    return false;
+  }
+  return true;
 }
