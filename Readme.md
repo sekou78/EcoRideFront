@@ -2,6 +2,8 @@
 
 Ce site est un sujet de l'ecf studi.
 
+C'est est une application de covoiturage fictive pour une evaluation de projet STUDI
+
 # Installation
 
 Installation de Bootstrap et Bootstrap icon
