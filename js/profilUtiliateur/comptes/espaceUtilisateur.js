@@ -923,13 +923,5 @@ function afficherErreurModalBodyEspaceUtilisateur(message) {
   errorModal.show();
 }
 
-function compteSuspendu(response) {
-  if (response?.error?.includes("Compte suspendu")) {
-    window.location.href = "/pageSuspensionCompte";
-    return false;
-  }
-  return true;
-}
-
 // Fonction si l'utilisateur n'est pas connecté
 loadMonCompte();

@@ -170,7 +170,18 @@ async function vueReservations() {
     };
 
     fetch(apiUrl + "avis/avisVisible", requestOptions)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          // D'abord convertir la réponse en JSON pour lire les messages d'erreur
+          return response.json().then((errorData) => {
+            compteSuspendu(errorData); // redirige si suspendu
+            throw new Error(
+              "Impossible de charger les informations de l'utilisateur."
+            );
+          });
+        }
+        return response.json();
+      })
       .then((avisList) => {
         const chauffeurPseudo = reservationDetails?.trajet?.chauffeur?.pseudo;
 

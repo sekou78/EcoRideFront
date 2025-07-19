@@ -77,7 +77,18 @@ function envoyerCommentaire() {
   };
 
   fetch(apiUrl + "avis", requestOptions)
-    .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+        // D'abord convertir la réponse en JSON pour lire les messages d'erreur
+        return response.json().then((errorData) => {
+          compteSuspendu(errorData); // redirige si suspendu
+          throw new Error(
+            "Impossible de charger les informations de l'utilisateur."
+          );
+        });
+      }
+      return response.json();
+    })
     .then((result) => {
       // Supprimer la réservation du localStorage
       localStorage.removeItem("reservationTerminee");
