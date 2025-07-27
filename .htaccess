@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteBase /
+
+# Laisse passer les fichiers et dossiers réels
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Sinon redirige tout vers index.html
+RewriteRule ^ index.html [L]
