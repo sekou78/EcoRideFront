@@ -91,7 +91,9 @@ fetch(apiUrl + "account/me", requestOptions)
     pseudoDisplay.textContent = user.user.pseudo;
     totalCredits.textContent = user.user.credits;
     emailCurrentUserDisplay.textContent = user.user.email;
-    roleDisplay.textContent = rolesFiltrees.join(", ");
+    roleDisplay.textContent = rolesFiltrees
+      .map((r) => r.replace("ROLE_", "")) // masque "ROLE_"
+      .join(", ");
     telephoneDisplay.textContent = user.user.telephone;
     avatarDisplay.src = urlImg + user.user.image.filePath;
 
