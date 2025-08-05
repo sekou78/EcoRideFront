@@ -1,9 +1,13 @@
-<div class="container text-center m-2">
-  <div class="row align-items-center">
-    <div class="text-center col">
-      <a href="/espaceUtilisateur">
-        <button class="btn bg-dark border-dark text-primary">Mon compte</button>
-      </a>
+<div class="row justify-content-center">
+  <div class="container text-center m-2">
+    <div class="row align-items-center">
+      <div class="text-center col">
+        <a href="/espaceUtilisateur">
+          <button class="btn bg-dark border-dark text-primary">
+            Mon compte
+          </button>
+        </a>
+      </div>
     </div>
   </div>
 </div>
@@ -18,6 +22,62 @@
           </div>
           <ul id="liste-passagers" class="list-group mt-3"></ul>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal pour accepter un passager -->
+<div
+  class="modal fade"
+  id="confirmationModal"
+  tabindex="-1"
+  aria-labelledby="confirmationModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Texte de confirmation -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn bg-secondary" data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button type="button" class="btn bg-primary" id="confirmModalBtn">
+          Confirmer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de message -->
+<div
+  class="modal fade"
+  id="feedbackModal"
+  tabindex="-1"
+  aria-labelledby="feedbackModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="feedbackModalLabel">Information</h5>
+        <button
+          type="button"
+          class="btn-close text-white"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="feedbackMessage">
+        <!-- Message injecté ici -->
       </div>
     </div>
   </div>

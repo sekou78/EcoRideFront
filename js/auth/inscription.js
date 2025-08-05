@@ -110,26 +110,62 @@ function validInscription() {
     redirect: "follow",
   };
 
+  // 1. Inscription
   fetch(apiUrl + "registration", requestOptions)
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        afficherErreurModalBodyInscription("Erreur lors de l'inscription");
+      if (!response.ok) {
+        return response.json().then((data) => {
+          throw new Error(data.message || "Erreur lors de l'inscription");
+        });
       }
+      return response.json();
     })
-    .then((result) => {
+
+    // 2. Connexion automatique
+    .then(() => {
+      const loginHeaders = new Headers();
+      loginHeaders.append("Content-Type", "application/json");
+
+      const loginRaw = JSON.stringify({
+        username: dataForm.get("email"),
+        password: dataForm.get("mdp"),
+      });
+
+      return fetch(apiUrl + "login", {
+        method: "POST",
+        headers: loginHeaders,
+        body: loginRaw,
+        redirect: "follow",
+      });
+    })
+
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Connexion automatique impossible.");
+      }
+      return response.json();
+    })
+
+    // 3. Connexion réussie → redirection
+    .then((loginResult) => {
+      const token = loginResult.apiToken;
+      setToken(token);
+      setCookie(RoleCookieName, loginResult.roles[0], 7);
+
       afficherErreurModalBodyInscription(
-        "Bravo ! " +
+        "Bravo " +
           dataForm.get("pseudo") +
-          " Vous pouvez maintenant vous connecter."
+          " ! Vous êtes maintenant connecté(e)."
       );
-      document.location.href = "/connexion";
+
+      window.location.replace("/espaceUtilisateur");
     })
+
+    // 4. Gestion des erreurs
     .catch((error) => {
       console.error(error);
       afficherErreurModalBodyInscription(
-        "Une erreur est survenue lors de l'inscription. Veuillez réessayer."
+        "Une erreur est survenue : " + error.message
       );
     });
 }

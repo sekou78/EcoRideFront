@@ -165,11 +165,8 @@ function validDate(input) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Date max = aujourd’hui + 30 jours
-  const maxDate = new Date(today);
-  maxDate.setDate(maxDate.getDate() + 30);
-
-  if (date < today || date > maxDate) {
+  // Vérification uniquement que la date n’est pas dans le passé
+  if (date < today) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     return false;

@@ -84,20 +84,20 @@ function chargeImage() {
 
   fetch(apiUrl + "image", requestOptions)
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        afficherErreurModalBodyModifAvatar(
-          "Erreur lors du chargement de l'image"
-        );
+      if (!response.ok) {
+        return response.json().then((data) => {
+          const message = data.error || data.message || "Image non charger.";
+          throw new Error(message);
+        });
       }
+      return response.json();
     })
     .then((result) => {
       avatarDisplay.src = urlImg + result.filePath;
     })
     .catch((error) => {
       // console.error(error);
-      afficherErreurModalBodyModifAvatar("Image non charger");
+      afficherErreurModalBodyModifAvatar(error.message);
     });
 }
 
@@ -145,15 +145,18 @@ async function modifImage() {
     });
 
     if (!updateResponse.ok) {
-      throw new Error("Erreur lors de la modification de l'image");
+      // Essayer de récupérer le message d'erreur du backend
+      const errorData = await updateResponse.json().catch(() => null);
+      const errorMessage =
+        errorData?.error || "Erreur lors de la modification de l'image";
+      throw new Error(errorMessage);
     }
 
     const blob = await updateResponse.blob();
     const imageUrl = URL.createObjectURL(blob);
     window.location.reload();
   } catch (error) {
-    // console.error(error);
-    afficherErreurModalBodyModifAvatar("Image non modifiée");
+    afficherErreurModalBodyModifAvatar(error.message || "Image non modifiée");
   }
 }
 
@@ -189,7 +192,11 @@ async function supprimeImage() {
     });
 
     if (!deleteResponse.ok) {
-      throw new Error("Erreur lors de la suppression de l'image");
+      // Essayer de récupérer le message d'erreur du backend
+      const errorData = await updateResponse.json().catch(() => null);
+      const errorMessage =
+        errorData?.error || "Erreur lors de la suppression de l'image";
+      throw new Error(errorMessage);
     }
 
     // Étape 3 : Rafraîchir ou vider l'affichage
@@ -197,7 +204,7 @@ async function supprimeImage() {
     window.location.reload();
   } catch (error) {
     // console.error(error);
-    afficherErreurModalBodyModifAvatar("Image non supprimée");
+    afficherErreurModalBodyModifAvatar(error.message || "Image non supprimée");
   }
 }
 

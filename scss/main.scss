@@ -161,6 +161,23 @@ main {
   cursor: pointer;
 }
 
+.imgEspaceUtilisateur {
+  width: 150px;
+  height: 150px;
+  object-fit: crop;
+}
+
+.imgListesPassagers {
+  width: 65px;
+  height: 65px;
+  object-fit: crop;
+}
+
+.buttonListesPassagers {
+  width: 36px;
+  height: 36px;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;
