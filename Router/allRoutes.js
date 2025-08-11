@@ -287,6 +287,13 @@ export const allRoutes = [
     "/js/accueil/contactSupport/formulaireContactSupport.js"
   ),
   new Route(
+    "/gestionContact",
+    "Gestion du contact support",
+    "/pages/accueil/contactSupport/gestionContact.html",
+    ["ROLE_ADMIN", "ROLE_EMPLOYE"],
+    "/js/accueil/contactSupport/gestionContact.js"
+  ),
+  new Route(
     "/mentionsLegales",
     "Les mentions legales",
     "/pages/accueil/mentionsLegales/mentionsLegales.html",

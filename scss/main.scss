@@ -178,6 +178,23 @@ main {
   height: 36px;
 }
 
+.custom-select-compact {
+  height: 30px; /* Hauteur réduite */
+  width: 50%; /* Largeur réduite */
+  font-size: 0.85rem; /* Taille de texte un peu plus petite */
+  padding: 0 0.5rem; /* Moins d'espace intérieur */
+  border-radius: 4px; /* Bords légèrement arrondis */
+  border: 1px solid #ccc;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.custom-select-compact:focus {
+  border-color: #66afe9;
+  outline: none;
+  box-shadow: 0 0 5px #66afe999;
+}
+
 footer.footer {
   padding: 15px;
   position: absolute;

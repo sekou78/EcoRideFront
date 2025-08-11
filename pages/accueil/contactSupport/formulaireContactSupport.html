@@ -14,7 +14,7 @@
       <div class="card shadow-lg rounded">
         <div class="card-header bg-dark text-primary text-center">
           <h3 class="text-decoration-underline">Contacter le support :</h3>
-          <p class="text-danger">
+          <p class="text-danger-emphasis">
             Ceci est une application de covoiturage fictive pour une evaluation
             de projet STUDI
           </p>
@@ -23,16 +23,26 @@
           </p>
         </div>
         <div class="card-body">
-          <form id="support-form" novalidate>
+          <form id="support-form">
             <div class="mb-3">
               <label for="name" class="form-label">Nom complet</label>
-              <input type="text" class="form-control" id="name" required />
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                name="name"
+                required />
               <div class="invalid-feedback">Veuillez entrer votre nom.</div>
             </div>
 
             <div class="mb-3">
               <label for="email" class="form-label">Adresse email</label>
-              <input type="email" class="form-control" id="email" required />
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                name="email"
+                required />
               <div class="invalid-feedback">
                 Une adresse e-mail valide est requise.
               </div>
@@ -40,7 +50,7 @@
 
             <div class="mb-3">
               <label for="subject" class="form-label">Objet</label>
-              <select class="form-select" id="subject" required>
+              <select class="form-select" id="subject" name="subject" required>
                 <option selected disabled value="">
                   Choisissez un objet...
                 </option>
@@ -60,6 +70,7 @@
               <textarea
                 class="form-control"
                 id="message"
+                name="message"
                 rows="5"
                 required></textarea>
               <div class="invalid-feedback">Veuillez entrer un message.</div>
@@ -69,16 +80,48 @@
               <label for="file" class="form-label"
                 >Joindre un fichier (facultatif)</label
               >
-              <input class="form-control" type="file" id="file" />
+              <input class="form-control" type="file" id="file" name="file" />
             </div>
 
             <div class="d-grid">
-              <button type="submit" class="btn bg-dark text-primary btn-lg">
+              <button
+                type="button"
+                class="btn bg-dark text-primary btn-lg"
+                id="btn-send-contact">
                 Envoyer
               </button>
             </div>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Bootstrap pour messages -->
+<div
+  class="modal fade"
+  id="responseModal"
+  tabindex="-1"
+  aria-labelledby="responseModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-dark text-primary">
+        <h5 class="modal-title" id="responseModalLabel">Message du support</h5>
+        <button
+          type="button"
+          class="btn-close text-reset"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="responseModalBody">
+        <!-- Message injecté -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+          Fermer
+        </button>
       </div>
     </div>
   </div>

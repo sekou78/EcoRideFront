@@ -1,0 +1,155 @@
+<div class="row justify-content-center">
+  <div class="container text-center">
+    <div class="row align-items-center">
+      <div class="text-center m-2 col">
+        <a href="/espaceUtilisateur">
+          <button class="btn bg-dark border-dark text-primary lg-1 me-2">
+            Mon compte
+          </button>
+        </a>
+      </div>
+      <div class="text-center m-2 col" data-show="ROLE_ADMIN">
+        <a href="/espaceAdmin">
+          <button class="btn bg-dark border-dark text-primary lg-1 me-2">
+            Mon espace
+          </button>
+        </a>
+      </div>
+      <div class="text-center m-2 col" data-show="ROLE_EMPLOYE">
+        <a href="/espaceEmployee">
+          <button class="btn bg-dark border-dark text-primary lg-1 me-2">
+            Mon espace
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container pb-3">
+  <div class="card mb-3">
+    <div class="card-header bg-secondary text-center text-black">
+      <h2 class="text-center text-success mb-4">📬 Messages du support</h2>
+    </div>
+    <div class="container my-4">
+      <div id="cardView" class="row gy-4">
+        <!-- Cartes dynamiques ici -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Bootstrap pour messages -->
+<div
+  class="modal fade"
+  id="feedbackModal"
+  tabindex="-1"
+  aria-labelledby="feedbackModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedbackModalLabel">Message</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="feedbackModalBody">
+        <!-- Le message sera injecté ici -->
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn bg-success text-primary"
+          data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Bootstrap gestion commentaires -->
+<div
+  class="modal fade"
+  id="commentModal"
+  tabindex="-1"
+  aria-labelledby="commentModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="commentForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="commentModalLabel">
+            Modifier le commentaire
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <textarea
+            id="commentTextarea"
+            class="form-control"
+            rows="5"
+            required></textarea>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn bg-danger text-primary"
+            data-bs-dismiss="modal">
+            Annuler
+          </button>
+          <button type="submit" class="btn bg-success text-primary">
+            Enregistrer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal confirmation suppression -->
+<div
+  class="modal fade"
+  id="confirmDeleteModal"
+  tabindex="-1"
+  aria-labelledby="confirmDeleteLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmDeleteLabel">
+          Confirmer la suppression
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body">
+        Voulez-vous vraiment supprimer ce commentaire ?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn bg-success text-primary"
+          data-bs-dismiss="modal">
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          id="confirmDeleteBtn">
+          Supprimer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
