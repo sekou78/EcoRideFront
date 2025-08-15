@@ -1,0 +1,82 @@
+<div>
+  <!-- Conteneur principal -->
+  <div class="container mt-3">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Carte du profil utilisateur -->
+        <div class="card shadow-lg rounded-lg">
+          <div class="card-header bg-dark text-primary text-center">
+            <h2>Reinitialisation du mot de passe</h2>
+          </div>
+
+          <div class="container text-center">
+            <div class="col">
+              <p class="text-center m-3">
+                Veuillez entrer
+                <strong class="text-danger-emphasis">
+                  l'adresse email qui est associée au compte
+                </strong>
+                pour recevoir un lien de réinitialisation.
+              </p>
+
+              <form id="forgotForm" method="POST">
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email: </label>
+                  <input
+                    type="email"
+                    id="emailSendResetInput"
+                    name="email_send_reset_input"
+                    placeholder="mail@mail.fr"
+                    required />
+
+                  <div class="invalid-feedback liens">
+                    Votre email n'est pas conforme !
+                  </div>
+                  <div class="valid-feedback liens">Email correct !</div>
+                </div>
+
+                <div class="mb-3">
+                  <button
+                    type="button"
+                    id="sendResetLink"
+                    class="btn bg-dark border-dark text-primary btn-lg mx-4">
+                    📩 Envoyer le lien
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Bootstrap -->
+<div
+  class="modal fade"
+  id="messageModal"
+  tabindex="-1"
+  aria-labelledby="messageModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="messageModalLabel">Message</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalMessageContent">
+        <!-- Le message du backend s'affichera ici -->
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

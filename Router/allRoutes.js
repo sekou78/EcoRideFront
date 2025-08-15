@@ -299,6 +299,20 @@ export const allRoutes = [
     "/pages/accueil/mentionsLegales/mentionsLegales.html",
     []
   ),
+  new Route(
+    "/envoiMailResetMdp",
+    "Envoi mail pour réinitialiser le mot de passe",
+    "/pages/auth/motDePasseOublié/envoiMailResetMdp.html",
+    [],
+    "/js/auth/motDePasseOublié/envoiMailResetMdp.js"
+  ),
+  new Route(
+    "/changeResetMdp",
+    "Changement mdp pour réinitialiser le mot de passe",
+    "/pages/auth/motDePasseOublié/changeResetMdp.html",
+    [],
+    "/js/auth/motDePasseOublié/changeResetMdp.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename

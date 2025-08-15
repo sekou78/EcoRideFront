@@ -12146,6 +12146,12 @@ main {
   height: 36px;
 }
 
+.buttonGestionContact {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
 .custom-select-compact {
   height: 30px; /* Hauteur réduite */
   width: 50%; /* Largeur réduite */

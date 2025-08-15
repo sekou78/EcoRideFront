@@ -193,15 +193,13 @@ function fetchAndDisplayComments(messageId) {
           ? `
         <div class="d-flex justify-content-between mt-3">
           <button
-            class="btn bg-success btn-sm rounded-circle btn-edit-comment text-primary"
-            style="width: 36px; height: 36px; padding: 0;"
+            class="btn bg-success btn-sm rounded-circle btn-edit-comment text-primary buttonGestionContact"
             data-id="${comment.id}" data-message-id="${messageId}"
             title="Modifier">
             ✏
           </button>
           <button
-            class="btn bg-danger btn-sm rounded-circle btn-delete-comment text-primary"
-            style="width: 36px; height: 36px; padding: 0;"
+            class="btn bg-danger btn-sm rounded-circle btn-delete-comment text-primary buttonGestionContact"
             data-id="${comment.id}" data-message-id="${messageId}"
             title="Supprimer">
             🗑

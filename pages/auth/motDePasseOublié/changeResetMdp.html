@@ -1,0 +1,110 @@
+<div class="container">
+  <div class="row justify-content-center mt-3">
+    <div class="col-lg-8">
+      <!-- Carte du profil utilisateur -->
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-dark text-primary text-center">
+          <h2>Reinitialisation du mot de passe</h2>
+        </div>
+
+        <div class="container text-center mt-3">
+          <form id="ChangeResetMdp-form">
+            <div class="mb-5">
+              <label for="NewPasswordResetInput" class="form-label">
+                Nouveau mot de passe:
+              </label>
+              <input
+                type="password"
+                class="form-control bg-body-secondary text-center"
+                id="NewPasswordResetInput"
+                placeholder="****************"
+                name="mdpResetNew" />
+
+              <div class="invalid-feedback liens">
+                Le mot de passe n'est pas conforme ! <br />
+                Au moins 8 caractères comprenant: <br />
+                1 lettre majuscule, <br />
+                1 lettre miniscule, <br />
+                1chiffre et <br />
+                1 caractères sepéciale
+              </div>
+              <div class="valid-feedback liens">Mot de passe conforme !</div>
+            </div>
+
+            <div class="mb-5">
+              <label for="ConfirmNewPasswordInputReset" class="form-label">
+                Confirmer le nouveau mot de passe:
+              </label>
+              <input
+                type="password"
+                class="form-control bg-body-secondary text-center"
+                id="ConfirmNewPasswordInputReset"
+                placeholder="****************"
+                name="mdpNewConfirmReset" />
+
+              <div class="invalid-feedback liens">
+                Les mots de passe ne correspondent pas.
+              </div>
+            </div>
+
+            <div class="mb-5 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input bg-dark text-primary"
+                id="checkNewConfirmNewPasswordReset" />
+              <label
+                class="form-check-label"
+                for="checkNewConfirmNewPasswordReset">
+                Afficher la confirmation du mot de passe
+              </label>
+            </div>
+
+            <div class="text-center mb-3">
+              <button
+                type="button"
+                class="btn bg-dark border-dark text-primary btn-lg"
+                id="btn-validation-changeMdpReset">
+                Validation
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Générique -->
+<div
+  class="modal fade"
+  id="passwordChangeResetModal"
+  tabindex="-1"
+  aria-labelledby="passwordChangeResetModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="passwordChangeResetModalLabel">
+          Information
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Fermer"></button>
+      </div>
+      <div class="modal-body" id="passwordChangeModalBody">
+        <!-- Contenu dynamique -->
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="passwordChangeResetModalBtn"
+          data-bs-dismiss="modal">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
