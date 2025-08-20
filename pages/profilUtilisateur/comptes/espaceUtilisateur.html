@@ -34,7 +34,46 @@
                   alt="Photo de profil"
                   class="img-fluid rounded-circle mb-3 imgEspaceUtilisateur"
                   id="avatar-display" />
-                <h4>👤<span id="pseudo-display">-</span></h4>
+                <!-- Section pseudo et notifications -->
+                <div class="d-flex justify-content-center align-items-center">
+                  <h4 class="d-flex align-items-center gap-2">
+                    👤 <span id="pseudo-display">-</span>
+
+                    <div class="position-relative">
+                      <button
+                        id="notif-button"
+                        class="btn btn-light p-2 rounded-circle btnNotifHtml"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <!-- cache le bouton au départ -->
+                        <i class="fas fa-bell fs-4"></i>
+                        <span
+                          id="notif-badge"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger spanNotifHtml">
+                          0
+                        </span>
+                      </button>
+
+                      <ul
+                        class="dropdown-menu shadow rounded-3 p-2 ulNotifHtml"
+                        id="notif-list">
+                        <li
+                          class="dropdown-header d-flex justify-content-between align-items-center">
+                          Notifications
+                          <button
+                            id="mark-all-read"
+                            class="btn btn-sm btn-link p-0">
+                            Tout marquer comme lu
+                          </button>
+                        </li>
+                        <li class="text-center py-2" id="no-notif">
+                          Aucune notification
+                        </li>
+                      </ul>
+                    </div>
+                  </h4>
+                </div>
 
                 <!-- Affichage du total de crédits -->
                 <div

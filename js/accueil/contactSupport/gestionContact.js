@@ -31,7 +31,7 @@ function listsMessages() {
     redirect: "follow",
   };
 
-  fetch(apiUrl + "support/showMessagesFilter", requestOptions)
+  fetch(apiUrl + "supportMessage/showMessagesFilter", requestOptions)
     .then((response) => {
       if (!response.ok) throw new Error("Erreur de chargement");
       return response.json();
@@ -72,7 +72,13 @@ function listsMessages() {
         `;
 
         const fileLink = msg.filename
-          ? `<a href="/uploads/support/${msg.filename}" target="_blank" class="btn btn-sm btn-outline-dark mt-2 text-primary">📎 Télécharger la pièce jointe</a>`
+          ? `
+              <a href="${urlImg}/uploads/support/${msg.filename}" 
+                target="_blank" 
+                class="btn btn-sm btn-outline-primary mt-2">
+                  👁️ Voir la pièce jointe
+              </a>
+            `
           : "";
 
         const bgClass = bgClasses[index % bgClasses.length];
@@ -363,7 +369,7 @@ function deleteCommentConfirm(commentId, messageId) {
 // Modifier statut
 function updateStatus(id, newStatus) {
   const token = getCookie(tokenCookieName);
-  fetch(apiUrl + `support/contact/status/${id}`, {
+  fetch(apiUrl + `supportMessage/contact/status/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

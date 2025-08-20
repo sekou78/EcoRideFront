@@ -27,7 +27,7 @@ function sendMessageSupport() {
     redirect: "follow",
   };
 
-  fetch(apiUrl + "support/send", requestOptions)
+  fetch(apiUrl + "supportMessage/send", requestOptions)
     .then((response) => response.json())
     .then((result) => {
       if (result.success) {

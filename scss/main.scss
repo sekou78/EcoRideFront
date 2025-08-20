@@ -24,7 +24,7 @@ footer {
 }
 
 main {
-  margin-bottom: 100px;
+  margin-bottom: 130px;
 }
 
 .bi-search {
@@ -182,6 +182,25 @@ main {
   width: 36px;
   height: 36px;
   padding: 0;
+}
+
+.style-btn-updateNotifJs {
+  font-size: 0.8rem;
+}
+
+.btnNotifHtml,
+.spanNotifHtml {
+  display: none;
+}
+
+.ulNotifHtml {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  max-width: 90vw;
+  width: 300px;
+  max-height: 50vh;
+  overflow-y: auto;
 }
 
 .custom-select-compact {

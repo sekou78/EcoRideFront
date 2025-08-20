@@ -41,6 +41,11 @@ const btnConfirmerSuppression = document.getElementById(
   "btnConfirmerSuppression"
 );
 
+// Notifications
+const notifBadge = document.getElementById("notif-badge");
+const notifList = document.getElementById("notif-list");
+const noNotif = document.getElementById("no-notif");
+
 btnConfirmerSuppression.addEventListener("click", suppressionModal);
 
 const token = getCookie(tokenCookieName);
@@ -913,6 +918,169 @@ function envoyerCreditAdmin(trajetId) {
       );
     });
 }
+
+function updateNotificationBadge(notifs) {
+  let badge = document.getElementById("notif-badge");
+  let count = notifs.filter(function (n) {
+    return !n.isRead;
+  }).length;
+
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = "inline-block";
+  } else {
+    badge.style.display = "none";
+  }
+}
+
+// Charger les notifications
+function loadNotifications() {
+  fetch(apiUrl + "notification/", {
+    method: "GET",
+    headers: { "X-AUTH-TOKEN": token },
+  })
+    .then((response) => response.json())
+    .then((data) => updateNotifications(data));
+}
+
+// Mettre à jour notifications
+function updateNotificationBadge(notifs) {
+  let badge = document.getElementById("notif-badge");
+  let notifButton = document.getElementById("notif-button");
+  let count = notifs.filter(function (n) {
+    return !n.isRead;
+  }).length;
+
+  if (count > 0) {
+    badge.textContent = count;
+    badge.style.display = "inline-block";
+    notifButton.style.display = "inline-block"; // Affiche le bouton
+  } else {
+    badge.style.display = "none";
+    notifButton.style.display = "none"; // Cache le bouton
+  }
+}
+
+// Mettre à jour notifications
+function updateNotifications(notifications) {
+  notifList.innerHTML = `
+    <li class="dropdown-header d-flex justify-content-between align-items-center">
+      Notifications
+      <button id="mark-all-read" class="btn btn-sm btn-link p-0 style-btn-updateNotifJs" >Tout marquer comme lu</button>
+    </li>
+  `;
+
+  const unreadNotifications = notifications.filter((n) => !n.isRead);
+
+  if (notifications.length === 0) {
+    notifList.innerHTML +=
+      '<li class="text-center py-2">Aucune notification</li>';
+  } else {
+    notifications.forEach((notif) => {
+      const li = document.createElement("li");
+      li.className = "dropdown-item";
+      li.textContent = notif.message;
+      li.style.cursor = "pointer";
+
+      if (!notif.isRead) {
+        li.style.fontWeight = "bold";
+        li.style.backgroundColor = "#f8f9fa";
+      }
+
+      li.addEventListener("click", () => markNotificationAsRead(notif.id));
+      notifList.appendChild(li);
+    });
+  }
+
+  // Badge et bouton seulement si notifications non lues
+  let notifButton = document.getElementById("notif-button");
+  if (unreadNotifications.length > 0) {
+    notifBadge.textContent = unreadNotifications.length;
+    notifBadge.style.display = "inline-block";
+    notifButton.style.display = "inline-block";
+  } else {
+    notifBadge.style.display = "none";
+    notifButton.style.display = "none";
+  }
+
+  // Réattacher bouton “Tout marquer comme lu”
+  document
+    .getElementById("mark-all-read")
+    .addEventListener("click", markAllAsRead);
+}
+
+// function updateNotifications(notifications) {
+//   notifList.innerHTML = `
+//     <li class="dropdown-header d-flex justify-content-between align-items-center">
+//       Notifications
+//       <button id="mark-all-read" class="btn btn-sm btn-link p-0" style="font-size: 0.8rem;">Tout marquer comme lu</button>
+//     </li>
+//   `;
+
+//   const unreadNotifications = notifications.filter((n) => !n.isRead);
+
+//   if (notifications.length === 0) {
+//     notifList.innerHTML +=
+//       '<li class="text-center py-2">Aucune notification</li>';
+//     notifBadge.style.display = "none";
+//     return;
+//   }
+
+//   notifications.forEach((notif) => {
+//     const li = document.createElement("li");
+//     li.className = "dropdown-item";
+//     li.textContent = notif.message;
+//     li.style.cursor = "pointer";
+
+//     if (!notif.isRead) {
+//       li.style.fontWeight = "bold";
+//       li.style.backgroundColor = "#f8f9fa";
+//     }
+
+//     li.addEventListener("click", () => markNotificationAsRead(notif.id));
+//     notifList.appendChild(li);
+//   });
+
+//   // Badge uniquement si notifications non lues
+//   if (unreadNotifications.length > 0) {
+//     notifBadge.textContent = unreadNotifications.length;
+//     notifBadge.style.display = "inline-block";
+//   } else {
+//     notifBadge.style.display = "none";
+//   }
+
+//   // Réattacher bouton “Tout marquer comme lu”
+//   document
+//     .getElementById("mark-all-read")
+//     .addEventListener("click", markAllAsRead);
+// }
+
+// Marquer une notification comme lue
+function markNotificationAsRead(id) {
+  fetch(apiUrl + "notification/read/" + id, {
+    method: "POST",
+    headers: { "X-AUTH-TOKEN": token },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) loadNotifications();
+    });
+}
+
+// Tout marquer comme lu
+function markAllAsRead() {
+  fetch(apiUrl + "notification/read-all", {
+    method: "POST",
+    headers: { "X-AUTH-TOKEN": token },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) loadNotifications();
+    });
+}
+
+// Initialisation
+loadNotifications();
 
 function afficherErreurModalBodyEspaceUtilisateur(message) {
   const errorModalBody = document.getElementById(
