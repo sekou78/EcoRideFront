@@ -987,7 +987,10 @@ function updateNotifications(notifications) {
         li.style.backgroundColor = "#f8f9fa";
       }
 
-      li.addEventListener("click", () => markNotificationAsRead(notif.id));
+      li.addEventListener("click", () => {
+        markNotificationAsRead(notif.id);
+        window.location.href = "/reponseNotif?id=" + notif.id;
+      });
       notifList.appendChild(li);
     });
   }
@@ -1008,52 +1011,6 @@ function updateNotifications(notifications) {
     .getElementById("mark-all-read")
     .addEventListener("click", markAllAsRead);
 }
-
-// function updateNotifications(notifications) {
-//   notifList.innerHTML = `
-//     <li class="dropdown-header d-flex justify-content-between align-items-center">
-//       Notifications
-//       <button id="mark-all-read" class="btn btn-sm btn-link p-0" style="font-size: 0.8rem;">Tout marquer comme lu</button>
-//     </li>
-//   `;
-
-//   const unreadNotifications = notifications.filter((n) => !n.isRead);
-
-//   if (notifications.length === 0) {
-//     notifList.innerHTML +=
-//       '<li class="text-center py-2">Aucune notification</li>';
-//     notifBadge.style.display = "none";
-//     return;
-//   }
-
-//   notifications.forEach((notif) => {
-//     const li = document.createElement("li");
-//     li.className = "dropdown-item";
-//     li.textContent = notif.message;
-//     li.style.cursor = "pointer";
-
-//     if (!notif.isRead) {
-//       li.style.fontWeight = "bold";
-//       li.style.backgroundColor = "#f8f9fa";
-//     }
-
-//     li.addEventListener("click", () => markNotificationAsRead(notif.id));
-//     notifList.appendChild(li);
-//   });
-
-//   // Badge uniquement si notifications non lues
-//   if (unreadNotifications.length > 0) {
-//     notifBadge.textContent = unreadNotifications.length;
-//     notifBadge.style.display = "inline-block";
-//   } else {
-//     notifBadge.style.display = "none";
-//   }
-
-//   // Réattacher bouton “Tout marquer comme lu”
-//   document
-//     .getElementById("mark-all-read")
-//     .addEventListener("click", markAllAsRead);
-// }
 
 // Marquer une notification comme lue
 function markNotificationAsRead(id) {

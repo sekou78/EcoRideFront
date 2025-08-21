@@ -313,6 +313,20 @@ export const allRoutes = [
     [],
     "/js/auth/motDePasseOublié/changeResetMdp.js"
   ),
+  new Route(
+    "/reponseNotif",
+    "Reponse de notification",
+    "/pages/accueil/contactSupport/reponseNotif.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/accueil/contactSupport/reponseNotif.js"
+  ),
 ];
 
 //Le titre s'affiche comme ceci : Route.titre - websitename
