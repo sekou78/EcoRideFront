@@ -114,7 +114,6 @@ function afficherUtilisateurs() {
   });
 
   // Ajout des événements aux boutons
-
   tbody.querySelectorAll(".suspendre-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const index = +btn.dataset.index;

@@ -24,9 +24,8 @@ const requestOptions = {
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
-      // D'abord convertir la réponse en JSON pour lire les messages d'erreur
       return response.json().then((errorData) => {
-        compteSuspendu(errorData); // redirige si suspendu
+        compteSuspendu(errorData);
         throw new Error(
           "Impossible de charger les informations de l'utilisateur."
         );
@@ -35,15 +34,24 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((userData) => {
-    // Vérifier que l'utilisateur a une image
-    if (!userData.image || !userData.image.id) {
+    if (userData.image && userData.image.id) {
+      // S'il y a déjà une image
+      btnChargerAvatar.style.display = "none"; // cacher le bouton "Charger l'avatar"
+      btnModifAvatar.style.display = "inline-block"; // montrer "Modifier"
+      btnSupprimerAvatar.style.display = "inline-block"; // montrer "Supprimer"
+
+      const imageId = userData.image.id;
+
+      // Récupérer l'image via son ID
+      return fetch(apiUrl + "image/" + imageId, requestOptions);
+    } else {
+      // S'il n'y a pas d'image
+      btnChargerAvatar.style.display = "inline-block"; // montrer "Charger l'avatar"
+      btnModifAvatar.style.display = "none"; // cacher "Modifier"
+      btnSupprimerAvatar.style.display = "none"; // cacher "Supprimer"
+
       throw new Error("Aucune image associée à l'utilisateur");
     }
-
-    const imageId = userData.image.id;
-
-    // Étape 2 : récupérer l'image via son ID
-    return fetch(apiUrl + "image/" + imageId, requestOptions);
   })
   .then((response) => {
     if (response.blob) {
@@ -94,6 +102,7 @@ function chargeImage() {
     })
     .then((result) => {
       avatarDisplay.src = urlImg + result.filePath;
+      window.location.reload();
     })
     .catch((error) => {
       // console.error(error);
