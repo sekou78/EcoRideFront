@@ -24,9 +24,8 @@ const requestOptions = {
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
-      // D'abord convertir la réponse en JSON pour lire les messages d'erreur
       return response.json().then((errorData) => {
-        compteSuspendu(errorData); // redirige si suspendu
+        compteSuspendu(errorData);
         throw new Error(
           "Impossible de charger les informations de l'utilisateur."
         );
@@ -35,15 +34,24 @@ fetch(apiUrl + "account/me", requestOptions)
     return response.json();
   })
   .then((userData) => {
-    // Vérifier que l'utilisateur a une image
-    if (!userData.image || !userData.image.id) {
+    if (userData.image && userData.image.id) {
+      // S'il y a déjà une image
+      btnChargerAvatar.style.display = "none"; // cacher le bouton "Charger l'avatar"
+      btnModifAvatar.style.display = "inline-block"; // montrer "Modifier"
+      btnSupprimerAvatar.style.display = "inline-block"; // montrer "Supprimer"
+
+      const imageId = userData.image.id;
+
+      // Récupérer l'image via son ID
+      return fetch(apiUrl + "image/" + imageId, requestOptions);
+    } else {
+      // S'il n'y a pas d'image
+      btnChargerAvatar.style.display = "inline-block"; // montrer "Charger l'avatar"
+      btnModifAvatar.style.display = "none"; // cacher "Modifier"
+      btnSupprimerAvatar.style.display = "none"; // cacher "Supprimer"
+
       throw new Error("Aucune image associée à l'utilisateur");
     }
-
-    const imageId = userData.image.id;
-
-    // Étape 2 : récupérer l'image via son ID
-    return fetch(apiUrl + "image/" + imageId, requestOptions);
   })
   .then((response) => {
     if (response.blob) {
@@ -84,20 +92,21 @@ function chargeImage() {
 
   fetch(apiUrl + "image", requestOptions)
     .then((response) => {
-      if (response.ok) {
-        return response.json();
-      } else {
-        afficherErreurModalBodyModifAvatar(
-          "Erreur lors du chargement de l'image"
-        );
+      if (!response.ok) {
+        return response.json().then((data) => {
+          const message = data.error || data.message || "Image non charger.";
+          throw new Error(message);
+        });
       }
+      return response.json();
     })
     .then((result) => {
       avatarDisplay.src = urlImg + result.filePath;
+      window.location.reload();
     })
     .catch((error) => {
       // console.error(error);
-      afficherErreurModalBodyModifAvatar("Image non charger");
+      afficherErreurModalBodyModifAvatar(error.message);
     });
 }
 
@@ -145,15 +154,18 @@ async function modifImage() {
     });
 
     if (!updateResponse.ok) {
-      throw new Error("Erreur lors de la modification de l'image");
+      // Essayer de récupérer le message d'erreur du backend
+      const errorData = await updateResponse.json().catch(() => null);
+      const errorMessage =
+        errorData?.error || "Erreur lors de la modification de l'image";
+      throw new Error(errorMessage);
     }
 
     const blob = await updateResponse.blob();
     const imageUrl = URL.createObjectURL(blob);
     window.location.reload();
   } catch (error) {
-    // console.error(error);
-    afficherErreurModalBodyModifAvatar("Image non modifiée");
+    afficherErreurModalBodyModifAvatar(error.message || "Image non modifiée");
   }
 }
 
@@ -189,7 +201,11 @@ async function supprimeImage() {
     });
 
     if (!deleteResponse.ok) {
-      throw new Error("Erreur lors de la suppression de l'image");
+      // Essayer de récupérer le message d'erreur du backend
+      const errorData = await updateResponse.json().catch(() => null);
+      const errorMessage =
+        errorData?.error || "Erreur lors de la suppression de l'image";
+      throw new Error(errorMessage);
     }
 
     // Étape 3 : Rafraîchir ou vider l'affichage
@@ -197,7 +213,7 @@ async function supprimeImage() {
     window.location.reload();
   } catch (error) {
     // console.error(error);
-    afficherErreurModalBodyModifAvatar("Image non supprimée");
+    afficherErreurModalBodyModifAvatar(error.message || "Image non supprimée");
   }
 }
 

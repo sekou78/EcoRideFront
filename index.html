@@ -4,6 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <meta name="description" content="Covoiturage app" />
+    <meta name="author" content="John Doe" />
+    <!-- All Search Engines -->
+    <meta name="robots" content="index,follow" />
+    <meta name="application-name" content="EcoRide" />
+
+    <!-- Pour IE et Edge -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Open Graph pour les réseaux sociaux -->
+    <meta property="og:title" content="EcoRide - Application de Covoiturage" />
+    <meta
+      property="og:description"
+      content="Partagez vos trajets en voiture avec EcoRide." />
+    <meta property="og:url" content="https://dinga223.fr" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://dinga223.fr/og-image.jpg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="EcoRide - Application de Covoiturage" />
+    <meta
+      name="twitter:description"
+      content="Partagez vos trajets en voiture avec EcoRide." />
+    <meta name="twitter:image" content="https://dinga223.fr/og-image.jpg" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,6 +48,11 @@
     <link rel="stylesheet" href="scss/main.css" />
 
     <title>EcoRide</title>
+    <!-- En prod 
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="img-src 'self' https: data:;" />
+    -->
   </head>
   <body>
     <header>
@@ -55,7 +89,9 @@
                   </button>
                 </a>
               </li>
-              <li class="nav-item" data-show="disconnected">
+
+              <li class="nav-item d-none" data-show="disconnected">
+
                 <a class="nav-link" href="/connexion">
                   <button
                     type="button"
@@ -64,7 +100,9 @@
                   </button>
                 </a>
               </li>
-              <li class="nav-item" data-show="connected">
+
+              <li class="nav-item d-none" data-show="connected">
+
                 <a class="nav-link" href="/espaceUtilisateur">
                   <button
                     type="button"
@@ -73,7 +111,7 @@
                   </button>
                 </a>
               </li>
-              <li class="nav-item" data-show="ROLE_EMPLOYE">
+              <li class="nav-item d-none" data-show="ROLE_EMPLOYE">
                 <a class="nav-link" href="/espaceEmployee">
                   <button
                     type="button"
@@ -82,7 +120,9 @@
                   </button>
                 </a>
               </li>
-              <li class="nav-item" data-show="ROLE_ADMIN">
+
+              <li class="nav-item d-none" data-show="ROLE_ADMIN">
+
                 <a class="nav-link" href="/espaceAdmin">
                   <button
                     type="button"
@@ -91,7 +131,7 @@
                   </button>
                 </a>
               </li>
-              <li class="nav-item" data-show="connected">
+              <li class="nav-item d-none" data-show="connected">
                 <a class="nav-link" href="#">
                   <button
                     type="button"
@@ -117,26 +157,30 @@
     </header>
 
     <main id="main-page">
-      <!-- Le contenu de la page sera injectée ici -->
+      <!--Le contenu de la page sera injectée ici-->
     </main>
 
     <footer class="bg-dark text-center footer">
       <div class="row justify-content-lg-between">
-        <div class="col col-lg-4 p-3">
+        <!--Bloc Email-->
+        <div class="col-12 col-lg-4 p-3">
           <h4 class="fs-6">
             <a href="/contactSupport">
-              <div class="d-flex align-items-center">
+              <div
+                class="d-flex align-items-center justify-content-center justify-content-lg-start">
                 <i class="bi bi-mailbox2 text-black me-2"></i>
-                <p class="text-secondary mb-0">mail@mail.com</p>
+                <p class="text-secondary mb-0">contactSupport@mail.com</p>
               </div>
             </a>
           </h4>
         </div>
 
-        <div class="col m-1 col-lg-4 align-self-center text-lg-end">
+        <!-- Bloc Mentions légales -->
+        <div
+          class="col-12 col-lg-4 m-1 align-self-center text-center text-lg-end">
           <h4 class="fs-6">
             <a href="/mentionsLegales" class="text-secondary me-1">
-              Les mentions légales
+              Les mentions légales
             </a>
           </h4>
         </div>

@@ -287,10 +287,45 @@ export const allRoutes = [
     "/js/accueil/contactSupport/formulaireContactSupport.js"
   ),
   new Route(
+    "/gestionContact",
+    "Gestion du contact support",
+    "/pages/accueil/contactSupport/gestionContact.html",
+    ["ROLE_ADMIN", "ROLE_EMPLOYE"],
+    "/js/accueil/contactSupport/gestionContact.js"
+  ),
+  new Route(
     "/mentionsLegales",
     "Les mentions legales",
     "/pages/accueil/mentionsLegales/mentionsLegales.html",
     []
+  ),
+  new Route(
+    "/envoiMailResetMdp",
+    "Envoi mail pour réinitialiser le mot de passe",
+    "/pages/auth/motDePasseOublié/envoiMailResetMdp.html",
+    [],
+    "/js/auth/motDePasseOublié/envoiMailResetMdp.js"
+  ),
+  new Route(
+    "/changeResetMdp",
+    "Changement mdp pour réinitialiser le mot de passe",
+    "/pages/auth/motDePasseOublié/changeResetMdp.html",
+    [],
+    "/js/auth/motDePasseOublié/changeResetMdp.js"
+  ),
+  new Route(
+    "/reponseNotif",
+    "Reponse de notification",
+    "/pages/accueil/contactSupport/reponseNotif.html",
+    [
+      "ROLE_ADMIN",
+      "ROLE_EMPLOYE",
+      "ROLE_PASSAGER",
+      "ROLE_CHAUFFEUR",
+      "ROLE_PASSAGER_CHAUFFEUR",
+      "ROLE_USER",
+    ],
+    "/js/accueil/contactSupport/reponseNotif.js"
   ),
 ];
 

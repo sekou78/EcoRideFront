@@ -24,7 +24,7 @@ footer {
 }
 
 main {
-  margin-bottom: 100px;
+  margin-bottom: 130px;
 }
 
 .bi-search {
@@ -50,7 +50,7 @@ main {
     background-position: center;
     background-size: cover;
     height: 250px;
-    filter: brightness(0.9);
+    filter: brightness(0.7);
   }
 
   .hero-scene-content {
@@ -159,6 +159,65 @@ main {
   width: 100px;
   height: 90px;
   cursor: pointer;
+}
+
+.imgEspaceUtilisateur {
+  width: 150px;
+  height: 150px;
+  object-fit: crop;
+}
+
+.imgListesPassagers {
+  width: 65px;
+  height: 65px;
+  object-fit: crop;
+}
+
+.buttonListesPassagers {
+  width: 36px;
+  height: 36px;
+}
+
+.buttonGestionContact {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+}
+
+.style-btn-updateNotifJs {
+  font-size: 0.8rem;
+}
+
+.btnNotifHtml,
+.spanNotifHtml {
+  display: none;
+}
+
+.ulNotifHtml {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  max-width: 90vw;
+  width: 300px;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.custom-select-compact {
+  height: 30px; /* Hauteur réduite */
+  width: 50%; /* Largeur réduite */
+  font-size: 0.85rem; /* Taille de texte un peu plus petite */
+  padding: 0 0.5rem; /* Moins d'espace intérieur */
+  border-radius: 4px; /* Bords légèrement arrondis */
+  border: 1px solid #ccc;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.custom-select-compact:focus {
+  border-color: #66afe9;
+  outline: none;
+  box-shadow: 0 0 5px #66afe999;
 }
 
 footer.footer {

@@ -141,11 +141,8 @@ function validAcceuilDate(input) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Date max = aujourd’hui + 14 jours
-  const maxDate = new Date(today);
-  maxDate.setDate(maxDate.getDate() + 14);
-
-  if (date < today || date > maxDate) {
+  // Vérification uniquement que la date n’est pas dans le passé
+  if (date < today) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
     return false;

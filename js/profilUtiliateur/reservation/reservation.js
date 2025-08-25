@@ -74,7 +74,6 @@ async function vueReserverTrajetInfos() {
     }
 
     const result = await response.json();
-    console.log(result);
 
     function formatDateFR(dateString) {
       if (!dateString) return "—";
@@ -181,9 +180,14 @@ function confirmerReservation() {
             redirect: "follow",
           })
             .then((response) => {
-              if (!response.ok)
-                throw new Error("Erreur lors de la suppression");
-              return response.json();
+              if (!response.ok) {
+                return response.json().then((data) => {
+                  const message =
+                    data.error || data.message || "Réservation impossible.";
+                  throw new Error(message);
+                });
+              }
+              return response.json(); // si tout va bien
             })
             .then(() => {
               const nouvellesReservations = reservations.filter(
@@ -199,7 +203,7 @@ function confirmerReservation() {
             })
             .catch((error) => {
               console.error(error);
-              afficherErreurModalReservation("Erreur lors de l'annulation.");
+              afficherErreurModalReservation(error.message);
             });
         }
         return;
@@ -219,7 +223,16 @@ function confirmerReservation() {
           body: raw,
           redirect: "follow",
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              return response.json().then((data) => {
+                const message =
+                  data.error || data.message || "Réservation impossible.";
+                throw new Error(message);
+              });
+            }
+            return response.json(); // si tout va bien
+          })
           .then((result) => {
             const updatedReservations = reservations.map((r) =>
               r.id === reservationId ? result : r
@@ -234,7 +247,7 @@ function confirmerReservation() {
           })
           .catch((error) => {
             console.error(error);
-            afficherErreurModalReservation("Erreur lors de la mise à jour.");
+            afficherErreurModalReservation(error.message);
           });
       } else {
         // Cas 3 : Création
@@ -244,7 +257,16 @@ function confirmerReservation() {
           body: raw,
           redirect: "follow",
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              return response.json().then((data) => {
+                const message =
+                  data.error || data.message || "Réservation impossible.";
+                throw new Error(message);
+              });
+            }
+            return response.json(); // si tout va bien
+          })
           .then((result) => {
             const nouvellesReservations = [...reservations, result];
             localStorage.setItem(
@@ -258,10 +280,8 @@ function confirmerReservation() {
             window.location.href = "/espaceUtilisateur";
           })
           .catch((error) => {
-            console.error(error);
-            afficherErreurModalReservation(
-              "Vous pouvez pas reserver ce trajet, reservation impossible."
-            );
+            // console.error(error);
+            afficherErreurModalReservation(error.message);
           });
       }
     })
