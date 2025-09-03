@@ -173,7 +173,6 @@ function renderPage(pageData) {
     const imageUrl = trajet.image
       ? `${urlImg}${trajet.image}`
       : "/images/avatar.png";
-    console.log("Image URL :", imageUrl);
 
     card.innerHTML = `
       <div class="card-header bg-dark text-primary text-center">

@@ -226,6 +226,13 @@ export const allRoutes = [
     "/js/admin/espaceAdmin.js"
   ),
   new Route(
+    "/archivesDesTrajets",
+    "Archives des trajets",
+    "/pages/admin/archivesDesTrajets.html",
+    ["ROLE_ADMIN"],
+    "/js/admin/archivesDesTrajets.js"
+  ),
+  new Route(
     "/gestionEmployee",
     "Gestion Employee",
     "/pages/admin/gestionAdminEmployee.html",
