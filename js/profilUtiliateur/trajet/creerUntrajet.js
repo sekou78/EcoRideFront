@@ -28,11 +28,11 @@ btnValidationVoyage.addEventListener("click", validateVoyageForm);
 
 function dateInFuture(input) {
   const value = input.value.trim();
-  if (!value) return false; // vide
+  if (!value) return false;
 
   let picked;
 
-  // 1) format dd‑mm‑aaaa
+  //format dd‑mm‑aaaa
   const fr = /^(\d{2})-(\d{2})-(\d{4})$/;
   const iso = /^(\d{4})-(\d{2})-(\d{2})$/;
 
@@ -42,7 +42,6 @@ function dateInFuture(input) {
   } else if (iso.test(value)) {
     picked = new Date(`${value}T00:00:00`);
   } else {
-    // format invalide : laisse validDate() marquer l’input en rouge
     return false;
   }
 
@@ -78,7 +77,6 @@ function dateAfter(dateBInput, dateAInput) {
   return ok;
 }
 
-// Ajout de la règle dans ta validation centrale
 function validInputVoyage() {
   const departAdresseOk = validateVoyageRequired(departAdresse);
   const arriveeAdresseOk = validateVoyageRequired(arriveeAdresse);
@@ -139,7 +137,6 @@ function validateVoyageForm() {
     redirect: "follow",
   };
 
-  // modale Bootstrap
   const modalErreurEl = document.getElementById("modalErreurTrajet");
   const modalErreur = new bootstrap.Modal(modalErreurEl);
   const modalErreurMsg = document.getElementById("modalErreurMsg");
@@ -149,15 +146,12 @@ function validateVoyageForm() {
       if (response.ok) {
         return response.json();
       } else {
-        // Pour les erreurs, on parse aussi le JSON d’erreur
         return response.json().then((error) => {
           let message = "Une erreur est survenue.";
 
           if (error.error) {
-            // Erreur simple string
             message = error.error;
           } else if (Array.isArray(error.errors)) {
-            // Plusieurs erreurs sous forme de tableau → on concatène
             message = error.errors.join("\n");
           }
 
@@ -165,13 +159,11 @@ function validateVoyageForm() {
           modalErreurMsg.textContent = message;
           modalErreur.show();
 
-          // On rejette la promesse pour ne pas passer au .then()
           throw new Error(message);
         });
       }
     })
     .then((result) => {
-      // Ici traitement du succès, redirection
       window.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
@@ -205,7 +197,6 @@ async function creeTrajetChargerVehiculesUtilisateur() {
 
     const vehicules = await response.json();
 
-    // Vide la liste
     dropdownMenu.innerHTML = "";
 
     // Génère les liens de chaque véhicule

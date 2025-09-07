@@ -20,7 +20,7 @@ const requestOptions = {
   redirect: "follow",
 };
 
-// Étape 1 : récupérer les données de l'utilisateur
+//Récupération des données de l'utilisateur connecté
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
@@ -76,7 +76,6 @@ function chargeImage() {
   const imageFile = avatar.files[0];
 
   if (!imageFile) {
-    // console.error("Aucun fichier sélectionné");
     afficherErreurModalBodyModifAvatar("Aucun fichier sélectionné");
     return;
   }
@@ -105,7 +104,6 @@ function chargeImage() {
       window.location.reload();
     })
     .catch((error) => {
-      // console.error(error);
       afficherErreurModalBodyModifAvatar(error.message);
     });
 }
@@ -116,7 +114,7 @@ async function modifImage() {
   const myHeaders = new Headers();
   myHeaders.append("X-AUTH-TOKEN", token);
 
-  // Étape 1 : Récupérer l'utilisateur
+  //Récupération des données de l'utilisateur connecté
   try {
     const userResponse = await fetch(apiUrl + "account/me", {
       method: "GET",
@@ -135,10 +133,9 @@ async function modifImage() {
 
     const imageId = userData.image.id;
 
-    // Étape 2 : Préparer l'image à modifier
+    //Préparation de l'image à modifier
     const imageFile = avatar.files[0];
     if (!imageFile) {
-      // console.error("Aucun fichier sélectionné");
       afficherErreurModalBodyModifAvatar("Aucun fichier sélectionné");
       return;
     }
@@ -146,7 +143,7 @@ async function modifImage() {
     const formdata = new FormData();
     formdata.append("image", imageFile);
 
-    // Étape 3 : Modifier l'image
+    //Modification de l'image
     const updateResponse = await fetch(apiUrl + "image/" + imageId, {
       method: "POST",
       headers: myHeaders,
@@ -154,7 +151,6 @@ async function modifImage() {
     });
 
     if (!updateResponse.ok) {
-      // Essayer de récupérer le message d'erreur du backend
       const errorData = await updateResponse.json().catch(() => null);
       const errorMessage =
         errorData?.error || "Erreur lors de la modification de l'image";
@@ -176,7 +172,7 @@ async function supprimeImage() {
   myHeaders.append("X-AUTH-TOKEN", token);
 
   try {
-    // Étape 1 : Récupérer l'utilisateur
+    //Récupération des données de l'utilisateur connecté
     const userResponse = await fetch(apiUrl + "account/me", {
       method: "GET",
       headers: myHeaders,
@@ -194,25 +190,23 @@ async function supprimeImage() {
 
     const imageId = userData.image.id;
 
-    // Étape 2 : Supprimer l'image
+    //Suppression de l'image
     const deleteResponse = await fetch(apiUrl + "image/" + imageId, {
       method: "DELETE",
-      headers: myHeaders, // Pas de body ici
+      headers: myHeaders,
     });
 
     if (!deleteResponse.ok) {
-      // Essayer de récupérer le message d'erreur du backend
       const errorData = await updateResponse.json().catch(() => null);
       const errorMessage =
         errorData?.error || "Erreur lors de la suppression de l'image";
       throw new Error(errorMessage);
     }
 
-    // Étape 3 : Rafraîchir ou vider l'affichage
-    avatarDisplay.src = ""; // Efface l'image affichée
+    //Rafraîchir l'affichage
+    avatarDisplay.src = "";
     window.location.reload();
   } catch (error) {
-    // console.error(error);
     afficherErreurModalBodyModifAvatar(error.message || "Image non supprimée");
   }
 }

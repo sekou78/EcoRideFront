@@ -47,11 +47,11 @@ function parseDateMulti(str) {
 
 function dateInFuture(str) {
   const d = parseDateMulti(str);
-  if (!d) return false; // format incorrect
+  if (!d) return false;
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // 00:00:00
-  return d >= today; // aujourd’hui ou futur
+  return d >= today;
 }
 
 function validInputVoyage() {
@@ -106,7 +106,6 @@ async function validateModifTrajetForm() {
     3: "TERMINEE",
   };
 
-  // à vérifier que statutVoyage est défini
   const statutValue = statutVoyage.value;
   const selectedStatut = statutMap[statutValue];
 
@@ -153,7 +152,6 @@ async function validateModifTrajetForm() {
     const result = await response.json();
 
     if (!response.ok) {
-      // Gestion des erreurs détaillées du backend
       if (result.error) {
         showErrorModal(result.error);
       } else if (result.errors && Array.isArray(result.errors)) {
@@ -164,7 +162,7 @@ async function validateModifTrajetForm() {
       return;
     }
 
-    // Succès : redirection et nettoyage localStorage
+    //Redirection et nettoyage localStorage
     localStorage.removeItem("trajet");
     document.location.href = "/espaceUtilisateur";
   } catch (error) {
@@ -207,10 +205,9 @@ async function modifTrajetChargerVehiculesUtilisateur() {
 
     const vehicules = await response.json();
 
-    // Vide la liste
     dropdownMenu.innerHTML = "";
 
-    // Génère les liens de chaque véhicule
+    // Génèrer les liens de chaque véhicule
     vehicules.forEach((vehicule) => {
       const item = document.createElement("li");
       const link = document.createElement("a");

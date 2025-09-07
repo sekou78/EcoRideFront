@@ -1,6 +1,5 @@
 import Route from "./Route.js";
 
-//Définir ici vos routes
 export const allRoutes = [
   new Route(
     "/",
@@ -224,6 +223,13 @@ export const allRoutes = [
     "/pages/admin/espaceAdmin.html",
     ["ROLE_ADMIN"],
     "/js/admin/espaceAdmin.js"
+  ),
+  new Route(
+    "/archivesDesTrajets",
+    "Archives des trajets",
+    "/pages/admin/archivesDesTrajets.html",
+    ["ROLE_ADMIN"],
+    "/js/admin/archivesDesTrajets.js"
   ),
   new Route(
     "/gestionEmployee",

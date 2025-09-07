@@ -33,12 +33,11 @@ async function modificationVehicule() {
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
   }
 
-  // En-têtes
   const myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
   myHeaders.append("X-AUTH-TOKEN", token);
 
-  // Récupérer l'ID du véhicule depuis le localStorage
+  // Récupération de l'ID du véhicule depuis le localStorage
   const vehicule = JSON.parse(localStorage.getItem("vehicule_a_editer"));
   const vehiculeId = vehicule?.id;
 
@@ -49,7 +48,6 @@ async function modificationVehicule() {
     return;
   }
 
-  // Construire l'objet JSON à envoyer
   const raw = JSON.stringify({
     plaqueImmatriculation: dataForm.get("immatriculation_edit"),
     dateImmatriculation: convertToISO(
@@ -96,7 +94,7 @@ async function modificationVehicule() {
 function formatDateFR(dateString) {
   if (!dateString) return "";
   const date = new Date(dateString);
-  if (isNaN(date)) return dateString; // Si date invalide, retourne la chaîne telle quelle
+  if (isNaN(date)) return dateString;
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();

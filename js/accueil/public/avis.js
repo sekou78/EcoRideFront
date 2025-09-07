@@ -79,9 +79,9 @@ function envoyerCommentaire() {
   fetch(apiUrl + "avis", requestOptions)
     .then((response) => {
       if (!response.ok) {
-        // D'abord convertir la réponse en JSON pour lire les messages d'erreur
         return response.json().then((errorData) => {
-          compteSuspendu(errorData); // redirige si suspendu
+          // redirige si suspendu
+          compteSuspendu(errorData);
           throw new Error(
             "Impossible de charger les informations de l'utilisateur."
           );
@@ -90,10 +90,10 @@ function envoyerCommentaire() {
       return response.json();
     })
     .then((result) => {
-      // Supprimer la réservation du localStorage
+      // Suppression de la réservation du localStorage
       localStorage.removeItem("reservationTerminee");
 
-      // Récupérer les anciens avis (ou tableau vide si aucun encore)
+      // Récupérer les anciens avis ou tableau vide si aucun avis n'existe
       const anciensAvis =
         JSON.parse(localStorage.getItem("commentairesAvis")) || [];
 
@@ -106,7 +106,6 @@ function envoyerCommentaire() {
       window.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
-      // console.error("Erreur lors de l’envoi :", error);
       afficherErreurModalBodyAvis("Erreur lors de l’envoi de l’avis.");
     });
 }
@@ -153,23 +152,22 @@ function remonterUnProbleme() {
       // Générer un identifiant unique style #CV123456
       const uniqueId = "#CV" + Math.floor(100000 + Math.random() * 900000);
 
-      // Ajouter l'identifiant au résultat (ajout d'une propriété locale)
+      // Ajouter l'identifiant au résultat
       result.codeProbleme = uniqueId;
 
       // Récupérer les anciens problèmes ou tableau vide
       const anciensProblemes =
         JSON.parse(localStorage.getItem("problemesTrajet")) || [];
 
-      // Ajouter le nouveau problème avec code
+      // Ajouter le nouveau problème avec le code
       anciensProblemes.push(result);
 
-      // Sauvegarder le tout
+      // Sauvegarder le tout en localStorage
       localStorage.setItem("problemesTrajet", JSON.stringify(anciensProblemes));
 
       window.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
-      // console.error("Erreur lors de l’envoi :", error);
       afficherErreurModalBodyAvis("Erreur lors de l’envoi du problème.");
     });
 }

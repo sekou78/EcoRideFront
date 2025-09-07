@@ -245,7 +245,6 @@ function validateInscriptionEmployee() {
       );
       modal.show();
 
-      // Optionnel : recharge après fermeture
       const modalElement = document.getElementById("employeeSuccessModal");
       modalElement.addEventListener("hidden.bs.modal", () => {
         window.location.reload();
@@ -283,7 +282,7 @@ fetch(apiUrl + "account/me", requestOptions)
     );
   });
 
-// récup & pré‑calcul
+// récupération et pré‑calcul
 async function fetchTrajetStats() {
   const token = getCookie(tokenCookieName);
   const response = await fetch(apiUrl + "trajet/admin/trajets", {
@@ -308,7 +307,8 @@ async function fetchTrajetStats() {
     const [d, m, y] = t.dateDepart.split("-");
     const dateObj = new Date(+y, m - 1, +d);
     const dateStr = t.dateDepart;
-    const cred = 2; // Chaque trajet terminé rapporte 2 crédits à la plateforme
+    // Chaque trajet terminé rapporte 2 crédits à la plateforme
+    const cred = 2;
 
     // écart en jours
     const diffJ = Math.floor((dateObj - today) / 86400000);
@@ -356,7 +356,7 @@ function renderCurrentGraphs() {
 }
 
 document.getElementById("prevRange").addEventListener("click", () => {
-  idxRange = (idxRange + 2) % 3; // boucle 2→1→0→2…
+  idxRange = (idxRange + 2) % 3;
   renderCurrentGraphs();
 });
 

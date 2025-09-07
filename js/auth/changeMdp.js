@@ -121,7 +121,7 @@ function showConfirmNewPassword() {
   inputConfirmNewPassword.type = type;
 }
 
-//Fonction Inscription en BDD avec le click sur le boutton inscription
+//Fonction Inscription en BDD
 function ChangementMdp() {
   const token = getToken(tokenCookieName);
   let dataForm = new FormData(formchangeMdp);
@@ -142,9 +142,9 @@ function ChangementMdp() {
   })
     .then((response) => {
       if (!response.ok) {
-        // D'abord convertir la réponse en JSON pour lire les messages d'erreur
         return response.json().then((errorData) => {
-          compteSuspendu(errorData); // redirige si suspendu
+          // redirige si suspendu
+          compteSuspendu(errorData);
           throw new Error(
             "Impossible de charger les informations de l'utilisateur."
           );
@@ -160,19 +160,15 @@ function ChangementMdp() {
       const modalBtn = document.getElementById("passwordChangeModalBtn");
 
       if (result.error) {
-        // ERREUR : afficher le message
         modalBody.innerText = result.error;
-        modalBtn.onclick = () => {
-          // Juste fermer la modale
-        };
+        modalBtn.onclick = () => {};
         modal.show();
       } else {
-        // SUCCÈS : afficher, puis déconnecter/rediriger après fermeture
         modalBody.innerText = result.message;
-        modalBtn.onclick = () => {
+        modalBtn.addEventListener("click", () => {
           dIsconnect();
           window.location.href = "/connexion";
-        };
+        });
         modal.show();
       }
     })

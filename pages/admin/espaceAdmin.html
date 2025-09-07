@@ -176,7 +176,6 @@
     <!-- Graphiques Covoiturages par jour -->
     <div class="col-md-6 mb-3">
       <div class="card shadow-sm h-100 d-flex flex-column">
-        <!-- AJOUT: h-100 + d-flex flex-column -->
         <div class="card-header bg-secondary text-black text-center">
           Covoiturages par jour
         </div>
@@ -205,7 +204,6 @@
     <!-- Graphiques Crédits gagnés par jour -->
     <div class="col-md-6 mb-3">
       <div class="card shadow-sm h-100 d-flex flex-column">
-        <!-- AJOUT: h-100 + d-flex flex-column -->
         <div class="card-header bg-secondary text-black text-center">
           Crédits gagnés par jour
         </div>
@@ -259,9 +257,20 @@
       </button>
     </div>
   </div>
+
+  <!-- Archives des trajets Terminés -->
+  <div class="card text-bg-secondary text-center mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Archives des trajets</h5>
+      <p class="card-text">Archivages de tous les trajets terminés</p>
+      <button type="button" class="btn bg-dark border-dark text-primary">
+        <a href="/archivesDesTrajets">Affichage des archives</a>
+      </button>
+    </div>
+  </div>
 </div>
 
-<!-- Modal de confirmation -->
+<!-- Modal de confirmation-->
 <div
   class="modal fade"
   id="employeeSuccessModal"
@@ -282,7 +291,10 @@
       </div>
       <div class="modal-body">✅ L'employé a été ajouté avec succès.</div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-success text-primary"
+          data-bs-dismiss="modal">
           OK
         </button>
       </div>
@@ -290,7 +302,7 @@
   </div>
 </div>
 
-<!-- Modal d'erreur -->
+<!-- Modal -->
 <div
   class="modal fade"
   id="errorModal"
@@ -298,9 +310,9 @@
   aria-labelledby="errorModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="errorModalLabel">Information</h5>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -308,10 +320,13 @@
           aria-label="Fermer"></button>
       </div>
       <div class="modal-body" id="errorModalBodyEspaceAdmin">
-        <!-- Le message d'erreur sera injecté ici -->
+        <!-- Le message d'information sera injecté ici -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          data-bs-dismiss="modal">
           Fermer
         </button>
       </div>

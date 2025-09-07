@@ -49,7 +49,6 @@ function validPreferencesChauffeur() {
   const preferencesAutresOk =
     validateModifProfilInfosRequired(preferencesAutres);
 
-  // On valide uniquement si une valeur a été saisie dans le textarea
   if (preferencesAutresOk) {
     btnValidationPreferencesChauffeur.disabled = false;
   } else {
@@ -58,7 +57,7 @@ function validPreferencesChauffeur() {
 }
 
 function validateModifProfilForm() {
-  //appel de la fonction pour la modification du compte
+  //appel de la fonction d'édition du compte
   editCompte();
 }
 
@@ -110,7 +109,6 @@ function editCompte() {
       document.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
-      // console.error(error);
       afficherErreurModalBodyModifProfil("Compte non modifié.");
     });
 }
@@ -148,7 +146,6 @@ async function preferencesChauffeur() {
       document.location.href = "/espaceUtilisateur";
     })
     .catch((error) => {
-      // console.error(error);
       afficherErreurModalBodyModifProfil("Preferences chauffeur non modifié.");
     });
 }

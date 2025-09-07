@@ -110,7 +110,7 @@ function validInscription() {
     redirect: "follow",
   };
 
-  // 1. Inscription
+  //Inscription
   fetch(apiUrl + "registration", requestOptions)
     .then((response) => {
       if (!response.ok) {
@@ -121,7 +121,7 @@ function validInscription() {
       return response.json();
     })
 
-    // 2. Connexion automatique
+    //Connexion automatique
     .then(() => {
       const loginHeaders = new Headers();
       loginHeaders.append("Content-Type", "application/json");
@@ -146,7 +146,7 @@ function validInscription() {
       return response.json();
     })
 
-    // 3. Connexion réussie → redirection
+    //Connexion réussie → redirection
     .then((loginResult) => {
       const token = loginResult.apiToken;
       setToken(token);
@@ -161,7 +161,7 @@ function validInscription() {
       window.location.replace("/espaceUtilisateur");
     })
 
-    // 4. Gestion des erreurs
+    //Gestion des erreurs
     .catch((error) => {
       console.error(error);
       afficherErreurModalBodyInscription(

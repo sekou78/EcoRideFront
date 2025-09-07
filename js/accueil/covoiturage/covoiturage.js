@@ -73,11 +73,11 @@ function trouverItineraireCovoiturage() {
     return;
   }
 
-  // Convertir la date jj/mm/aaaa => aaaa-mm-jj
+  // Conversion de la date jj/mm/aaaa => aaaa-mm-jj
   const [day, month, year] = date.split("/");
   const dateFormatted = `${year}-${month}-${day}`;
 
-  // Construire dynamiquement l'URL avec les paramètres
+  // Construction dynamiquement de l'URL avec les paramètres
   const url = new URL(apiUrl + "trajet/api/listeTrajets");
   url.searchParams.append("adresseDepart", adresseDepart);
   url.searchParams.append("adresseArrivee", adresseArrivee);
@@ -165,7 +165,7 @@ function validDate(input) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Vérification uniquement que la date n’est pas dans le passé
+  // Vérification que la date n’est pas dans le passé
   if (date < today) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");
@@ -182,7 +182,7 @@ function afficherErreurModalBodyCovoiturage(message) {
   const errorModalBody = document.getElementById("errorModalBodyCovoiturage");
   errorModalBody.textContent = message;
 
-  // Initialiser et afficher la modal Bootstrap
+  // Initialisation et affichage de la modal Bootstrap
   const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));
   errorModal.show();
 }

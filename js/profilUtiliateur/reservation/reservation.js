@@ -152,21 +152,20 @@ function confirmerReservation() {
     redirect: "follow",
   };
 
-  // Étape 1 : Charger les réservations de l'utilisateur depuis l'API
+  //Charger les réservations de l'utilisateur depuis l'API
   fetch(apiUrl + "reservation/", requestOptions)
     .then((response) => response.json())
     .then((data) => {
       // Stocker dans localStorage
       localStorage.setItem("reservations", JSON.stringify(data));
 
-      // Continuer le traitement
       const reservations = data;
       const reservationExistante = reservations.find(
         (r) => r.trajet?.id === trajetId
       );
       const reservationId = reservationExistante?.id;
 
-      // Cas 1 : Annulation
+      //Annulation
       if (statut === "ANNULEE") {
         if (!reservationId) {
           afficherErreurModalReservation("Aucune réservation à annuler.");
@@ -187,7 +186,7 @@ function confirmerReservation() {
                   throw new Error(message);
                 });
               }
-              return response.json(); // si tout va bien
+              return response.json();
             })
             .then(() => {
               const nouvellesReservations = reservations.filter(
@@ -209,14 +208,14 @@ function confirmerReservation() {
         return;
       }
 
-      // Corps commun pour PUT ou POST
+      // Corps pour PUT ou POST
       const raw = JSON.stringify({
         statut: statut,
         trajet: trajetId,
       });
 
       if (reservationId) {
-        // Cas 2 : Modification
+        //Modification
         fetch(apiUrl + `reservation/${reservationId}`, {
           method: "PUT",
           headers: myHeaders,
@@ -231,7 +230,7 @@ function confirmerReservation() {
                 throw new Error(message);
               });
             }
-            return response.json(); // si tout va bien
+            return response.json();
           })
           .then((result) => {
             const updatedReservations = reservations.map((r) =>
@@ -250,7 +249,7 @@ function confirmerReservation() {
             afficherErreurModalReservation(error.message);
           });
       } else {
-        // Cas 3 : Création
+        //Création
         fetch(apiUrl + "reservation", {
           method: "POST",
           headers: myHeaders,
@@ -265,7 +264,7 @@ function confirmerReservation() {
                 throw new Error(message);
               });
             }
-            return response.json(); // si tout va bien
+            return response.json();
           })
           .then((result) => {
             const nouvellesReservations = [...reservations, result];
@@ -280,7 +279,6 @@ function confirmerReservation() {
             window.location.href = "/espaceUtilisateur";
           })
           .catch((error) => {
-            // console.error(error);
             afficherErreurModalReservation(error.message);
           });
       }

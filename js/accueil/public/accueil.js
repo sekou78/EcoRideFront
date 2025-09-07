@@ -48,7 +48,7 @@ function trouverItineraireAccueil() {
     afficherErreurModalBodyAccueil(
       "Veuillez entrer une date valide au format jj/mm/aaaa."
     );
-    return; // Stopper la fonction si la date est invalide
+    return;
   }
 
   // Convertir la date jj/mm/aaaa => aaaa-mm-jj
@@ -78,7 +78,6 @@ function trouverItineraireAccueil() {
       window.location.href = "/resultCovoiturage";
     })
     .catch((error) => {
-      // console.error("Erreur API :", error);
       afficherErreurModalBodyAccueil("Impossible de récupérer les trajets.");
     });
 }
@@ -141,7 +140,7 @@ function validAcceuilDate(input) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  // Vérification uniquement que la date n’est pas dans le passé
+  // Vérification que la date n’est pas dans le passé
   if (date < today) {
     input.classList.remove("is-valid");
     input.classList.add("is-invalid");

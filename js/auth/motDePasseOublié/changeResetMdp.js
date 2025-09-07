@@ -149,7 +149,6 @@ function ResetMdp() {
   fetch(urlSendReset + "reset-password/reset", requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      // Mettre le message du back dans le modal
       document.getElementById("passwordChangeModalBody").textContent =
         result.message;
 
