@@ -1,4 +1,3 @@
-// Variables globales
 let employes = [];
 let deleteIndexPending = null;
 let currentPage =
@@ -15,7 +14,7 @@ const deleteConfirmBtn = document.getElementById("modal-confirm-btn");
 // Appel initial
 chargerEmployes(currentPage);
 
-// Fonction principale pour charger les employes d’une page
+// Fonction principale pour charger les employes
 async function chargerEmployes(page = 1) {
   const token = getCookie(tokenCookieName);
 
@@ -38,7 +37,7 @@ async function chargerEmployes(page = 1) {
     const data = await response.json();
     employes = data.items;
 
-    // ⚠️ Si la page est vide, on retourne à la page précédente
+    //Si la page est vide, on retourne à la page précédente
     if (employes.length === 0 && page > 1) {
       return chargerEmployes(page - 1);
     }
@@ -57,7 +56,7 @@ async function chargerEmployes(page = 1) {
   }
 }
 
-// Fonction d’affichage (ton code existant légèrement adapté)
+// Fonction d’affichage des employes
 function afficherEmployes() {
   tbody.innerHTML = "";
 
@@ -112,7 +111,6 @@ function afficherEmployes() {
   });
 
   // Ajout des événements aux boutons
-
   tbody.querySelectorAll(".suspendre-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const index = +btn.dataset.index;
@@ -137,7 +135,7 @@ function afficherEmployes() {
   });
 }
 
-// Fonction qui construit le pager sous la liste
+// Fonction pour construire la liste
 function construirePager(totalPages) {
   pager.innerHTML = "";
 
@@ -228,7 +226,7 @@ async function reactiver(index) {
   }
 }
 
-// Fonction pour supprimer un employe (appelée par la modale)
+// Fonction pour supprimer un employe
 async function supprimer(index) {
   const token = getCookie(tokenCookieName);
   const id = employes[index].id;
@@ -248,11 +246,11 @@ async function supprimer(index) {
   afficherErreurModalBodyGestionAdminEmployee(
     "Employés supprimé avec succès !"
   );
-  window.location.reload(); // recharge la page
-  afficherEmployes(); // recharge la liste
+  window.location.reload();
+  afficherEmployes();
 }
 
-// Bouton de confirmation (depuis modale)
+// Bouton de confirmation
 deleteConfirmBtn.addEventListener("click", async () => {
   if (deleteIndexPending === null) return;
   deleteConfirmBtn.disabled = true;

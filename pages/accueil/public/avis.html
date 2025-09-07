@@ -1,9 +1,7 @@
 <div>
-  <!-- Conteneur principal -->
   <div class="container mt-5">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <!-- Carte du profil utilisateur -->
         <div class="card shadow-lg rounded-lg">
           <div class="card-header bg-dark text-primary text-center">
             <h2>Avis</h2>
@@ -76,7 +74,7 @@
   </div>
 </div>
 
-<!-- Modal d'erreur -->
+<!-- Modal -->
 <div
   class="modal fade"
   id="errorModal"
@@ -84,9 +82,9 @@
   aria-labelledby="errorModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="errorModalLabel">Information</h5>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -94,10 +92,10 @@
           aria-label="Fermer"></button>
       </div>
       <div class="modal-body" id="errorModalBodyAvis">
-        <!-- Le message d'erreur sera injecté ici -->
+        <!-- Le message d'information sera injecté ici -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button type="button" class="btn bg-danger" data-bs-dismiss="modal">
           Fermer
         </button>
       </div>

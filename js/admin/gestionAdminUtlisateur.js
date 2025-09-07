@@ -1,4 +1,3 @@
-// Variables globales
 let utilisateurs = [];
 let deleteIndexPending = null;
 let currentPage =
@@ -15,7 +14,7 @@ const deleteConfirmBtn = document.getElementById("modal-confirm-btn");
 // Appel initial
 chargerUtilisateurs(currentPage);
 
-// Fonction principale pour charger les utilisateurs d’une page
+// Fonction principale pour charger les utilisateurs
 async function chargerUtilisateurs(page = 1) {
   const token = getCookie(tokenCookieName);
 
@@ -38,7 +37,7 @@ async function chargerUtilisateurs(page = 1) {
     const data = await resp.json();
     utilisateurs = data.items;
 
-    // ⚠️ Si la page est vide, on retourne à la page précédente
+    //Si la page est vide, on retourne à la page précédente
     if (utilisateurs.length === 0 && page > 1) {
       return chargerUtilisateurs(page - 1);
     }
@@ -57,7 +56,7 @@ async function chargerUtilisateurs(page = 1) {
   }
 }
 
-// Fonction d’affichage (ton code existant légèrement adapté)
+// Fonction d’affichage des utilisateurs
 function afficherUtilisateurs() {
   tbody.innerHTML = "";
 
@@ -138,7 +137,7 @@ function afficherUtilisateurs() {
   });
 }
 
-// Fonction qui construit le pager sous la liste
+// Fonction pour construire la liste
 function construirePager(totalPages) {
   pager.innerHTML = "";
 
@@ -228,7 +227,7 @@ async function reactiver(index) {
   }
 }
 
-// Fonction pour supprimer un utilisateur (appelée par la modale)
+// Fonction pour supprimer un utilisateur
 async function supprimer(index) {
   const token = getCookie(tokenCookieName);
   const id = utilisateurs[index].id;
@@ -248,11 +247,11 @@ async function supprimer(index) {
   afficherErreurModalBodyGestionAdminUtilisateur(
     "Utilisateurs supprimé avec succès !"
   );
-  window.location.reload(); // recharge la page
-  afficherUtilisateurs(); // recharge la liste
+  window.location.reload();
+  afficherUtilisateurs();
 }
 
-// Bouton de confirmation (depuis modale)
+// Bouton de confirmation
 deleteConfirmBtn.addEventListener("click", async () => {
   if (deleteIndexPending === null) return;
   deleteConfirmBtn.disabled = true;

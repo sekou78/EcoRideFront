@@ -38,7 +38,6 @@ function resetLinkSend() {
 
   fetch(urlSendReset + "reset-password", requestOptions)
     .then((response) => {
-      // Vérifie si la réponse est bien JSON
       return response.text().then((text) => {
         try {
           return JSON.parse(text);

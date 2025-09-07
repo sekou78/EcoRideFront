@@ -118,7 +118,7 @@ async function vueReservations() {
     return `${hours}:${minutes}`;
   }
 
-  // Remplir les champs DOM avec les infos du trajet
+  // Remplir les champs avec les infos du trajet
   pseudoDetailleeDisplay.textContent =
     reservationDetails.trajet.chauffeur.pseudo || "—";
   avatarDetailleeDisplay.src = reservationDetails.trajet.chauffeur.image
@@ -172,9 +172,9 @@ async function vueReservations() {
     fetch(apiUrl + "avis/avisVisible", requestOptions)
       .then((response) => {
         if (!response.ok) {
-          // D'abord convertir la réponse en JSON pour lire les messages d'erreur
           return response.json().then((errorData) => {
-            compteSuspendu(errorData); // redirige si suspendu
+            // redirige si suspendu
+            compteSuspendu(errorData);
             throw new Error(
               "Impossible de charger les informations de l'utilisateur."
             );
@@ -203,16 +203,17 @@ async function vueReservations() {
           return;
         }
 
-        // 💡 Calcul de la moyenne des notes
+        //Calcul de la moyenne des notes
         const totalNotes = avisChauffeur.reduce((sum, avis) => {
           const note = parseInt(avis.note);
           return sum + (isNaN(note) ? 0 : note);
         }, 0);
 
         const moyenne = totalNotes / avisChauffeur.length;
-        const noteArrondie = Math.round(moyenne); // arrondi à l'entier le plus proche
+        // arrondi à l'entier le plus proche
+        const noteArrondie = Math.round(moyenne);
 
-        // 💡 Affichage des étoiles de la moyenne
+        //Affichage des étoiles de la moyenne
         const etoilesMoyenne =
           "⭐️".repeat(noteArrondie) + "☆".repeat(5 - noteArrondie);
         const moyenneHtml = `

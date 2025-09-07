@@ -49,7 +49,7 @@ function validModifProfilInput() {
 }
 
 async function validateEnregistrerVehicule() {
-  //Récuperer le profil du conducteur
+  //Récuperation du profil du conducteur
   let dataForm = new FormData(chauffeurInfo);
 
   const token = getCookie(tokenCookieName);

@@ -26,7 +26,6 @@
             <div class="container">
               <div class="card mb-2 shadow-sm">
                 <div class="row g-0">
-                  <!-- Infos du Trajet -->
                   <div class="col-md-8">
                     <div class="card-body">
                       <!-- Infos de la reservation -->
@@ -149,7 +148,7 @@
     </div>
   </div>
 </div>
-<!--Reservation du trajet-->
+
 <div class="text-center mt-2">
   <button
     type="button"
@@ -159,7 +158,7 @@
   </button>
 </div>
 
-<!-- Modal d'erreur -->
+<!-- Modal -->
 <div
   class="modal fade"
   id="errorModal"
@@ -167,8 +166,8 @@
   aria-labelledby="errorModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="errorModalLabel">Information</h5>
         <button
           type="button"
@@ -177,10 +176,13 @@
           aria-label="Fermer"></button>
       </div>
       <div class="modal-body" id="errorModalBodyStatutReservation">
-        <!-- Le message d'erreur sera injecté ici -->
+        <!-- Le message d'information sera injecté ici -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          data-bs-dismiss="modal">
           Fermer
         </button>
       </div>

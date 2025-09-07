@@ -26,9 +26,9 @@ if (!pseudo) {
   fetch(apiUrl + "avis/avisVisible")
     .then((response) => {
       if (!response.ok) {
-        // D'abord convertir la réponse en JSON pour lire les messages d'erreur
         return response.json().then((errorData) => {
-          compteSuspendu(errorData); // redirige si suspendu
+          // redirige si suspendu
+          compteSuspendu(errorData);
           throw new Error(
             "Impossible de charger les informations de l'utilisateur."
           );
@@ -64,7 +64,6 @@ if (!pseudo) {
       }
     })
     .catch((error) => {
-      // console.error("Erreur lors du chargement des avis :", error);
       afficherErreurModalBodyCommentairesSruChauffeur(
         "Erreur lors du chargement des avis."
       );

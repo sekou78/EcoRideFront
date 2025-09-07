@@ -148,7 +148,6 @@ async function vueDetailleeTrajetInfos() {
     }
 
     //Avis sur le conducteur
-    // Appel de la fonction
     vueAvis();
     function vueAvis() {
       const requestOptions = {
@@ -181,16 +180,17 @@ async function vueDetailleeTrajetInfos() {
             return;
           }
 
-          // 💡 Calcul de la moyenne des notes
-          const totalNotes = avisChauffeur.reduce((sum, avis) => {
+          //Calcul de la moyenne des notes
+          const totalNotes = avisChauffeur.reduce((som, avis) => {
             const note = parseInt(avis.note);
-            return sum + (isNaN(note) ? 0 : note);
+            return som + (isNaN(note) ? 0 : note);
           }, 0);
 
           const moyenne = totalNotes / avisChauffeur.length;
-          const noteArrondie = Math.round(moyenne); // arrondi à l'entier le plus proche
+          // arrondi à l'entier le plus proche
+          const noteArrondie = Math.round(moyenne);
 
-          // 💡 Affichage des étoiles de la moyenne
+          //Affichage des étoiles de la moyenne
           const etoilesMoyenne =
             "⭐️".repeat(noteArrondie) + "☆".repeat(5 - noteArrondie);
           const moyenneHtml = `
@@ -202,17 +202,13 @@ async function vueDetailleeTrajetInfos() {
           container.insertAdjacentHTML("beforeend", moyenneHtml);
         })
         .catch((error) => {
-          // console.error(
-          //   "Erreur lors de la récupération des avis visibles :",
-          //   error
-          // );
           afficherErreurModalBodyVueDetaillee(
             "Impossible de récupérer les avis."
           );
         });
     }
 
-    //Informations sur le Véhicule
+    //Informations Affichées sur le Véhicule
     immatriculationDetailleeDisplay.textContent =
       result.vehicule.plaqueImmatriculation || "—";
     marqueDetailleeDisplay.textContent = result.vehicule.marque || "—";
@@ -222,7 +218,7 @@ async function vueDetailleeTrajetInfos() {
       ? "Oui"
       : "Non";
 
-    //Préférences du Conducteur
+    //Préférences affichées du Conducteur
     fumeurDetailleeDisplay.textContent = result.chauffeur.accepteFumeur
       ? "Oui"
       : "Non";
@@ -232,7 +228,6 @@ async function vueDetailleeTrajetInfos() {
     autresPreferencesDetailleeDisplay.textContent =
       result.chauffeur.autresPreferences || "—";
   } catch (error) {
-    // console.error("Erreur :", error);
     afficherErreurModalBodyVueDetaillee(
       "Impossible d'afficher les détails du trajet."
     );

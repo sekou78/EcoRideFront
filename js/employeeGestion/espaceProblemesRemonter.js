@@ -13,13 +13,13 @@ const requestOptions = {
   redirect: "follow",
 };
 
-// 1er appel API : récupérer les infos de l'utilisateur connecté
+// Récupération des infos de l'utilisateur connecté
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
-      // D'abord convertir la réponse en JSON pour lire les messages d'erreur
       return response.json().then((errorData) => {
-        compteSuspendu(errorData); // redirige si suspendu
+        // redirige si suspendu
+        compteSuspendu(errorData);
         throw new Error(
           "Impossible de charger les informations de l'utilisateur."
         );
@@ -56,10 +56,10 @@ function initEspaceProblemesRemonter() {
     );
   }
 
-  // Lire le hash (ex: #CV123456)
+  // Lire l'id (ex: #CV123456)
   const hash = window.location.hash.replace("#", "");
 
-  // Si hash présent, on filtre sur le champ codeProbleme
+  // Si l'id est présent, on filtre sur le champ codeProbleme
   if (hash) {
     problemes = problemes.filter((p) => p.codeProbleme === hash);
   }
@@ -160,7 +160,6 @@ function validerAvis(button) {
   const container = button.closest(".accordion-item");
   if (container) {
     const problemeId = button.getAttribute("data-id");
-    // console.log("ID de l'avis validé :", problemeId);
     afficherErreurModalEspaceProblemesRemonter("Avis validé avec succès.");
 
     const token = getCookie(tokenCookieName);
@@ -179,9 +178,7 @@ function validerAvis(button) {
         return response.json();
       })
       .then((result) => {
-        // console.log("Avis validé avec succès :", result);
         afficherErreurModalEspaceProblemesRemonter("Avis validé avec succès.");
-        // Suppression de l'élément du DOM
         container.remove();
         window.location.href = "/espaceEmployee";
       })
@@ -198,7 +195,6 @@ function refuserAvis(button) {
   const container = button.closest(".accordion-item");
   if (container) {
     const problemeId = button.getAttribute("data-id");
-    // console.log("ID de l'avis refusé :", problemeId);
     afficherErreurModalEspaceProblemesRemonter("Avis refusé avec succès.");
 
     const token = getCookie(tokenCookieName);
@@ -217,7 +213,6 @@ function refuserAvis(button) {
         return response.json();
       })
       .then((result) => {
-        // console.log("Avis refusé avec succès :", result);
         afficherErreurModalEspaceProblemesRemonter("Avis refusé avec succès.");
         container.remove();
         window.location.href = "/espaceEmployee";

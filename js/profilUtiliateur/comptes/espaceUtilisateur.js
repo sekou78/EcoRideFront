@@ -60,23 +60,24 @@ const requestOptions = {
 };
 
 function filtrerRolesSansRoleUser(rolesArray) {
-  // Nettoie les espaces
   const roles = rolesArray.map((r) => r.trim()).filter(Boolean);
 
-  if (roles.length === 0) return ["ROLE_USER"]; // aucun rôle → ROLE_USER
+  // aucun rôle → ROLE_USER
+  if (roles.length === 0) return ["ROLE_USER"];
   if (roles.length > 1 && roles.includes("ROLE_USER"))
-    return roles.filter((r) => r !== "ROLE_USER"); // retire ROLE_USER
+    // retire ROLE_USER
+    return roles.filter((r) => r !== "ROLE_USER");
 
-  return roles; // sinon inchangé
+  return roles;
 }
 
-// 1er appel API : récupérer les infos de l'utilisateur connecté
+//Récupération des infos de l'utilisateur connecté
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
-      // D'abord convertir la réponse en JSON pour lire les messages d'erreur
       return response.json().then((errorData) => {
-        compteSuspendu(errorData); // redirige si suspendu
+        // redirige si suspendu
+        compteSuspendu(errorData);
         throw new Error(
           "Impossible de charger les informations de l'utilisateur."
         );
@@ -97,7 +98,8 @@ fetch(apiUrl + "account/me", requestOptions)
     totalCredits.textContent = user.user.credits;
     emailCurrentUserDisplay.textContent = user.user.email;
     roleDisplay.textContent = rolesFiltrees
-      .map((r) => r.replace("ROLE_", "")) // masque "ROLE_"
+      // masque "ROLE_"
+      .map((r) => r.replace("ROLE_", ""))
       .join(", ");
     telephoneDisplay.textContent = user.user.telephone;
     avatarDisplay.src = urlImg + user.user.image.filePath;
@@ -107,7 +109,6 @@ fetch(apiUrl + "account/me", requestOptions)
     animalDisplay.textContent = user.user.accepteAnimaux ? "Oui" : "Non";
     preferencesAutresDisplay.textContent = user.user.autresPreferences;
 
-    // TRAJETS POUR LES CHAUFFEURS
     // Afficher les trajets
     const trajets = user.trajet;
 
@@ -124,13 +125,12 @@ fetch(apiUrl + "account/me", requestOptions)
     ) {
       trajetsFiltres = [];
     } else {
-      // Pour CHAUFFEUR ou PASSAGER_CHAUFFEUR, on filtre sur le créateur
+      // Pour le CHAUFFEUR ou PASSAGER_CHAUFFEUR, on filtre
       trajetsFiltres = trajets.filter(
         (trajet) => trajet.chauffeur && trajet.chauffeur.id === userId
       );
     }
-
-    // Utilisez trajetsFiltres à la place de trajets pour l'affichage
+    // Ordre des statuts pour le tri
     const ordreStatuts = {
       EN_COURS: 1,
       EN_ATTENTE: 2,
@@ -260,16 +260,15 @@ fetch(apiUrl + "account/me", requestOptions)
 
         const trajetEnCoursId = trajetEnCours?.id;
         if (!trajetEnCoursId) {
-          // console.error("Impossible de trouver l'ID du trajet.");
           afficherErreurModalBodyEspaceUtilisateur(
             "Impossible de trouver l'ID du trajet."
           );
           return;
         }
 
-        // 🔴 1. Si le trajet est terminé (passé)
+        //Si le trajet est terminé (passé)
         if (estPassee(dateDepart, dureeVoyage)) {
-          // Met à jour le statut automatiquement dans la BDD
+          // Met à jour le statut dans la BDD
           const headers = new Headers();
           headers.append("Content-Type", "application/json");
           headers.append("X-AUTH-TOKEN", token);
@@ -298,7 +297,7 @@ fetch(apiUrl + "account/me", requestOptions)
               btnFin.textContent = "🏁 Fin de trajet";
 
               btnFin.addEventListener("click", () => {
-                // ⚠️ Met à jour le statut à TERMINEE en BDD
+                //Met à jour le statut à TERMINEE en BDD
                 fetch(apiUrl + `trajet/${trajetEnCoursId}`, {
                   method: "PUT",
                   headers,
@@ -310,12 +309,10 @@ fetch(apiUrl + "account/me", requestOptions)
                     return response.json();
                   })
                   .then(() => {
-                    // ➕ Appel pour envoyer 2 crédits à l'admin
+                    //Appel pour envoyer 2 crédits à l'admin
                     envoyerCreditAdmin(trajetEnCoursId);
 
-                    envoyerEmailParticipants(trajetEnCours); // Optionnel
-
-                    // Stocker en local
+                    // Stockage en local
                     let trajetsFinis = JSON.parse(
                       localStorage.getItem("trajetsFinis") || "[]"
                     );
@@ -325,6 +322,9 @@ fetch(apiUrl + "account/me", requestOptions)
                       "trajetsFinis",
                       JSON.stringify(trajetsFinis)
                     );
+
+                    //Envoi d'email aux participants
+                    envoyerEmailParticipants(trajetEnCours.id);
 
                     // Masquer la carte
                     trajetCard.remove();
@@ -339,7 +339,7 @@ fetch(apiUrl + "account/me", requestOptions)
                       JSON.stringify(trajetsMasques)
                     );
 
-                    window.location.reload();
+                    // window.location.reload();
                   })
                   .catch(console.error);
               });
@@ -349,11 +349,11 @@ fetch(apiUrl + "account/me", requestOptions)
             .catch(console.error);
         }
 
-        // 2. Si la date et l'heure du départ sont atteintes, mais statut encore non EN_COURS
+        //Si la date et l'heure du départ sont atteintes, mais statut encore non EN_COURS
         else if (estEnCours(dateDepart, dureeVoyage)) {
-          // 👀 Vérifie si le statut est déjà passé à "EN_COURS" dans la BDD
+          //Vérifie si le statut est déjà passé à "EN_COURS" dans la BDD
           if (trajetEnCours.statut === "EN_COURS") {
-            // ✅ Déjà démarré → on affiche "En cours" directement
+            //Déjà démarré → on affiche "En cours"
             const btnEnCours = document.createElement("button");
             btnEnCours.classList.add(
               "btn",
@@ -365,7 +365,7 @@ fetch(apiUrl + "account/me", requestOptions)
             btnEnCours.disabled = true;
             buttonsContainer.appendChild(btnEnCours);
           } else {
-            // 🔘 Pas encore démarré → afficher "Démarrer"
+            //Pas encore démarré → afficher "Démarrer"
             const btnDemarrer = document.createElement("button");
             btnDemarrer.classList.add(
               "btn",
@@ -391,25 +391,15 @@ fetch(apiUrl + "account/me", requestOptions)
                   return response.json();
                 })
                 .then(() => {
-                  // 👁‍🗨 Mise à jour visuelle immédiate
+                  //Mise à jour visuelle
                   btnDemarrer.classList.remove("btn-success");
                   btnDemarrer.classList.add("btn-info");
                   btnDemarrer.textContent = "▶️ En cours";
                   btnDemarrer.disabled = true;
 
-                  envoyerEmailParticipants(trajetEnCours);
-
-                  // Optionnel : recharger la page pour forcer l'affichage du nouveau statut
                   window.location.reload();
-
-                  // Ou : mettre à jour localement
-                  // trajetEnCours.statut = "EN_COURS";
                 })
                 .catch((error) => {
-                  // console.error(
-                  //   "❌ Erreur lors de la mise à jour EN_COURS :",
-                  //   error
-                  // );
                   afficherErreurModalBodyEspaceUtilisateur(
                     "Erreur lors de la mise à jour EN_COURS."
                   );
@@ -420,7 +410,7 @@ fetch(apiUrl + "account/me", requestOptions)
           }
         }
 
-        // 3. Si le statut est déjà EN_COURS (stocké en BDD ou local)
+        //Si le statut est déjà EN_COURS stocké en BDD
         else if (trajetEnCours.statut === "EN_COURS") {
           const btnEnCours = document.createElement("button");
           btnEnCours.classList.add("btn", "btn-info", "text-primary", "btn-sm");
@@ -429,7 +419,7 @@ fetch(apiUrl + "account/me", requestOptions)
           buttonsContainer.appendChild(btnEnCours);
         }
 
-        // 4. Avant l'heure prévue : affiche Modifier / Supprimer
+        //Avant l'heure prévue : affiche Modifier / Supprimer
         else {
           // Bouton modifier
           const btnModifier = document.createElement("button");
@@ -466,7 +456,7 @@ fetch(apiUrl + "account/me", requestOptions)
           buttonsContainer.appendChild(btnSupprimer);
         }
 
-        // ✅ Ajouter les boutons à la carte
+        //Ajouter les boutons à la carte
         trajetCard.querySelector(".card-body").appendChild(buttonsContainer);
         listeTrajetsContainer.appendChild(trajetCard);
       });
@@ -493,13 +483,13 @@ function suppressionModal() {
 }
 
 async function supprimerTrajet(trajetEnCours) {
-  // 1. Enregistrer le véhicule dans localStorage
+  //Enregistrer le véhicule dans le localStorage
   localStorage.setItem("trajet_en_cours", JSON.stringify(trajetEnCours));
 
   const token = getCookie(tokenCookieName);
   const trajetEnCoursId = trajetEnCours?.id;
 
-  // 2. Vérification de l'ID
+  //Vérification de l'ID du trajet
   if (!trajetEnCoursId) {
     afficherErreurModalBodyEspaceUtilisateur(
       "Impossible de trouver l'ID du trajet."
@@ -507,7 +497,6 @@ async function supprimerTrajet(trajetEnCours) {
     return;
   }
 
-  // 3. Préparation de la requête
   const myHeaders = new Headers();
   myHeaders.append("X-AUTH-TOKEN", token);
 
@@ -517,7 +506,7 @@ async function supprimerTrajet(trajetEnCours) {
     redirect: "follow",
   };
 
-  // 4. Appel API
+  //Appel API
   try {
     const response = await fetch(
       `${apiUrl}trajet/${trajetEnCoursId}`,
@@ -528,11 +517,10 @@ async function supprimerTrajet(trajetEnCours) {
       throw new Error("Erreur lors de la suppression du trajet.");
     }
 
-    // 5. Nettoyage et redirection
+    //Nettoyage du localStorage et redirection
     localStorage.removeItem("trajet_en_cours");
     document.location.href = "/espaceUtilisateur";
   } catch (error) {
-    // console.error("Erreur :", error);
     afficherErreurModalBodyEspaceUtilisateur("trajet non supprimé.");
   }
 }
@@ -549,7 +537,6 @@ function afficherInfosVehicule(vehicule) {
   electriqueDisplay.textContent = vehicule.electrique ? "Oui" : "Non";
 }
 
-// RESERVATIONS POUR LES PASSAGERS
 //Appel de la fonction d'affichage des reservations
 afficherReservations();
 // Les reservations du passager
@@ -586,7 +573,7 @@ function afficherReservations() {
               "reservationsAnnulees",
               JSON.stringify(annulees)
             );
-            return; // Ne pas afficher
+            return;
           }
 
           // Vérifie si la réservation est dans moins de 24h
@@ -616,9 +603,6 @@ function afficherReservations() {
               .then((response) => {
                 if (!response.ok)
                   throw new Error("Échec de l'annulation automatique");
-                // console.log(
-                //   `Réservation ${idReservation} annulée automatiquement.`
-                // );
                 afficherErreurModalBodyEspaceUtilisateur(
                   "Réservation annulée automatiquement car dans moins de 24h."
                 );
@@ -667,13 +651,11 @@ function afficherReservations() {
             );
           }
 
-          //ex:Wed Jun 25 2025 00:00:00 GMT+0200 (heure d’été d’Europe centrale)
           const dateDepartReservationBrute = new Date(result.trajet.dateDepart);
 
           // ex: "14:30"
           const heureDepartReservation = formatHeure(result.trajet.heureDepart);
 
-          //ex:Wed Jun 25 2025 08:30:00 GMT+0200 (heure d’été d’Europe centrale)
           const dateDepartReservation = appliquerHeureSurDateReservation(
             dateDepartReservationBrute,
             heureDepartReservation
@@ -684,18 +666,14 @@ function afficherReservations() {
 
           if (result.statut === "EN_ATTENTE") {
             if (estDansMoinsDe12h(dateDepartReservation)) {
-              // console.log(
-              //   "Annulation dans moins de 12h — remboursement partiel côté backend"
-              // );
               afficherErreurModalBodyEspaceUtilisateur(
                 "Réservation annulée automatiquement car dans moins de 12h."
               );
             }
 
             if (estDansMoinsDe24h(dateDepartReservation)) {
-              // Annulation automatique comme avant
               annulerReservationAutomatique(result.id);
-              return; // ne pas afficher la réservation annulée
+              return;
             }
           }
 
@@ -799,7 +777,7 @@ function afficherReservations() {
       );
     });
 
-  // Confirmation depuis la modale
+  // Confirmation depuis la modal
   confirmerBtn.addEventListener("click", () => {
     if (reservationIdASupprimer) {
       annulerReservation(reservationIdASupprimer);
@@ -838,7 +816,6 @@ function annulerReservation(id) {
       window.location.reload();
     })
     .catch((error) => {
-      // console.error(error);
       afficherErreurModalBodyEspaceUtilisateur("Erreur lors de l'annulation.");
     });
 }
@@ -862,16 +839,35 @@ function formatHeure(dateString) {
   return `${hours}:${minutes}`;
 }
 
-// Fonction pour simuler l'envoi d'un email aux passagers
-function envoyerEmailParticipants(message) {
-  afficherErreurModalBodyEspaceUtilisateur(
-    "Envoi d'un email aux participants :",
-    message
-  );
-}
+// Fonction pour l'envoi d'un email aux passagers
+function envoyerEmailParticipants(trajetId) {
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append("X-AUTH-TOKEN", token);
 
-// Appel de la fonction d'affichage
-// gestionAffichage();
+  const requestOptions = {
+    method: "POST",
+    headers: myHeaders,
+    redirect: "follow",
+  };
+
+  fetch(apiUrl + `trajet/sendMailPassengers/${trajetId}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      afficherErreurModalBodyEspaceUtilisateur(
+        "Un email a été envoyé aux participants du trajet.",
+        result.message || JSON.stringify(result)
+      );
+      window.location.reload();
+    })
+    .catch((error) => {
+      console.error(error);
+      afficherErreurModalBodyEspaceUtilisateur(
+        "Erreur lors de l'envoi de l'email aux participants",
+        error.message || error
+      );
+    });
+}
 //Demande de remplissage du champs requis
 function validateAvisRequired(input) {
   if (input.value != "") {
@@ -906,31 +902,15 @@ function envoyerCreditAdmin(trajetId) {
       return response.json();
     })
     .then((result) => {
-      // console.log("Crédits transférés :", result);
       afficherErreurModalBodyEspaceUtilisateur(
-        "Crédits transférés à l'administrateur."
+        "2 crédits sont envoyés à EcoRide."
       );
     })
     .catch((error) => {
-      // console.error(error);
       afficherErreurModalBodyEspaceUtilisateur(
         "Erreur lors du transfert de crédits."
       );
     });
-}
-
-function updateNotificationBadge(notifs) {
-  let badge = document.getElementById("notif-badge");
-  let count = notifs.filter(function (n) {
-    return !n.isRead;
-  }).length;
-
-  if (count > 0) {
-    badge.textContent = count;
-    badge.style.display = "inline-block";
-  } else {
-    badge.style.display = "none";
-  }
 }
 
 // Charger les notifications
@@ -943,7 +923,7 @@ function loadNotifications() {
     .then((data) => updateNotifications(data));
 }
 
-// Mettre à jour notifications
+// Mettre à jour les notifications
 function updateNotificationBadge(notifs) {
   let badge = document.getElementById("notif-badge");
   let notifButton = document.getElementById("notif-button");
@@ -961,7 +941,7 @@ function updateNotificationBadge(notifs) {
   }
 }
 
-// Mettre à jour notifications
+// Mettre à jour les notifications
 function updateNotifications(notifications) {
   notifList.innerHTML = `
     <li class="dropdown-header d-flex justify-content-between align-items-center">
@@ -1039,11 +1019,12 @@ function markAllAsRead() {
 // Initialisation
 loadNotifications();
 
+// Fonction pour afficher le message dans la modal
 function afficherErreurModalBodyEspaceUtilisateur(message) {
   const errorModalBody = document.getElementById(
     "errorModalBodyEspaceUtilisateur"
   );
-  errorModalBody.textContent = message;
+  errorModalBody.textContent = `${message}`;
 
   // Initialiser et afficher la modal Bootstrap
   const errorModal = new bootstrap.Modal(document.getElementById("errorModal"));

@@ -54,7 +54,8 @@
     </div>
   </form>
 </div>
-<!-- Modal d'erreur -->
+
+<!-- Modal -->
 <div
   class="modal fade"
   id="errorModal"
@@ -62,8 +63,8 @@
   aria-labelledby="errorModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="errorModalLabel">Information</h5>
         <button
           type="button"
@@ -72,10 +73,13 @@
           aria-label="Fermer"></button>
       </div>
       <div class="modal-body" id="errorModalBodyModifAvatar">
-        <!-- Le message d'erreur sera injecté ici -->
+        <!-- Le message d'information sera injecté ici -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          data-bs-dismiss="modal">
           Fermer
         </button>
       </div>

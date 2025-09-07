@@ -1,24 +1,21 @@
 const filterButton = document.getElementById("filterButton");
 const resetButton = document.getElementById("resetButton");
 
-// Attacher l'événement au bouton "Filtrer"
 filterButton.addEventListener("click", function () {
   fetchArchives(1);
 });
 
-// Attacher l'événement au bouton "Réinitialiser"
 resetButton.addEventListener("click", resetFilters);
 
 // Fonction de réinitialisation des filtres
 function resetFilters() {
-  // Réinitialiser les valeurs des champs de filtre
   document.getElementById("filterDepart").value = "";
   document.getElementById("filterArrivee").value = "";
   document.getElementById("filterDateDepart").value = "";
   document.getElementById("filterPrixMin").value = "";
   document.getElementById("filterPrixMax").value = "";
 
-  // Appeler fetchArchives avec la première page après réinitialisation
+  // Appel de la fonction après réinitialisation
   fetchArchives(1);
 }
 
@@ -30,7 +27,8 @@ let totalPages = 1;
 async function fetchArchives(page = 1) {
   const token = getCookie(tokenCookieName);
 
-  // Récupérer les valeurs des filtres
+  currentPage = page;
+
   const departFilter = document.getElementById("filterDepart").value.trim();
   const arriveeFilter = document.getElementById("filterArrivee").value.trim();
   const dateDepartFilter = document
@@ -48,7 +46,7 @@ async function fetchArchives(page = 1) {
     redirect: "follow",
   };
 
-  // Convertir la date en format dd/mm/yyyy si elle existe
+  // Convertir la date en format dd/mm/yyyy
   const formattedDateDepart = dateDepartFilter
     ? convertDateForBackend(dateDepartFilter)
     : "";
@@ -83,7 +81,7 @@ async function fetchArchives(page = 1) {
     }
 
     data.archives.forEach((archive) => {
-      // Table row desktop
+      // Table au desktop
       const row = document.createElement("tr");
       row.dataset.archiveId = archive.id;
       row.innerHTML = `
@@ -99,13 +97,13 @@ async function fetchArchives(page = 1) {
   `;
       tbodyDesktop.appendChild(row);
 
-      // Écouteur d'événements pour ouvrir la modal lors du clic sur une ligne du tableau
       row.addEventListener("click", async (e) => {
         const archiveId = e.currentTarget.dataset.archiveId;
-        openModal(archiveId); // Ouvre la modal avec l'ID de l'archive
+        // Ouvre la modal avec l'ID de l'archive
+        openModal(archiveId);
       });
 
-      // Mobile card
+      // Table au mobile
       const card = document.createElement("div");
       card.className = "card mb-3 mt-3 shadow-sm";
       card.dataset.archiveId = archive.id;
@@ -137,10 +135,10 @@ async function fetchArchives(page = 1) {
   `;
       cardsContainer.appendChild(card);
 
-      // Écouteur d'événements pour ouvrir la modal lors du clic sur une carte mobile
       card.addEventListener("click", async (e) => {
         const archiveId = e.currentTarget.dataset.archiveId;
-        openModal(archiveId); // Ouvre la modal avec l'ID de l'archive
+        // Ouvre la modal avec l'ID de l'archive
+        openModal(archiveId);
       });
     });
 
@@ -195,18 +193,17 @@ async function openModal(archiveId) {
 }
 
 function convertDateForBackend(dateString) {
-  // Tenter de créer une date depuis le format DD/MM/YYYY
   let date = null;
 
   // Si la date est au format d/m/yyyy (utilisé par l'utilisateur)
   if (dateString.match(/^\d{2}\/\d{2}\/\d{4}$/)) {
     const parts = dateString.split("/");
-    date = new Date(parts[2], parts[1] - 1, parts[0]); // Mois commence à 0 en JavaScript
+    date = new Date(parts[2], parts[1] - 1, parts[0]);
   }
 
   // Si la date est au format YYYY-MM-DD (format ISO)
   else if (dateString.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    date = new Date(dateString); // ISO format
+    date = new Date(dateString);
   }
 
   // Si la date est au format MM/DD/YYYY (format US)
@@ -217,7 +214,7 @@ function convertDateForBackend(dateString) {
 
   // Si la date est au format d-M-yyyy (ex: 2-Mar-2025)
   else if (dateString.match(/^\d{1,2}-[A-Za-z]{3}-\d{4}$/)) {
-    date = new Date(dateString); // Format peut être traité par le constructeur Date
+    date = new Date(dateString);
   }
 
   // Si la date est au format classique de l'utilisateur
@@ -233,7 +230,7 @@ function convertDateForBackend(dateString) {
 
   // Retourner la date au format "dd/mm/yyyy"
   const day = ("0" + date.getDate()).slice(-2);
-  const month = ("0" + (date.getMonth() + 1)).slice(-2); // mois commence à 0
+  const month = ("0" + (date.getMonth() + 1)).slice(-2);
   const year = date.getFullYear();
 
   return `${day}/${month}/${year}`;
@@ -247,24 +244,57 @@ function renderPagination(currentPage) {
   const prevPage = currentPage > 1 ? currentPage - 1 : 1;
   const nextPage = currentPage < totalPages ? currentPage + 1 : totalPages;
 
+  // Bouton Précédent
   if (currentPage > 1) {
     const prevBtn = document.createElement("li");
     prevBtn.className = "page-item";
-    prevBtn.innerHTML = `<a class="page-link" href="#" onclick="fetchArchives(${prevPage})">Précédent</a>`;
+
+    const a = document.createElement("a");
+    a.className = "page-link bg-success text-primary";
+    a.href = "#";
+    a.textContent = "Précédent";
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      fetchArchives(prevPage);
+    });
+
+    prevBtn.appendChild(a);
     pagination.appendChild(prevBtn);
   }
 
+  // Boutons de pages
   for (let i = 1; i <= totalPages; i++) {
     const pageItem = document.createElement("li");
     pageItem.className = `page-item ${i === currentPage ? "active" : ""}`;
-    pageItem.innerHTML = `<a class="page-link" href="#" onclick="fetchArchives(${i})">${i}</a>`;
+
+    const a = document.createElement("a");
+    a.className = "page-link  bg-success text-primary";
+    a.href = "#";
+    a.textContent = i;
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      fetchArchives(i);
+    });
+
+    pageItem.appendChild(a);
     pagination.appendChild(pageItem);
   }
 
+  // Bouton Suivant
   if (currentPage < totalPages) {
     const nextBtn = document.createElement("li");
     nextBtn.className = "page-item";
-    nextBtn.innerHTML = `<a class="page-link" href="#" onclick="fetchArchives(${nextPage})">Suivant</a>`;
+
+    const a = document.createElement("a");
+    a.className = "page-link bg-success text-primary";
+    a.href = "#";
+    a.textContent = "Suivant";
+    a.addEventListener("click", (e) => {
+      e.preventDefault();
+      fetchArchives(nextPage);
+    });
+
+    nextBtn.appendChild(a);
     pagination.appendChild(nextBtn);
   }
 }

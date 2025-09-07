@@ -15,11 +15,9 @@
 </div>
 
 <div>
-  <!-- Conteneur principal -->
   <div class="container mt-3">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <!-- Carte du profil utilisateur -->
         <div class="card shadow-lg rounded-lg">
           <div class="card-header bg-dark text-primary text-center">
             <h2>Mon compte</h2>
@@ -149,7 +147,7 @@
             </div>
           </div>
 
-          <!-- Pied de carte : actions -->
+          <!-- Pied de carte -->
           <div class="card-footer bg-dark py-4">
             <div class="row text-center justify-content-around">
               <div class="col-6 col-md-3 mb-3">
@@ -299,7 +297,7 @@
   </div>
 </div>
 
-<!-- Modal d'erreur -->
+<!-- Modal -->
 <div
   class="modal fade"
   id="errorModal"
@@ -307,8 +305,8 @@
   aria-labelledby="errorModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
         <h5 class="modal-title" id="errorModalLabel">Information</h5>
         <button
           type="button"
@@ -317,10 +315,13 @@
           aria-label="Fermer"></button>
       </div>
       <div class="modal-body" id="errorModalBodyEspaceUtilisateur">
-        <!-- Le message d'erreur sera injecté ici -->
+        <!-- Le message d'information sera injecté ici -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          data-bs-dismiss="modal">
           Fermer
         </button>
       </div>

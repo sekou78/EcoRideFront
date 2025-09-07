@@ -34,10 +34,10 @@ function sendMessageSupport() {
         responseModalBody.innerHTML = `<div class="text-success">Votre message a bien été envoyé. Merci !</div>`;
         contactSupportForm.reset();
 
-        // On écoute la fermeture de la modal pour rediriger
+        // Fermeture de la modal et redirection vers l'accueil
         const onModalHidden = () => {
           window.location.href = "/";
-          // On retire cet écouteur après redirection pour éviter doublons
+          // Après redirection on évite les doublons
           document
             .getElementById("responseModal")
             .removeEventListener("hidden.bs.modal", onModalHidden);

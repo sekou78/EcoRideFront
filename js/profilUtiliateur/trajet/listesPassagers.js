@@ -81,10 +81,9 @@ if (trajetId) {
           </div>
         `;
 
-        // Ajout à la liste
         ul.appendChild(li);
 
-        // 🎯 Écouteurs ajoutés ici pour CHAQUE passager
+        //Écouteurs ajoutés pour CHAQUE passager
         const btnAccepter = li.querySelector('button[data-action="accepter"]');
         const btnRefuser = li.querySelector('button[data-action="refuser"]');
 
@@ -100,7 +99,6 @@ if (trajetId) {
       });
     })
     .catch((error) => {
-      // Le message utilisateur est déjà affiché si 404, ici on log juste l'erreur
       console.error("Erreur lors du chargement des passagers :", error);
     });
 }
@@ -159,7 +157,7 @@ function refuserPassager(trajetId, passagerId) {
     });
 }
 
-//Fonction pour ouvrir la modale dynamique
+//Fonction pour ouvrir la modal
 function ouvrirConfirmationModal(action, passagerId) {
   selectedPassagerId = passagerId;
   actionEnCours = action;
@@ -204,7 +202,7 @@ function showFeedbackModal(message, isSuccess = true) {
 
   feedbackMessage.innerText = message;
 
-  // Afficher la modal avec Bootstrap 5
+  // Afficher la modal avec Bootstrap
   const modal = new bootstrap.Modal(modalElement);
   modal.show();
 }

@@ -12,7 +12,7 @@ const confirmDeleteModalEl = document.getElementById("confirmDeleteModal");
 const confirmDeleteModal = new bootstrap.Modal(confirmDeleteModalEl);
 const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
 
-// Récupérer l'utilisateur connecté au chargement puis lister les messages
+// Récupération de l'utilisateur connecté puis lister ses messages
 function init() {
   fetchCurrentUser().then(() => {
     listsMessages();
@@ -243,7 +243,7 @@ function fetchAndDisplayComments(messageId) {
     .catch((error) => console.error("Erreur chargement commentaires:", error));
 }
 
-// Ajouter un commentaire interne
+// Ajout d'un commentaire interne
 function addInternalComment(id) {
   const token = getCookie(tokenCookieName);
   const textarea = document.querySelector(`#comment-${id}`);
@@ -278,13 +278,12 @@ function addInternalComment(id) {
     });
 }
 
-// Ouvrir modal édition avec contenu actuel
+// Ouverture de la modal édition
 function editComment(commentId, messageId) {
-  // Récupérer contenu actuel du commentaire affiché
+  // Récupération du contenu actuel du commentaire
   const commentElement = document
     .querySelector(`.btn-edit-comment[data-id="${commentId}"]`)
     .closest(".border");
-  // Ou utiliser la source de données pour récupérer le texte exact
   // Ici on extrait directement depuis le DOM :
   const contentElem = commentElement.querySelector(
     "div.mt-2 strong + br + div, div.mt-2"
@@ -334,7 +333,7 @@ function editCommentConfirm(commentId, messageId, newContent) {
     .catch((error) => console.error("Erreur modification commentaire:", error));
 }
 
-// Ouvrir modal confirmation suppression
+// Ouverture de la modal confirmation suppression
 function deleteComment(commentId, messageId) {
   currentDeleteCommentId = commentId;
   currentDeleteMessageId = messageId;
@@ -366,7 +365,7 @@ function deleteCommentConfirm(commentId, messageId) {
     .catch((error) => console.error("Erreur suppression commentaire:", error));
 }
 
-// Modifier statut
+// Modification du statut
 function updateStatus(id, newStatus) {
   const token = getCookie(tokenCookieName);
   fetch(apiUrl + `supportMessage/contact/status/${id}`, {

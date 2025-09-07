@@ -28,7 +28,6 @@
             <h2>Détails du trajet</h2>
           </div>
           <div class="mb-5">
-            <!-- Section Détails du Trajet 1 -->
             <div class="container">
               <div class="card mb-2 shadow-sm">
                 <div class="row g-0">
@@ -192,7 +191,7 @@
   </a>
 </div>
 
-<!-- Modal d'erreur -->
+<!-- Modal d'information -->
 <div
   class="modal fade"
   id="errorModal"
@@ -200,9 +199,9 @@
   aria-labelledby="errorModalLabel"
   aria-hidden="true">
   <div class="modal-dialog">
-    <div class="modal-content border-danger">
-      <div class="modal-header bg-danger text-white">
-        <h5 class="modal-title" id="errorModalLabel">Erreur</h5>
+    <div class="modal-content border-success">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title" id="errorModalLabel">Information</h5>
         <button
           type="button"
           class="btn-close btn-close-white"
@@ -213,7 +212,10 @@
         <!-- Le message d'erreur sera injecté ici -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        <button
+          type="button"
+          class="btn bg-danger text-primary"
+          data-bs-dismiss="modal">
           Fermer
         </button>
       </div>

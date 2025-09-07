@@ -17,7 +17,7 @@ let currentFilters = {
   noteMin: "",
 };
 
-// Appel initial sans filtre : charger page 1
+// Initialisation sans filtre : charger page 1
 fetchPage(1);
 
 // Au clic sur "Appliquer filtre"
@@ -27,10 +27,11 @@ btnAppliquerFiltre.addEventListener("click", () => {
   currentFilters.dureeMax = filtreDuree.value;
   currentFilters.noteMin = filtreNotes.value.trim();
 
-  fetchPage(1); // Toujours repartir à la première page
+  // Toujours repartir à la première page
+  fetchPage(1);
 });
 
-// Fonction principale qui récupère les trajets selon filtres et page
+// Récupère des trajets selon les filtres et page
 function fetchPage(pageNumber) {
   const baseUrl = apiUrl + "trajet/api/trajetsFiltres";
 
@@ -39,10 +40,10 @@ function fetchPage(pageNumber) {
   if (currentFilters.prixMax) params.append("prix", currentFilters.prixMax);
   if (currentFilters.dureeMax)
     params.append("dureeVoyage", currentFilters.dureeMax);
-  // On ne met pas la note ici, car filtrage local
-  // params.append("noteMin", ...);
-  params.append("page", 1); // toujours demander la première page complète
-  params.append("limit", 1000); // récupérer un grand nombre pour paginer localement
+  // toujours demander la première page complète
+  params.append("page", 1);
+  // récupérer un grand nombre pour paginer localement
+  params.append("limit", 1000);
 
   const token = getCookie(tokenCookieName);
   const myHeaders = new Headers();
@@ -55,9 +56,10 @@ function fetchPage(pageNumber) {
   })
     .then((response) => {
       if (!response.ok) {
-        // D'abord convertir la réponse en JSON pour lire les messages d'erreur
+        // Conversion de la réponse en JSON pour lire les messages d'erreur
         return response.json().then((errorData) => {
-          compteSuspendu(errorData); // redirige si suspendu
+          // redirection si suspendu
+          compteSuspendu(errorData);
           throw new Error(
             "Impossible de charger les informations de l'utilisateur."
           );
@@ -84,7 +86,7 @@ function fetchPage(pageNumber) {
         );
       }
 
-      // Pagination locale sur filteredItems
+      // Pagination locale sur filtre d'Items
       const itemsPerPage = 5;
       const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
       const currentPage = Math.min(Math.max(pageNumber, 1), totalPages || 1);
@@ -97,7 +99,7 @@ function fetchPage(pageNumber) {
       // Si aucun trajet filtré ne reste
       if (filteredItems.length === 0) {
         container.innerHTML =
-          "<p class='text-center mt-3'>Aucun trajet trouvé avec ces critères.</p>";
+          "<p class='text-center mt-3'>Aucun trajet trouvé avec vos filtres.</p>";
         paginationContainer.innerHTML = "";
         return;
       }
@@ -120,7 +122,7 @@ function fetchPage(pageNumber) {
     });
 }
 
-// Fonction d'affichage des trajets (tu peux garder ta fonction actuelle)
+// Fonction d'affichage des trajets
 function renderPage(pageData) {
   container.innerHTML = "";
 
@@ -131,11 +133,12 @@ function renderPage(pageData) {
   ) {
     container.innerHTML =
       "<p class='text-center mt-3'>Aucun trajet trouvé.</p>";
-    paginationContainer.innerHTML = ""; // cacher la pagination si pas de données
+    // cacher la pagination si pas de données
+    paginationContainer.innerHTML = "";
     return;
   }
 
-  // Filtrer les trajets par statut "EN_ATTENTE" (et/ou "EN_COURS" si tu veux)
+  // Filtrage des trajets par statut "EN_ATTENTE" et/ou "EN_COURS"
   let trajetsFiltres = pageData.items.filter((trajet) => {
     const statut = trajet.statut.trim().toUpperCase();
     return statut === "EN_ATTENTE" || statut === "EN_COURS";
@@ -144,11 +147,12 @@ function renderPage(pageData) {
   if (trajetsFiltres.length === 0) {
     container.innerHTML =
       "<p class='text-center mt-3'>Aucun trajet en attente ou en cours.</p>";
-    paginationContainer.innerHTML = ""; // cacher la pagination si pas de données
+    // cacher la pagination si pas de données
+    paginationContainer.innerHTML = "";
     return;
   }
 
-  // Trier pour que les "EN_COURS" soient en premier
+  // Trier pour que les statuts "EN_COURS" soient en premier
   const ordreStatut = ["EN_COURS", "EN_ATTENTE"];
   trajetsFiltres.sort((a, b) => {
     const statutA = a.statut.trim().toUpperCase();
@@ -215,7 +219,7 @@ function renderPage(pageData) {
 
     const btnDetail = document.createElement("a");
     btnDetail.href = `/vueDetaillee?id=${trajet.id}`;
-    btnDetail.className = "btn btn-success me-2 detail-btn";
+    btnDetail.className = "btn bg-success text-primary me-2 detail-btn";
     btnDetail.textContent = "Détails";
 
     btnDetail.addEventListener("click", () => {
@@ -229,7 +233,7 @@ function renderPage(pageData) {
   });
 }
 
-// Fonction pour afficher la pagination (avec Bootstrap)
+// Fonction pour afficher la pagination
 function renderPagination(current, total) {
   paginationContainer.innerHTML = "";
 

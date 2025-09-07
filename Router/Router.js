@@ -40,10 +40,6 @@ const LoadContentPage = async () => {
         window.location.replace("/");
       }
     } else {
-      // const roleUser = getRole();
-      // if (!allRolesArray.includes(roleUser)) {
-      //   window.location.replace("/");
-      // }
       const hasAccess = rolesUser.some((role) => allRolesArray.includes(role));
       if (!hasAccess) {
         window.location.replace("/");

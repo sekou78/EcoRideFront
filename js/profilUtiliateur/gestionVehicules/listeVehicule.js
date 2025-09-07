@@ -38,7 +38,6 @@ function genererModalsVehicules(vehicules) {
     btn.dataset.bsTarget = `#${modalId}`;
     btn.textContent = vehicule.plaqueImmatriculation;
 
-    // Modal container
     const modal = document.createElement("div");
     modal.className = "modal fade";
     modal.id = modalId;
@@ -94,7 +93,7 @@ function genererModalsVehicules(vehicules) {
   </div>
 `;
 
-    // Création du footer dynamiquement pour y injecter les boutons
+    // Création du footer dynamiquement pour injecter les boutons
     const footer = document.createElement("div");
     footer.className =
       "modal-footer d-flex justify-content-center text-primary";
@@ -123,7 +122,6 @@ function genererModalsVehicules(vehicules) {
     // Insertion du footer dans le modal
     modal.querySelector(".modal-content").appendChild(footer);
 
-    // Ajout au DOM
     container.appendChild(btn);
     container.appendChild(modal);
   });
@@ -134,19 +132,18 @@ function sauvegarderVehicule(vehicule) {
 }
 
 async function supprimerderVehicule(vehicule) {
-  // 1. Enregistrer le véhicule dans localStorage
+  //Enregistrer le véhicule dans localStorage
   localStorage.setItem("vehicule_a_editer", JSON.stringify(vehicule));
 
   const token = getCookie(tokenCookieName);
   const vehiculeId = vehicule?.id;
 
-  // 2. Vérification de l'ID
+  //Vérification de l'ID
   if (!vehiculeId) {
     afficherErreurModalListeVehicule("Impossible de trouver l'ID du véhicule.");
     return;
   }
 
-  // 3. Préparation de la requête
   const myHeaders = new Headers();
   myHeaders.append("X-AUTH-TOKEN", token);
 
@@ -156,7 +153,7 @@ async function supprimerderVehicule(vehicule) {
     redirect: "follow",
   };
 
-  // 4. Appel API
+  //Appel API
   try {
     const response = await fetch(
       `${apiUrl}profilConducteur/${vehiculeId}`,
@@ -167,7 +164,7 @@ async function supprimerderVehicule(vehicule) {
       throw new Error("Erreur lors de la suppression du véhicule");
     }
 
-    // 5. Nettoyage et redirection
+    //Nettoyage et redirection
     localStorage.removeItem("vehicule_a_editer");
     document.location.href = "/listeVehicule";
   } catch (error) {
@@ -185,8 +182,8 @@ function afficherErreurModalListeVehicule(message) {
   errorModal.show();
 }
 
-// Lancer après chargement DOM
-window.addEventListener("DOMContentLoaded", chargerVehiculesUtilisateur());
+//Appel de la fonction pour afficher les véhicules
+chargerVehiculesUtilisateur();
 
 // Fonction si l'utilisateur n'est pas connecté
 loadMonCompte();

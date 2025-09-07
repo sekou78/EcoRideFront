@@ -15,9 +15,9 @@ const requestOptions = {
 fetch(apiUrl + "account/me", requestOptions)
   .then((response) => {
     if (!response.ok) {
-      // D'abord convertir la réponse en JSON pour lire les messages d'erreur
       return response.json().then((errorData) => {
-        compteSuspendu(errorData); // redirige si suspendu
+        // redirige si suspendu
+        compteSuspendu(errorData);
         throw new Error(
           "Impossible de charger les informations de l'utilisateur."
         );
@@ -30,7 +30,6 @@ fetch(apiUrl + "account/me", requestOptions)
     pseudoEmployeDisplay.textContent = user.user.pseudo;
   });
 
-// Conteneurs HTML
 const avisContainer = document.getElementById("avis-container");
 const covoituragesContainer = document.getElementById(
   "covoiturages-problemes-container"
@@ -43,7 +42,6 @@ fetch(apiUrl + "avis/", requestOptions)
     // Stockage en local storage
     localStorage.setItem("commentairesAvis", JSON.stringify(result));
 
-    // Vérifie que result est bien un tableau
     if (!Array.isArray(result)) {
       afficherErreurModalEspaceEmployee(
         "Pas de données reçues. Veuillez réessayer plus tard."
@@ -126,7 +124,7 @@ fetch(apiUrl + "avis/", requestOptions)
     );
   });
 
-// Gestion des boutons et du lien "codeProbleme"
+// Gestion des boutons
 function handleAvisActions(event) {
   const target = event.target;
 
@@ -143,21 +141,21 @@ function handleAvisActions(event) {
 
     const code = target.dataset.problemeId;
 
-    // On récupère tous les problèmes existants
+    // Récupèration de tous les problèmes existants
     const problemes =
       JSON.parse(localStorage.getItem("problemesRemonter")) || [];
 
-    // On cherche celui qui correspond à l'identifiant cliqué
+    // On recupère celui qui correspond à l'id cliqué
     const probleme = problemes.find(
       (p) => p.codeProbleme === code || p.id === code
     );
 
     if (probleme) {
-      // Sauvegarde du problème sélectionné dans un nouveau localStorage
+      // Sauvegarde du problème sélectionné dans le localStorage
       localStorage.setItem("problemeSelectionne", JSON.stringify(probleme));
     }
 
-    // Redirection vers la page avec le hash
+    // Redirection vers la page avec l'id'
     window.location.href = `/espaceProblemesRemonter#${code}`;
   }
 }
@@ -171,7 +169,6 @@ function validerAvis(button) {
   if (!avisBlock) return;
 
   const avisId = button.getAttribute("data-id");
-  // console.log("ID de l'avis validé :", avisId);
   afficherErreurModalEspaceEmployee("Avis validé avec succès.");
 
   const token = getCookie(tokenCookieName);
@@ -190,9 +187,7 @@ function validerAvis(button) {
       return response.json();
     })
     .then((result) => {
-      // console.log("Avis validé avec succès :", result);
       afficherErreurModalEspaceEmployee("Avis validé avec succès.");
-      // Suppression de l'élément du DOM
       avisBlock.remove();
       window.location.reload();
     })
@@ -209,7 +204,6 @@ function refuserAvis(button) {
   if (!avisBlock) return;
 
   const avisId = button.getAttribute("data-id");
-  // console.log("ID de l'avis refusé :", avisId);
   afficherErreurModalEspaceEmployee("Avis refusé avec succès.");
 
   const token = getCookie(tokenCookieName);
@@ -228,9 +222,7 @@ function refuserAvis(button) {
       return response.json();
     })
     .then((result) => {
-      // console.log("Avis refusé avec succès :", result);
       afficherErreurModalEspaceEmployee("Avis refusé avec succès.");
-      // Suppression de l'élément du DOM
       avisBlock.remove();
       window.location.reload();
     })
